@@ -93,15 +93,9 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="204" column="98" selection-start="8245" selection-end="8245" vertical-scroll-proportion="1.5768194" vertical-offset="3903" max-vertical-offset="11040">
+            <state line="212" column="0" selection-start="8452" selection-end="8452" vertical-scroll-proportion="-7.4097037" vertical-offset="7429" max-vertical-offset="10680">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7616#7635#0" expanded="true" />
-                <element signature="e#13498#14871#0" expanded="true" />
-                <element signature="e#14864#14865#0" expanded="true" />
-                <element signature="e#14925#16110#0" expanded="true" />
-                <element signature="e#16103#16104#0" expanded="true" />
-                <element signature="e#18737#18808#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,12 +104,8 @@
       <file leaf-file-name="WaitForBTDataFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="12" selection-start="1877" selection-end="1877" vertical-scroll-proportion="0.0" vertical-offset="1023" max-vertical-offset="2616">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3113#3570#0" expanded="true" />
-                <element signature="e#3555#3556#0" expanded="true" />
-              </folding>
+            <state line="99" column="67" selection-start="4000" selection-end="4000" vertical-scroll-proportion="0.0" vertical-offset="1659" max-vertical-offset="2328">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,7 +113,7 @@
       <file leaf-file-name="fragment_wait_for_data.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="32" selection-start="1358" selection-end="1358" vertical-scroll-proportion="-16.88889" vertical-offset="384" max-vertical-offset="1056">
+            <state line="24" column="0" selection-start="990" selection-end="990" vertical-scroll-proportion="-3.851852" vertical-offset="472" max-vertical-offset="1056">
               <folding />
             </state>
           </provider>
@@ -166,19 +156,19 @@
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTData.java" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml" />
         <option value="$PROJECT_DIR$/src/bluetoothmodule/BluetoothConst.java" />
         <option value="$PROJECT_DIR$/res/menu/main.xml" />
         <option value="$PROJECT_DIR$/src/bluetoothmodule/BluetoothActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml" />
+        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="25" />
-    <option name="y" value="26" />
+    <option name="y" value="25" />
     <option name="width" value="1400" />
     <option name="height" value="828" />
   </component>
@@ -350,8 +340,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -370,8 +360,9 @@
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/android-sdks/extras/android/support/v7/appcompat/libs/android-support-v7-appcompat.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -573,8 +564,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="25" y="26" width="1400" height="828" extended-state="0" />
-    <editor active="false" />
+    <frame x="25" y="25" width="1400" height="828" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -582,7 +573,6 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32816902" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -595,12 +585,13 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2562777" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2562777" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32816902" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32816902" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -651,15 +642,89 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="204" column="98" selection-start="8245" selection-end="8245" vertical-scroll-proportion="0.0" vertical-offset="4896" max-vertical-offset="10872">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="12" selection-start="1877" selection-end="1877" vertical-scroll-proportion="0.0" vertical-offset="1344" max-vertical-offset="2616">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="32" selection-start="1358" selection-end="1358" vertical-scroll-proportion="0.0" vertical-offset="384" max-vertical-offset="1056">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="696">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="42" selection-start="1451" selection-end="1451" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1512">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="204" column="98" selection-start="8245" selection-end="8245" vertical-scroll-proportion="0.0" vertical-offset="4896" max-vertical-offset="11112">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="12" selection-start="1877" selection-end="1877" vertical-scroll-proportion="0.0" vertical-offset="1344" max-vertical-offset="2616">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="32" selection-start="1358" selection-end="1358" vertical-scroll-proportion="0.0" vertical-offset="384" max-vertical-offset="1056">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="696">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="42" selection-start="1451" selection-end="1451" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1512">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="194" column="47" selection-start="7952" selection-end="7952" vertical-scroll-proportion="0.0" vertical-offset="4656" max-vertical-offset="9672">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7616#7635#0" expanded="true" />
-            <element signature="e#13498#14871#0" expanded="true" />
-            <element signature="e#14864#14865#0" expanded="true" />
-            <element signature="e#14925#16110#0" expanded="true" />
-            <element signature="e#16103#16104#0" expanded="true" />
-            <element signature="e#18737#18808#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -667,11 +732,7 @@
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="95" selection-start="1896" selection-end="1896" vertical-scroll-proportion="0.0" vertical-offset="583" max-vertical-offset="1392">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3113#3570#0" expanded="true" />
-            <element signature="e#3555#3556#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -872,9 +933,14 @@
         <state />
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/android-sdks/extras/android/support/v7/appcompat/libs/android-support-v4.jar!/android/support/v4/app/FragmentPagerAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="28" selection-start="859" selection-end="859" vertical-scroll-proportion="0.18947369" vertical-offset="360" max-vertical-offset="984" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="32" selection-start="1358" selection-end="1358" vertical-scroll-proportion="-16.88889" vertical-offset="384" max-vertical-offset="1056">
+        <state line="24" column="0" selection-start="990" selection-end="990" vertical-scroll-proportion="-3.851852" vertical-offset="472" max-vertical-offset="1056">
           <folding />
         </state>
       </provider>
@@ -882,35 +948,18 @@
         <state />
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/android-sdks/extras/android/support/v7/appcompat/libs/android-support-v4.jar!/android/support/v4/app/FragmentPagerAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="28" selection-start="859" selection-end="859" vertical-scroll-proportion="0.18947369" vertical-offset="360" max-vertical-offset="984">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="12" selection-start="1877" selection-end="1877" vertical-scroll-proportion="0.0" vertical-offset="1023" max-vertical-offset="2616">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3113#3570#0" expanded="true" />
-            <element signature="e#3555#3556#0" expanded="true" />
-          </folding>
+        <state line="99" column="67" selection-start="4000" selection-end="4000" vertical-scroll-proportion="0.0" vertical-offset="1659" max-vertical-offset="2328">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="204" column="98" selection-start="8245" selection-end="8245" vertical-scroll-proportion="1.5768194" vertical-offset="3903" max-vertical-offset="11040">
+        <state line="212" column="0" selection-start="8452" selection-end="8452" vertical-scroll-proportion="-7.4097037" vertical-offset="7429" max-vertical-offset="10680">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7616#7635#0" expanded="true" />
-            <element signature="e#13498#14871#0" expanded="true" />
-            <element signature="e#14864#14865#0" expanded="true" />
-            <element signature="e#14925#16110#0" expanded="true" />
-            <element signature="e#16103#16104#0" expanded="true" />
-            <element signature="e#18737#18808#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -188,8 +188,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         private MainActivity mainActivity;
         private FragmentManager mFragmentManager;
-        private Map<Integer,Fragment> mFragmentReferenceMap = new HashMap<Integer, Fragment>();
-
 
         public AppSectionsPagerAdapter(FragmentManager fm, MainActivity pActivity) {
             super(fm);
@@ -204,19 +202,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if(fragment instanceof WaitForBTDataFragment) {
                 ((WaitForBTDataFragment)fragment).setMessageToShow(mainActivity.bluetoothMessage);
             }
-            mFragmentReferenceMap.put(Integer.valueOf(position), fragment);
             return fragment;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             super.destroyItem(container, position, object);
-            mFragmentReferenceMap.remove(Integer.valueOf(position));
             Log.d(MainActivity.activityTag, "destroy position:" + position);
-        }
-
-        public Fragment getFragment(int position) {
-            return mFragmentReferenceMap.get(Integer.valueOf(position));
         }
 
         @Override

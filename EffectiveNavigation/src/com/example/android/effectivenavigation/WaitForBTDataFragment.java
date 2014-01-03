@@ -77,6 +77,7 @@ public class WaitForBTDataFragment extends Fragment {
         messageText.setText(messageToShow);
         if(messageToShow.equals(btDataLoading)) {
             ((ProgressBar) rootView.findViewById(R.id.btDataLoadingProgressBar)).setVisibility(View.VISIBLE);
+
         }
         else if(messageToShow.equals(btWaitForConnect)) {
             ((ProgressBar) rootView.findViewById(R.id.btDataLoadingProgressBar)).setVisibility(View.INVISIBLE); //let textView align the margin bottom
@@ -94,7 +95,9 @@ public class WaitForBTDataFragment extends Fragment {
         }
         else {
             ((ProgressBar) rootView.findViewById(R.id.btDataLoadingProgressBar)).setVisibility(View.GONE);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.CENTER_HORIZONTAL,RelativeLayout.CENTER_VERTICAL);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
             messageText.setLayoutParams(layoutParams);
         }
         Log.d(fragmentTag,"create view done in WaitForBTDataFragment");
