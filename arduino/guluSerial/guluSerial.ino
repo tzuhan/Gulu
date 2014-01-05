@@ -5,9 +5,9 @@ const int bluePin = 9;
 const int greenPin =6;
 const int whitePin = 10;
 const int togglePin = 13;
-const char colorList[] = {'R', 'G', 'B', 'W'};
+const char colorList[] = {'R', 'G', 'B'};
 const int tensityLest[] = {30,255};
-const int colorNum = 4;
+const int colorNum = 3;
 const int tensityNum = 2;
 
 
@@ -79,10 +79,14 @@ void loop() {
       }
       
     }else{
+      String resultStr = "";
       for(int i = 0; i < resultLength; i++ ){
-       Serial.println( result[i] );
+       resultStr.concat(result[i]);
+       resultStr.concat(" ");
+       //Serial.print( result[i] );
+       //Serial.print(" ");
       }
-      Serial.println( "----" );
+      Serial.println(resultStr);
       index = 0;
     }
     
@@ -100,22 +104,22 @@ void turnLED(char color, int strength){
     analogWrite(redPin, 255-strength);
     analogWrite(greenPin, 255-0);
     analogWrite(bluePin, 255-0);
-    analogWrite(whitePin, 0);
+//    analogWrite(whitePin, 0);
   }else if( color == 'G' ){
     analogWrite(redPin, 255-0);
     analogWrite(greenPin, 255-strength);
     analogWrite(bluePin, 255-0);
-    analogWrite(whitePin, 0);
+//    analogWrite(whitePin, 0);
   }else if( color == 'B' ){
     analogWrite(redPin, 255-0);
     analogWrite(greenPin, 255-0);
     analogWrite(bluePin, 255-strength);
-    analogWrite(whitePin, 0);
+//    analogWrite(whitePin, 0);
   }else if( color == 'W'){
     analogWrite(redPin, 255-0);
     analogWrite(greenPin, 255-0);
     analogWrite(bluePin, 255-0);
-    analogWrite(whitePin, strength);
+//    analogWrite(whitePin, strength);
   }
 }
 
