@@ -97,24 +97,24 @@ void loop() {
 
 void turnLED(char color, int strength){
   if( color == 'R' ){
-    analogWrite(redPin, strength);
-    analogWrite(greenPin, 0);
-    analogWrite(bluePin, 0);
+    analogWrite(redPin, 255-strength);
+    analogWrite(greenPin, 255-0);
+    analogWrite(bluePin, 255-0);
     analogWrite(whitePin, 0);
   }else if( color == 'G' ){
-    analogWrite(redPin, 0);
-    analogWrite(greenPin, strength);
-    analogWrite(bluePin, 0);
+    analogWrite(redPin, 255-0);
+    analogWrite(greenPin, 255-strength);
+    analogWrite(bluePin, 255-0);
     analogWrite(whitePin, 0);
   }else if( color == 'B' ){
-    analogWrite(redPin, 0);
-    analogWrite(greenPin, 0);
-    analogWrite(bluePin, strength);
+    analogWrite(redPin, 255-0);
+    analogWrite(greenPin, 255-0);
+    analogWrite(bluePin, 255-strength);
     analogWrite(whitePin, 0);
   }else if( color == 'W'){
-    analogWrite(redPin, 0);
-    analogWrite(greenPin, 0);
-    analogWrite(bluePin, 0);
+    analogWrite(redPin, 255-0);
+    analogWrite(greenPin, 255-0);
+    analogWrite(bluePin, 255-0);
     analogWrite(whitePin, strength);
   }
 }
