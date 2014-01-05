@@ -28,8 +28,6 @@ import android.widget.Toast;
 import com.example.android.effectivenavigation.DrinksInformation;
 import com.example.android.effectivenavigation.R;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,6 +36,9 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
+
+import mlmodule.DataConst;
+import mlmodule.IncrementalClassifier;
 
 public class BluetoothActivity extends Activity {
 
@@ -65,11 +66,11 @@ public class BluetoothActivity extends Activity {
             device = null;
         }
     }
-    private Calendar calendar;
     private SimpleDateFormat formatter;
     private String[] currentData;
     private int currentLabel;
     private TextView informationText;
+    private IntentFilter intentFilter;
 
     private enum UIEventId {
         NoEvent,
@@ -78,11 +79,15 @@ public class BluetoothActivity extends Activity {
     UIEventId uiEventId;
 
     private ArduinoBluetooth mArduinoBluetooth;
-    private final static int NUM_OF_VALUES_IN_BT_DATA = 9;
+    private IncrementalClassifier mClassifier;
+
+    private final static int NUM_OF_VALUES_IN_BT_DATA = DrinksInformation.NUM_DATA_VALUES;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
+
+        mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -103,11 +108,10 @@ public class BluetoothActivity extends Activity {
 
         unlabeledData = new LinkedList<Pair<String, String[]>>();
         currentData = null;
-        currentLabel = -1;
+        currentLabel = 0;
         uiEventId = UIEventId.NoEvent;
 
-        calendar = Calendar.getInstance();
-        formatter = new SimpleDateFormat("yyyy/MM/dd EE HH:mm:ss");
+        formatter = new SimpleDateFormat("yyyy/MM/dd EE HH:mm:ss.SSS");
 
         //UI related
         Spinner spinner = (Spinner) findViewById(R.id.drinks_spinner);
@@ -123,7 +127,7 @@ public class BluetoothActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                currentLabel = 0; //first one
+                //nothing
             }
         });
 
@@ -133,8 +137,14 @@ public class BluetoothActivity extends Activity {
             public void onClick(View view) {
                 labelButton.setClickable(false);
                 if(currentData != null) {
-
-
+                    //do incremental training
+                    mClassifier.addTrainingInstanceAndUpdateClassifier(currentData,
+                                                                       DrinksInformation.drinks_list[currentLabel]);
+                    Log.d(BluetoothConst.appTag,"update success");
+                    currentData = null;
+                    if(unlabeledData.size() > 0){
+                        UpdateInformationTextAndGetNextDataInstance();
+                    }
                 }
                 labelButton.setClickable(true);
             }
@@ -142,7 +152,10 @@ public class BluetoothActivity extends Activity {
 
         informationText = (TextView) findViewById(R.id.InformationAboutDataText);
         informationText.setText(noDataInformation);
-        Log.d(BluetoothConst.appTag,"initialize done");
+
+        intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        //onResume will be run after on create so we register eventHandler there
+        //registerReceiver(btEventHandler,intentFilter);
     }
 
     @Override
@@ -155,11 +168,14 @@ public class BluetoothActivity extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(btEventHandler,intentFilter);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mBluetoothHandler != null) {
-            mBluetoothHandler.removeCallbacks(connectWithBluetoothAndRead);
-        }
 
         if(mBluetoothThread != null) {
             mBluetoothThread.quit();
@@ -193,8 +209,6 @@ public class BluetoothActivity extends Activity {
         }
         else if(id == R.id.connect_bluetooth) {
             if (mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()) {
-                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                registerReceiver(btEventHandler,filter);
                 mBluetoothAdapter.startDiscovery();
                 Log.d(BluetoothConst.appTag,"start discovering");
             }
@@ -218,7 +232,7 @@ public class BluetoothActivity extends Activity {
                 Log.d(BluetoothConst.appTag,"find device:" + device.getAddress());
                 // 判斷那個裝置是不是你要連結的裝置，根據藍芽裝置address判斷
                 if (device.getAddress().equals(ArduinoBluetooth.address)){
-                    Log.d(BluetoothConst.appTag,"find intended devices");
+                    Log.d(BluetoothConst.appTag,"find wanted devices");
                     mBluetoothAdapter.cancelDiscovery();
                     mArduinoBluetooth.device = device;
 
@@ -247,16 +261,18 @@ public class BluetoothActivity extends Activity {
                 String lineBuffer;
 
                 while((lineBuffer = mBufferedReader.readLine()) != null) {
-                    //parse data and send to user to label
+                    //parse data and send to user for labeling
                     //append data in a list
-                    if(unlabeledData.size() < maxNumOfDataInQueue) {
-                        String []data = lineBuffer.split(" ");
-                        if(data.length == NUM_OF_VALUES_IN_BT_DATA) { //2 * 4 + 1
-                            //<time,sensor data>
-                            Pair<String,String[]> timeAndData = new Pair<String, String[]>(formatter.format(calendar.getTime()),data);
+                    String []data = lineBuffer.split(" ");
+                    if(data.length == NUM_OF_VALUES_IN_BT_DATA) { //2 * 3 + 1
+                        //<time,sensor data>
+                        if(unlabeledData.size() < maxNumOfDataInQueue) { //we will keep a max number of data instances in Queue
+                            String timeInfo = formatter.format(Calendar.getInstance().getTime());
+                            //Log.d(BluetoothConst.appTag,"Time:" + timeInfo);
+                            Pair<String,String[]> timeAndData = new Pair<String, String[]>(timeInfo,data);
                             unlabeledData.add(timeAndData);
                             uiEventId = UIEventId.UpdateInformationText;
-                            mUIThreadHandler.post(uiEvents);
+                            mUIThreadHandler.post(uiEvents); // use main thread to update UI
                             /* this should be done in main thread
                             if(unlabeledData.size() == 1 && currentData == null) {
                                 timeAndData = unlabeledData.remove();
@@ -265,11 +281,12 @@ public class BluetoothActivity extends Activity {
                             }
                             */
                         }
-                        else {
-                            //do nothing
-                            Log.d(BluetoothConst.appTag,"wrong number of values parsed from bluetooth data");
-                        }
                     }
+                    else {
+                        //do nothing
+                        Log.d(BluetoothConst.appTag,"wrong number of values parsed from bluetooth data");
+                    }
+
                 }
 
                 //Log.d(BluetoothConst.appTag,"device output:" + line);
@@ -277,26 +294,34 @@ public class BluetoothActivity extends Activity {
 
             } catch (Exception e) {
                 //Toast.makeText(BluetoothActivity.this,e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                try {
+                    mBufferedReader.close();
+                }
+                catch(IOException e2) {
+
+                }
                 Log.d(BluetoothConst.appTag,e.getLocalizedMessage());
                 Toast.makeText(BluetoothActivity.this,"Exception during connection with bottle:" + e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
             }
         }
     };
 
-
+    private void UpdateInformationTextAndGetNextDataInstance() {
+        Pair<String,String[]> timeAndData = unlabeledData.remove();
+        String message = timeAndData.first + "\n";
+        for(String subStr : timeAndData.second) {
+            message += subStr + " ";
+        }
+        informationText.setText(message);
+        currentData = timeAndData.second;
+    }
 
     private Runnable uiEvents = new Runnable() {
         @Override
         public void run() {
             if(uiEventId.equals(UIEventId.UpdateInformationText)){
                 if(unlabeledData.size() == 1 && currentData == null) {
-                    Pair<String,String[]> timeAndData = unlabeledData.remove();
-                    String message = timeAndData.first + "\n";
-                    for(String subStr : timeAndData.second) {
-                        message += subStr + " ";
-                    }
-                    informationText.setText(message);
-                    currentData = timeAndData.second;
+                    UpdateInformationTextAndGetNextDataInstance();
                 }
             }
             else{

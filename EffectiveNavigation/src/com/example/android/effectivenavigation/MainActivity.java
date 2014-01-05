@@ -45,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
@@ -55,7 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static BluetoothSocket mBluetoothSocket = null; // 用來連結藍芽裝置、以及傳送指令
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // 一定要是這組
     private BufferedReader mBufferedReader;
-    private final String mBluetoothThreadName = "bluetoothThread";
+    private final String mBluetoothThreadName = "readBluetoothDataThread";
     private HandlerThread mBluetoothThread;
     private Handler mBluetoothHandler;
 
@@ -73,7 +74,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
-    private final int currentDrinkFragmentIndex = 0;
     private String bluetoothMessage = null;
     private boolean bluetoothStateChange;
     private int predictedLabel;
@@ -90,6 +90,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         WeekList,
     }
     private FragmentClass fragmentClass;
+    private IntentFilter EventHandle;
 
     public static final String activityTag = "MainActivity";
 
@@ -178,11 +179,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
 
-        IntentFilter btEventHandle = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        btEventHandle.addAction(startDiscoveringIntentFilterTag);
-        btEventHandle.addAction(notifyAdapterIntentFilterTag);
-        registerReceiver(btEventHandler,btEventHandle);
-
+        EventHandle = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        EventHandle.addAction(startDiscoveringIntentFilterTag);
+        EventHandle.addAction(notifyAdapterIntentFilterTag);
+        //onResume will be run after on create so we register eventHandler there
 
     }
 
@@ -236,7 +236,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if(position == 0) {
                 if(mainActivity.toVisualizeCurrentDrink) {
                     mainActivity.toVisualizeCurrentDrink = false;
-                    //Log.d(activityTag,"going to remove fragment");
                     removeFragment((Fragment) object);
                 }
             }
@@ -332,10 +331,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onPause() {
         super.onPause();
 
-        unregisterReceiver(btEventHandler);
+        unregisterReceiver(EventHandler);
         if(mBluetoothHandler != null) {
             mBluetoothHandler.removeCallbacks(connectWithBluetoothAndRead);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(EventHandler,EventHandle);
     }
 
     @Override
@@ -385,23 +390,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-    public BroadcastReceiver btStartDiscoveringHandler = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(startDiscoveringIntentFilterTag)) {
-                IntentFilter discoverBTDevices = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                context.registerReceiver(btEventHandler, discoverBTDevices);
-                bluetoothStateChange = true;
-                bluetoothMessage = BTConfigFragment.btDataLoading;
-                mAppSectionsPagerAdapter.notifyDataSetChanged();
-                mBluetoothAdapter.startDiscovery();
-                Log.d(activityTag, "start discovering");
-            }
-        }
-    };
-    */
-    public BroadcastReceiver btEventHandler = new BroadcastReceiver() {
+    public BroadcastReceiver EventHandler = new BroadcastReceiver() {
         @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -412,10 +401,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 Log.d(activityTag, "find device:" + device.getAddress());
                 // 判斷那個裝置是不是你要連結的裝置，根據藍芽裝置address判斷
                 if (device.getAddress().equals(ArduinoBluetooth.address)){
-                    Log.d(activityTag,"find intended devices");
+                    Log.d(activityTag,"find wanted devices");
                     mBluetoothAdapter.cancelDiscovery();
                     mArduinoBluetooth.device = device;
-                    //due to a IO operation, we need to do it asynchronously
+                    //due to a IO operation, we need to do it asynchronously.That is,in another thread.
                     mBluetoothHandler.post(connectWithBluetoothAndRead);
 
                 }
@@ -439,6 +428,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void run() {
             try {
                 //avoid when exception happen we can't re-connect
+                bluetoothStateChange = true;
                 bluetoothMessage = BTConfigFragment.btWaitForConnect;
 
                 // 連結到該裝置
@@ -450,60 +440,57 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                 mBufferedReader = new BufferedReader(new InputStreamReader(mBluetoothSocket.getInputStream()));
 
-                String lineBuffer = "";
+                String lineBuffer = null;
 
                 while((lineBuffer = mBufferedReader.readLine())!=null) {
-
                     Log.d(MainActivity.activityTag,"data read:" + lineBuffer);
-
-                }
-                mBufferedReader.close();
-
-                Log.d(MainActivity.activityTag,"data read:" + lineBuffer);
-                String []data = lineBuffer.split(" ");
-
-                if(data.length > 0) {
-                    //put into predictor and get the result
-                    //calculate the difference of weight
-                    //retrieve from database
-                    previousLabel = predictedLabel;
-                    predictedLabel = 0; //simulate the predicted result
-                    currentWeight = Float.valueOf(data[data.length - 1]);
-                    if(previousLabel != predictedLabel) {
-                        totalDeltaWeight = 0;
-                    }
-                    else {
-                        float deltaWeight = previousWeight - currentWeight;
-                        if(deltaWeight >= 0) {
-                            totalDeltaWeight += deltaWeight;
+                    String []data = lineBuffer.split(" ");
+                    int numDataValues = data.length;
+                    if(numDataValues == DrinksInformation.NUM_DATA_VALUES) {
+                        //put into predictor and get the result
+                        //calculate the difference of weight
+                        //retrieve from database
+                        previousLabel = predictedLabel;
+                        predictedLabel = 0; //simulate the predicted result
+                        currentWeight = Float.valueOf(data[data.length - 1]);
+                        if(previousLabel != predictedLabel) {
+                            totalDeltaWeight = 0;
                         }
                         else {
-                            Log.d(activityTag,"warning:previous weight < current weight");
+                            float deltaWeight = previousWeight - currentWeight;
+                            if(deltaWeight >= 0) {
+                                totalDeltaWeight += deltaWeight;
+                            }
+                            else {
+                                Log.d(activityTag,"warning:previous weight < current weight");
+                            }
                         }
-                    }
 
-                    toVisualizeCurrentDrink = true;
-                    fragmentClass = FragmentClass.CurrentDrink;
-                    Intent intent = new Intent(notifyAdapterIntentFilterTag);
-                    getApplicationContext().sendBroadcast(intent);
-                    /*
-                    MainActivity.this.getUIHandler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAppSectionsPagerAdapter.notifyDataSetChanged();
-                        }
-                    });
-                    */
+                        toVisualizeCurrentDrink = true;
+                        fragmentClass = FragmentClass.CurrentDrink;
+                        Intent intent = new Intent(notifyAdapterIntentFilterTag);
+                        getApplicationContext().sendBroadcast(intent);
+
+
                     /*
                     //Log.d(BluetoothConst.appTag,"device output:" + line);
                     //Toast.makeText(BluetoothActivity.this,line,Toast.LENGTH_SHORT).show();
                     */
+                    }
+                    else {
+                        Log.d(activityTag,"data read failed");
+                    }
                 }
-                else {
-                    Log.d(activityTag,"data read failed");
-                }
+                mBufferedReader.close();
+
             } catch (Exception e) {
                 //Toast.makeText(BluetoothActivity.this,e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                try {
+                    mBufferedReader.close();
+                }
+                catch(IOException e2) {
+
+                }
                 Log.d(MainActivity.activityTag,e.getLocalizedMessage());
                 Toast.makeText(MainActivity.this,"Exception during connection with bottle:" + e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 
@@ -511,48 +498,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     };
 
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    /*
-    public static class LaunchpadSectionFragment extends Fragment {
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
-
-            // Demonstration of a collection-browsing activity.
-            rootView.findViewById(R.id.demo_collection_button)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), CollectionDemoActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-
-            // Demonstration of navigating to external activities.
-            rootView.findViewById(R.id.demo_external_activity)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Create an intent that asks the user to pick a photo, but using
-                            // FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET, ensures that relaunching
-                            // the application from the device home screen does not return
-                            // to the external activity.
-                            Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
-                            externalActivityIntent.setType("image/*");
-                            externalActivityIntent.addFlags(
-                                    Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                            startActivity(externalActivityIntent);
-                        }
-                    });
-
-            return rootView;
-        }
-    }
-    */
     /**
      * A dummy fragment representing a section of the app, but that simply displays dummy text.
      */
