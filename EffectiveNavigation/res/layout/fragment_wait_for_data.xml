@@ -22,7 +22,6 @@
         android:id="@+id/waitForDataMessage"
         android:layout_marginBottom="50dp"
         android:layout_above="@+id/btDataLoadingProgressBar"
-
         android:layout_centerHorizontal="true"
         />
 

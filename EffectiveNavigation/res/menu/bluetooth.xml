@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/open_bluetooth"
+        android:title="Open Bluetooth"
+        android:orderInCategory="99"
+        />
+    <item android:id="@+id/close_bluetooth"
+        android:title="Close Bluetooth"
+        android:orderInCategory="98"
+        />
+    <item android:id="@+id/connect_bluetooth"
+        android:title="connect BT and read"
+        android:orderInCategory="97"
+        />
+</menu>

@@ -1,7 +1,4 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.hci.bluetoothmodule.BluetoothActivity" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/open_bluetooth"
         android:title="Open Bluetooth"
