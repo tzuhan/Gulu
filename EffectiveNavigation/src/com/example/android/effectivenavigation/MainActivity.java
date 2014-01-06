@@ -50,6 +50,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.UUID;
 
+import bluetoothmodule.ArduinoBluetooth;
 import bluetoothmodule.BluetoothConst;
 import mlmodule.DataConst;
 import mlmodule.IncrementalClassifier;
@@ -63,19 +64,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private HandlerThread mBluetoothThread;
     private Handler mBluetoothHandler;
     private IncrementalClassifier mClassifier;
-
-    private static class ArduinoBluetooth { //dont forget to fill it out
-        static final String address = "20:12:05:27:03:20";
-        static final String name = "Finger";
-        static final String password = "1234";
-
-        public BluetoothDevice device;
-
-        public ArduinoBluetooth() {
-            device = null;
-        }
-    }
-
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
     private String bluetoothMessage = null;
@@ -188,6 +176,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         EventHandle = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         EventHandle.addAction(startDiscoveringIntentFilterTag);
         EventHandle.addAction(notifyAdapterIntentFilterTag);
+        EventHandle.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        //EventHandle.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         //onResume will be run after on create so we register eventHandler there
 
     }
@@ -401,7 +391,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public void onReceive(Context context, Intent intent) {
             // 當收尋到裝置時
-            if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
+            String actionStr = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(actionStr)) {
                 // 取得藍芽裝置這個物件
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.d(activityTag, "find device:" + device.getAddress());
@@ -415,14 +406,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                 }
             }
-            else if(intent.getAction().equals(startDiscoveringIntentFilterTag)) {
+            else if(actionStr.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+                Log.d(activityTag,"Disconnected with bluetooth device");
+                mBluetoothHandler.removeCallbacks(connectWithBluetoothAndRead);
+                bluetoothStateChange = true;
+                bluetoothMessage = BTConfigFragment.btWaitForConnect;
+                mAppSectionsPagerAdapter.notifyDataSetChanged();
+            }
+            else if(actionStr.equals(startDiscoveringIntentFilterTag)) {
                 bluetoothStateChange = true;
                 bluetoothMessage = BTConfigFragment.btDataLoading;
                 mAppSectionsPagerAdapter.notifyDataSetChanged();
                 mBluetoothAdapter.startDiscovery();
                 Log.d(BluetoothConst.appTag, "start discovering");
             }
-            else if(intent.getAction().equals(notifyAdapterIntentFilterTag)) {
+            else if(actionStr.equals(notifyAdapterIntentFilterTag)) {
                 mAppSectionsPagerAdapter.notifyDataSetChanged();
             }
 
@@ -434,8 +432,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void run() {
             try {
                 //avoid when exception happen we can't re-connect
-                bluetoothStateChange = true;
-                bluetoothMessage = BTConfigFragment.btWaitForConnect;
+                //bluetoothStateChange = true;
+                //bluetoothMessage = BTConfigFragment.btWaitForConnect;
 
                 // 連結到該裝置
                 mBluetoothSocket = mArduinoBluetooth.device.createRfcommSocketToServiceRecord(MY_UUID);
@@ -456,8 +454,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         //put into predictor and get the result
                         //calculate the difference of weight
                         //retrieve from database
-                        predictedLabel = mClassifier.predictInstance(Arrays.copyOfRange(data,0,DrinksInformation.NUM_FEATURE_VALUES));
                         previousLabel = predictedLabel;
+                        predictedLabel = mClassifier.predictInstance(Arrays.copyOfRange(data,0,DrinksInformation.NUM_FEATURE_VALUES));
                         //predictedLabel = 0; //simulate the predicted result
                         currentWeight = Float.valueOf(data[data.length - 1]);
                         if(previousLabel != predictedLabel) {

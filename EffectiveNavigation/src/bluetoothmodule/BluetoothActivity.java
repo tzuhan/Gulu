@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
 
+
 import mlmodule.DataConst;
 import mlmodule.IncrementalClassifier;
 
@@ -55,17 +56,6 @@ public class BluetoothActivity extends Activity {
     private Handler mBluetoothHandler;
     private Handler mUIThreadHandler;
     private Queue<Pair<String,String []>> unlabeledData; //<time,Data>
-    private class ArduinoBluetooth { //dont forget to fill it out
-        static final String address = "20:12:05:27:03:20";
-        static final String name = "Finger";
-        static final String password = "1234";
-
-        public BluetoothDevice device;
-
-        public ArduinoBluetooth() {
-            device = null;
-        }
-    }
     private SimpleDateFormat formatter;
     private String[] currentData;
     private int currentLabel;
@@ -80,6 +70,7 @@ public class BluetoothActivity extends Activity {
 
     private ArduinoBluetooth mArduinoBluetooth;
     private IncrementalClassifier mClassifier;
+    private String[] featureData;
 
     private final static int NUM_OF_VALUES_IN_BT_DATA = DrinksInformation.NUM_DATA_VALUES;
     @Override
@@ -112,6 +103,7 @@ public class BluetoothActivity extends Activity {
         uiEventId = UIEventId.NoEvent;
 
         formatter = new SimpleDateFormat("yyyy/MM/dd EE HH:mm:ss.SSS");
+        featureData = new String[DrinksInformation.NUM_FEATURE_VALUES];
 
         //UI related
         Spinner spinner = (Spinner) findViewById(R.id.drinks_spinner);
@@ -138,9 +130,15 @@ public class BluetoothActivity extends Activity {
                 labelButton.setClickable(false);
                 if(currentData != null) {
                     //do incremental training
-                    mClassifier.addTrainingInstanceAndUpdateClassifier(currentData,
-                                                                       DrinksInformation.drinks_list[currentLabel]);
+                    //Log.d(BluetoothConst.appTag,"lastValue:" + currentData[currentData.length-1]);
+
+                    for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
+                        featureData[dim] = currentData[dim];
+                    }
+                    mClassifier.addTrainingInstanceAndUpdateClassifier(featureData,
+                                                                       currentLabel);
                     Log.d(BluetoothConst.appTag,"update success");
+                    //Log.d(BluetoothConst.appTag, "label:" + mClassifier.predictInstance(featureData));
                     currentData = null;
                     if(unlabeledData.size() > 0){
                         UpdateInformationTextAndGetNextDataInstance();
@@ -178,6 +176,8 @@ public class BluetoothActivity extends Activity {
         informationText.setText(noDataInformation);
 
         intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        //intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         //onResume will be run after on create so we register eventHandler there
         //registerReceiver(btEventHandler,intentFilter);
     }
@@ -250,7 +250,8 @@ public class BluetoothActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // 當收尋到裝置時
-            if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
+            String actionStr = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(actionStr)) {
                 // 取得藍芽裝置這個物件
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.d(BluetoothConst.appTag,"find device:" + device.getAddress());
@@ -264,7 +265,10 @@ public class BluetoothActivity extends Activity {
                     mBluetoothHandler.post(connectWithBluetoothAndRead);
 
                 }
-
+            }
+            else if(actionStr.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+                Log.d(BluetoothConst.appTag,"Disconnected with bluetooth device");
+                mBluetoothHandler.removeCallbacks(connectWithBluetoothAndRead);
             }
         }
     };
