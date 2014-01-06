@@ -47,9 +47,12 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.UUID;
 
 import bluetoothmodule.BluetoothConst;
+import mlmodule.DataConst;
+import mlmodule.IncrementalClassifier;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private static BluetoothAdapter mBluetoothAdapter = null; // 用來搜尋、管理藍芽裝置
@@ -59,6 +62,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private final String mBluetoothThreadName = "readBluetoothDataThread";
     private HandlerThread mBluetoothThread;
     private Handler mBluetoothHandler;
+    private IncrementalClassifier mClassifier;
 
     private static class ArduinoBluetooth { //dont forget to fill it out
         static final String address = "20:12:05:27:03:20";
@@ -122,6 +126,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         totalDeltaWeight = 0;
         toVisualizeCurrentDrink = false;
         fragmentClass = FragmentClass.DefaultFragment;
+        mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
+        mClassifier.loadModel();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -450,8 +456,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         //put into predictor and get the result
                         //calculate the difference of weight
                         //retrieve from database
+                        predictedLabel = mClassifier.predictInstance(Arrays.copyOfRange(data,0,DrinksInformation.NUM_FEATURE_VALUES));
                         previousLabel = predictedLabel;
-                        predictedLabel = 0; //simulate the predicted result
+                        //predictedLabel = 0; //simulate the predicted result
                         currentWeight = Float.valueOf(data[data.length - 1]);
                         if(previousLabel != predictedLabel) {
                             totalDeltaWeight = 0;

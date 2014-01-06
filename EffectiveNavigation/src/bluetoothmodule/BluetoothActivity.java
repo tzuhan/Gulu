@@ -150,6 +150,30 @@ public class BluetoothActivity extends Activity {
             }
         });
 
+        final Button saveButton = (Button) findViewById(R.id.save_model_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveButton.setClickable(false);
+                mClassifier.saveModel();
+                saveButton.setClickable(true);
+                Log.d(BluetoothConst.appTag,"save model done");
+            }
+        });
+
+
+        final Button loadButton = (Button) findViewById(R.id.load_model_button);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadButton.setClickable(false);
+                mClassifier.loadModel();
+                loadButton.setClickable(true);
+                Log.d(BluetoothConst.appTag,"load model done");
+            }
+        });
+
+
         informationText = (TextView) findViewById(R.id.InformationAboutDataText);
         informationText.setText(noDataInformation);
 

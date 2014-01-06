@@ -30,4 +30,22 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save model"
+        android:id="@+id/save_model_button"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/send_training_data_button"
+        android:layout_alignLeft="@+id/InformationAboutDataText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="load model"
+        android:id="@+id/load_model_button"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/save_model_button"
+        android:layout_alignRight="@+id/InformationAboutDataText" />
+
 </RelativeLayout>

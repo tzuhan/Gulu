@@ -96,7 +96,7 @@ public class IncrementalClassifier {
 
     public void saveModel() { //save model to flash
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) { //writable and readable
+        if (Environment.MEDIA_MOUNTED.equals(state)) { //storage is writable and readable
             File root = Environment.getExternalStorageDirectory();
             try {
                 ObjectOutputStream oos = new ObjectOutputStream(
@@ -112,10 +112,30 @@ public class IncrementalClassifier {
         }
     }
 
+    public int predictInstance(String[] featureData) {
+        if(featureData.length == mNumFeatures) {
+            Instance testInstance = new DenseInstance(mNumFeatures);
+            for(int dim = 0;dim < mNumFeatures;dim++) {
+                testInstance.setValue(dim,Double.valueOf(featureData[dim]));
+            }
+            try {
+                return (int)mNaiveBayes.classifyInstance(testInstance);
+            }
+            catch(Exception e) {
+                Log.d(classifierTag,e.getLocalizedMessage());
+                return -1;
+            }
+        }
+        else {
+            Log.d(classifierTag,"number of features isn't right");
+            return -1;
+        }
+    }
+
     public void loadModel() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
-            Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) { //readable
             File root = Environment.getExternalStorageDirectory();
             try {
                 ObjectInputStream ois = new ObjectInputStream(
