@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="End time"
+        android:id="@+id/list_end_time_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/list_drink_text"
+        android:layout_alignParentLeft="true"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Drink"
+        android:id="@+id/list_drink_text"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/list_end_time_text"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Volume"
+        android:id="@+id/list_volume_text"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/list_end_time_text"
+        android:layout_alignLeft="@+id/list_end_time_text"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="WeekDay"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/list_week_day_text"
+        android:layout_alignTop="@+id/list_end_time_text"
+        android:layout_toRightOf="@+id/list_end_time_text"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="invisable id"
+        android:id="@+id/list_id_text"
+        android:layout_alignTop="@+id/list_volume_text"
+        android:layout_alignLeft="@+id/list_week_day_text"
+        android:visibility="gone" />
+</RelativeLayout>

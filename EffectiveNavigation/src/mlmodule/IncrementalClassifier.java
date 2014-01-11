@@ -8,6 +8,7 @@ import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.classifiers.bayes.NaiveBayesUpdateable;
 import weka.core.Instances;
+import weka.core.converters.ArffSaver;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,7 +81,7 @@ public class IncrementalClassifier {
         if(featureData.length == mNumFeatures) {
             Instance newInstance = new DenseInstance(mNumFeatures + 1); //already existed Instance class
             try {
-                //trainingDataSet.add(newInstance);
+                trainingDataSet.add(newInstance);
                 // if we don't need to collect them and write into an arff file,
                 // then we don't actually need to add them into an DataSet
                 // But we still need to set this instance to a DataSet
@@ -99,6 +100,18 @@ public class IncrementalClassifier {
         }
         else {
             Log.d(classifierTag,"number of values in data isn't correct");
+        }
+    }
+
+    public void resetClassifier(Instances dataSet) {
+        trainingDataSet = dataSet;
+        trainingDataSet.setClassIndex(0);
+        mNaiveBayes = new NaiveBayesUpdateable();
+        try {
+            mNaiveBayes.buildClassifier(dataSet);
+        }
+        catch(Exception e) {
+            Log.d(classifierTag,"resetClassifier failed,exception:\n" + Log.getStackTraceString(e));
         }
     }
 
@@ -145,7 +158,7 @@ public class IncrementalClassifier {
         }
     }
 
-    public void loadModel(){
+    public void loadModel() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
             Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) { //readable
@@ -161,13 +174,37 @@ public class IncrementalClassifier {
             catch (Exception e) {
                 Log.d(classifierTag,"loadModel failed,exception:" + e.getLocalizedMessage());
                 //if exception happen, we use a new model
-                mNaiveBayes = new NaiveBayesUpdateable();
-                try {
-                    mNaiveBayes.buildClassifier(trainingDataSet);
+                initializeClassifier();
+            }
+        }
+    }
+
+    public void initializeClassifier() {
+        mNaiveBayes = new NaiveBayesUpdateable();
+        try {
+            mNaiveBayes.buildClassifier(trainingDataSet);
+        }
+        catch(Exception e) {
+            Log.d(classifierTag,"loadModel,exception:\n" + Log.getStackTraceString(e));
+        }
+    }
+
+    public void clearModel() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            File modelFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + modelFileName);
+            try {
+                if(modelFile.exists()) {
+                    if(!modelFile.delete()) {
+                        Log.d(classifierTag,"warning:model file cannot be deleted");
+                    }
                 }
-                catch(Exception e2) {
-                    Log.d(classifierTag,"loadModel,exception:\n" + Log.getStackTraceString(e));
+                else {
+                    Log.d(classifierTag,"warning:model file doesn't exist");
                 }
+            }
+            catch(Exception e) {
+                Log.d(classifierTag,"clearModel:" + Log.getStackTraceString(e));
             }
         }
     }

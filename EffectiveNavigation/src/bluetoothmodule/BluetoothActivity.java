@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.effectivenavigation.DrinksInformation;
+import com.example.android.effectivenavigation.MainActivity;
 import com.example.android.effectivenavigation.R;
 
 import java.io.BufferedReader;
@@ -38,14 +39,16 @@ import java.util.Queue;
 import java.util.UUID;
 
 
+import mlmodule.ArffManager;
 import mlmodule.DataConst;
 import mlmodule.IncrementalClassifier;
+import mlmodule.KnnClassifier;
+import mlmodule.My1NN;
+import weka.core.converters.ArffLoader;
 
 public class BluetoothActivity extends Activity {
 
     private static final String noDataInformation = "currently no data to process";
-    //private static final String dataCollectedTime = "data collected time:\n";
-    //private static final String dataValue = "data value:";
     private static final int maxNumOfDataInQueue = 30; //keep how many training instance in data set
     private static BluetoothAdapter mBluetoothAdapter = null; // 用來搜尋、管理藍芽裝置
     private static BluetoothSocket mBluetoothSocket = null; // 用來連結藍芽裝置、以及傳送指令
@@ -69,8 +72,10 @@ public class BluetoothActivity extends Activity {
     UIEventId uiEventId;
 
     private ArduinoBluetooth mArduinoBluetooth;
-    private IncrementalClassifier mClassifier;
+    private KnnClassifier mClassifier;
     private String[] featureData;
+
+    private My1NN simpleClassifier;
 
     private final static int NUM_OF_VALUES_IN_BT_DATA = DrinksInformation.NUM_DATA_VALUES;
     @Override
@@ -78,7 +83,9 @@ public class BluetoothActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
-        mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
+        //mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
+
+        mClassifier = KnnClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -104,6 +111,8 @@ public class BluetoothActivity extends Activity {
 
         formatter = new SimpleDateFormat("yyyy/MM/dd EE HH:mm:ss.SSS");
         featureData = new String[DrinksInformation.NUM_FEATURE_VALUES];
+
+        simpleClassifier = new My1NN();
 
         //UI related
         Spinner spinner = (Spinner) findViewById(R.id.drinks_spinner);
@@ -131,14 +140,16 @@ public class BluetoothActivity extends Activity {
                 if(currentData != null) {
                     //do incremental training
                     //Log.d(BluetoothConst.appTag,"lastValue:" + currentData[currentData.length-1]);
-
+                    String featureDataMessage = "";
                     for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
                         featureData[dim] = currentData[dim];
+                        featureDataMessage += (featureData[dim] + " ");
                     }
+                    Log.d(BluetoothConst.appTag,featureDataMessage);
                     mClassifier.addTrainingInstanceAndUpdateClassifier(featureData,
                                                                        currentLabel);
-                    Log.d(BluetoothConst.appTag,"update success");
-                    //Log.d(BluetoothConst.appTag, "label:" + mClassifier.predictInstance(featureData));
+                    //Log.d(BluetoothConst.appTag,"update success");
+                    Log.d(BluetoothConst.appTag, "predicted this training instance:" + DrinksInformation.drinks_list[mClassifier.predictInstance(featureData)]);
                     currentData = null;
                     if(unlabeledData.size() > 0){
                         UpdateInformationTextAndGetNextDataInstance();
@@ -171,6 +182,75 @@ public class BluetoothActivity extends Activity {
             }
         });
 
+        final Button clearButton = (Button) findViewById(R.id.clear_model_button);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearButton.setClickable(false);
+                mClassifier.clearModel();
+                mClassifier.initializeClassifier();
+                clearButton.setClickable(true);
+                Log.d(BluetoothConst.appTag,"clear model done");
+            }
+        });
+
+        final Button discardButton = (Button) findViewById(R.id.discard_data_button);
+        discardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                discardButton.setClickable(false);
+                boolean success = UpdateInformationTextAndGetNextDataInstance();
+                discardButton.setClickable(true);
+                if(success) {
+                    Log.d(BluetoothConst.appTag,"discard data");
+                }
+                else {
+                    Log.d(BluetoothConst.appTag,"no data,discard failed");
+                }
+            }
+        });
+
+        final Button clearDataButton = (Button) findViewById(R.id.clear_data_button);
+        clearDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearDataButton.setClickable(false);
+                clearDataInQueueAndUpdateText();
+                clearDataButton.setClickable(true);
+                Log.d(BluetoothConst.appTag,"clear data done");
+            }
+        });
+
+        final Button predictButton = (Button) findViewById(R.id.predict_button);
+        predictButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                predictButton.setClickable(false);
+                for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
+                    featureData[dim] = currentData[dim];
+                }
+                int indexValue = simpleClassifier.getNearestNeighborIndex(featureData);
+                Log.d(BluetoothConst.appTag,"" + indexValue);
+                String predictedName = DrinksInformation.drinks_list[indexValue];
+                //String predictedName = DrinksInformation.drinks_list[mClassifier.predictInstance(featureData)];
+                Log.d(BluetoothConst.appTag, "predicted this training instance:" + predictedName);
+                Toast.makeText(BluetoothActivity.this,predictedName,Toast.LENGTH_SHORT).show();
+                predictButton.setClickable(true);
+            }
+        });
+
+        workerThread = new HandlerThread("worker1");
+        workerThread.start();
+        workerEventHandler = new Handler(workerThread.getLooper());
+
+        loadDataButton = (Button) findViewById(R.id.load_data_button);
+        loadDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadDataButton.setClickable(false);
+                workerEventHandler.post(readDataEvent);
+            }
+        });
 
         informationText = (TextView) findViewById(R.id.InformationAboutDataText);
         informationText.setText(noDataInformation);
@@ -181,6 +261,19 @@ public class BluetoothActivity extends Activity {
         //onResume will be run after on create so we register eventHandler there
         //registerReceiver(btEventHandler,intentFilter);
     }
+
+    private Handler workerEventHandler;
+    private HandlerThread workerThread;
+    private Button loadDataButton;
+    private Runnable readDataEvent = new Runnable() {
+        @Override
+        public void run() {
+            ArffManager manager = new ArffManager();
+            mClassifier.resetClassifier(manager.loadArff());
+            loadDataButton.setClickable(true);
+            Toast.makeText(BluetoothActivity.this,"loading complete",Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onPause() {
@@ -329,19 +422,34 @@ public class BluetoothActivity extends Activity {
 
                 }
                 Log.d(BluetoothConst.appTag,e.getLocalizedMessage());
-                Toast.makeText(BluetoothActivity.this,"Exception during connection with bottle:" + e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(BluetoothActivity.this,"Exception during connection with bottle:" + e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
             }
         }
     };
 
-    private void UpdateInformationTextAndGetNextDataInstance() {
-        Pair<String,String[]> timeAndData = unlabeledData.remove();
-        String message = timeAndData.first + "\n";
-        for(String subStr : timeAndData.second) {
-            message += subStr + " ";
+    private boolean UpdateInformationTextAndGetNextDataInstance() {
+        if(unlabeledData.size() > 0) {
+            Pair<String,String[]> timeAndData = unlabeledData.remove();
+            String message = timeAndData.first + "\n";
+            for(String subStr : timeAndData.second) {
+                message += subStr + " ";
+            }
+            informationText.setText(message);
+            currentData = timeAndData.second;
+            return true;
         }
-        informationText.setText(message);
-        currentData = timeAndData.second;
+        else {
+            return false;
+        }
+    }
+
+    private void clearDataInQueueAndUpdateText() {
+        if(unlabeledData.size() > 0) {
+            unlabeledData.clear();
+        }
+        informationText.setText(noDataInformation);
+        currentData = null;
+
     }
 
     private Runnable uiEvents = new Runnable() {
@@ -357,6 +465,7 @@ public class BluetoothActivity extends Activity {
             }
         }
     };
+
 
 
 }

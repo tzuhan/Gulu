@@ -5,8 +5,8 @@
       <filter>
         <option name="logLevel" value="debug" />
         <option name="logMessagePattern" value="" />
-        <option name="logTagPattern" value="bluetoothDebug" />
-        <option name="name" value="TestBT" />
+        <option name="logTagPattern" value="ArffManager" />
+        <option name="name" value="TestArffManager" />
         <option name="packageNamePattern" value="" />
         <option name="pid" value="" />
       </filter>
@@ -34,6 +34,30 @@
         <option name="packageNamePattern" value="" />
         <option name="pid" value="" />
       </filter>
+      <filter>
+        <option name="logLevel" value="debug" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="DrinkRecordDataSource" />
+        <option name="name" value="TestDB" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="" />
+        <option name="name" value="Nothing" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="KnnClassifier" />
+        <option name="name" value="TestML2" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
     </filters>
   </component>
   <component name="AndroidLayoutPreviewToolWindow">
@@ -47,8 +71,8 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="TestML" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Nothing" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41bf53b5-0604-491c-9286-ade6f044e9a7" name="Default" comment="" />
@@ -108,61 +132,17 @@
     <breakpoint_rules />
     <ui_properties />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="activity_training.xml" pinned="false" current="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/res/layout/activity_training.xml">
-                <provider editor-type-id="text-editor">
-                  <state line="0" column="38" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1344">
-                    <folding />
-                  </state>
-                </provider>
-                <provider selected="true" editor-type-id="android-designer">
-                  <state />
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="EffectiveNavigation" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
+      <file leaf-file-name="BluetoothConst.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothConst.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="145" selection-start="4632" selection-end="4632" vertical-scroll-proportion="0.0" vertical-offset="2326" max-vertical-offset="12120">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BluetoothActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="140" column="22" selection-start="5654" selection-end="5654" vertical-scroll-proportion="0.0" vertical-offset="2416" max-vertical-offset="7440">
+            <state line="8" column="41" selection-start="184" selection-end="198" vertical-scroll-proportion="0.46601942" vertical-offset="0" max-vertical-offset="412">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IncrementalClassifier.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/mlmodule/IncrementalClassifier.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="41" selection-start="6364" selection-end="6364" vertical-scroll-proportion="0.5555556" vertical-offset="3222" max-vertical-offset="3960">
-              <folding>
-                <element signature="e#2118#2129#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -170,45 +150,39 @@
       <file leaf-file-name="ArduinoBluetooth.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/ArduinoBluetooth.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="11" selection-start="260" selection-end="260" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
+            <state line="8" column="6" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="552">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BluetoothConst.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothConst.java">
+      <file leaf-file-name="My1NN.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mlmodule/My1NN.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="408">
+            <state line="18" column="8" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="1704">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DBHelper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/database/DBHelper.java">
+      <file leaf-file-name="CurrentDrinkFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="10" selection-start="459" selection-end="459" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="1656">
+            <state line="39" column="6" selection-start="1542" selection-end="1542" vertical-scroll-proportion="0.0" vertical-offset="395" max-vertical-offset="3000">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DrinksInformation.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DrinksInformation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="98" selection-start="474" selection-end="474" vertical-scroll-proportion="0.0" vertical-offset="264" max-vertical-offset="456">
+      <file leaf-file-name="fragment_current_drink.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/fragment_current_drink.xml">
+          <provider editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="864">
               <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="0" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1128">
-              <folding />
-            </state>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -222,7 +196,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/fragment_week_list.xml" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTData.java" />
@@ -231,34 +204,42 @@
         <option value="$PROJECT_DIR$/res/menu/main.xml" />
         <option value="$PROJECT_DIR$/res/menu/bluetooth.xml" />
         <option value="$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml" />
-        <option value="$PROJECT_DIR$/src/mlmodule/arffGenerator.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WaitForBTDataAndVisualizeFragment.java" />
-        <option value="$PROJECT_DIR$/res/layout/fragment_current_drink.xml" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/BTConfigFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java" />
-        <option value="$PROJECT_DIR$/src/database/DBHelper.java" />
-        <option value="$PROJECT_DIR$/src/database/DrinkRecord.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/database/DrinkRecordDataSource.java" />
         <option value="$PROJECT_DIR$/src/mlmodule/DataConst.java" />
-        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/DrinksInformation.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/res/layout/activity_training.xml" />
         <option value="$PROJECT_DIR$/src/bluetoothmodule/BlueEventHandler.java" />
         <option value="$PROJECT_DIR$/src/bluetoothmodule/BluetoothEventHandler.java" />
         <option value="$PROJECT_DIR$/src/bluetoothmodule/MyEventHandler.java" />
         <option value="$PROJECT_DIR$/src/bluetoothmodule/BluetoothConst.java" />
-        <option value="$PROJECT_DIR$/src/bluetoothmodule/ArduinoBluetooth.java" />
-        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java" />
-        <option value="$PROJECT_DIR$/src/bluetoothmodule/BluetoothActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_day_drink.xml" />
+        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java" />
+        <option value="$PROJECT_DIR$/src/database/DBHelper.java" />
+        <option value="$PROJECT_DIR$/src/database/DrinkRecord.java" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_day_drink_row.xml" />
+        <option value="$PROJECT_DIR$/src/mlmodule/knnClassifier.java" />
+        <option value="$PROJECT_DIR$/src/mlmodule/arffGenerator.java" />
+        <option value="$PROJECT_DIR$/res/layout/activity_training.xml" />
+        <option value="$PROJECT_DIR$/src/mlmodule/arffManager.java" />
+        <option value="$PROJECT_DIR$/src/mlmodule/ArffManager.java" />
         <option value="$PROJECT_DIR$/src/mlmodule/IncrementalClassifier.java" />
+        <option value="$PROJECT_DIR$/src/mlmodule/KnnClassifier.java" />
+        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/DrinksInformation.java" />
+        <option value="$PROJECT_DIR$/src/bluetoothmodule/BluetoothActivity.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/mlmodule/My1NN.java" />
+        <option value="$PROJECT_DIR$/src/database/DrinkRecordDataSource.java" />
+        <option value="$PROJECT_DIR$/src/bluetoothmodule/ArduinoBluetooth.java" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_current_drink.xml" />
+        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1440" />
-    <option name="height" value="831" />
+    <option name="width" value="1280" />
+    <option name="height" value="828" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -527,11 +508,11 @@
       <recent name="bluetoothmodule" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/drawable" />
       <recent name="$PROJECT_DIR$/libs" />
       <recent name="$PROJECT_DIR$/res/layout" />
       <recent name="$PROJECT_DIR$/res/values" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/res" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/mlmodule" />
@@ -755,34 +736,34 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="831" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1280" height="828" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253857" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25373134" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892396" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253857" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3772791" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917705" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41044775" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3802817" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286638" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24892396" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253857" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24798061" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3221393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297414" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32808024" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -831,42 +812,15 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/BTConfigFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="12" selection-start="1877" selection-end="1877" vertical-scroll-proportion="0.0" vertical-offset="1344" max-vertical-offset="2616">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="32" selection-start="1358" selection-end="1358" vertical-scroll-proportion="0.0" vertical-offset="384" max-vertical-offset="1056">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="696">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="42" selection-start="1451" selection-end="1451" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1512">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="204" column="98" selection-start="8245" selection-end="8245" vertical-scroll-proportion="0.0" vertical-offset="4896" max-vertical-offset="11112">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#16411#18883#0" expanded="true" />
+            <element signature="e#18876#18877#0" expanded="true" />
+            <element signature="e#18937#22636#0" expanded="true" />
+            <element signature="e#22629#22630#0" expanded="true" />
+            <element signature="e#23268#23339#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -906,7 +860,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="194" column="47" selection-start="7952" selection-end="7952" vertical-scroll-proportion="0.0" vertical-offset="4656" max-vertical-offset="9672">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#16411#18883#0" expanded="true" />
+            <element signature="e#18876#18877#0" expanded="true" />
+            <element signature="e#18937#22636#0" expanded="true" />
+            <element signature="e#22629#22630#0" expanded="true" />
+            <element signature="e#23268#23339#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -986,16 +944,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_week_list.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="37" selection-start="282" selection-end="282" vertical-scroll-proportion="-7.111111" vertical-offset="0" max-vertical-offset="480">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="774">
@@ -1048,20 +996,6 @@
         <state line="19" column="28" selection-start="859" selection-end="859" vertical-scroll-proportion="0.18947369" vertical-offset="360" max-vertical-offset="984" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="696">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="42" selection-start="1451" selection-end="1451" vertical-scroll-proportion="0.0" vertical-offset="522" max-vertical-offset="1512">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fragment_wait_for_data.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="60" selection-start="989" selection-end="989" vertical-scroll-proportion="0.36548913" vertical-offset="283" max-vertical-offset="1032">
@@ -1077,16 +1011,6 @@
         <state line="0" column="64" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="432">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_bluetooth.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="747">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/bluetooth.xml">
@@ -1106,16 +1030,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fragment_current_drink.xml">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="288">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/BTConfigFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="77" column="52" selection-start="2606" selection-end="2606" vertical-scroll-proportion="-0.5955335" vertical-offset="1848" max-vertical-offset="2352">
@@ -1130,81 +1044,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/DrinkRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="19" selection-start="428" selection-end="428" vertical-scroll-proportion="1.0384616" vertical-offset="0" max-vertical-offset="1032">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/DrinkRecordDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="6" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.047146402" vertical-offset="1133" max-vertical-offset="1584">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="0" selection-start="2720" selection-end="2720" vertical-scroll-proportion="3.2158809" vertical-offset="0" max-vertical-offset="1608">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/DBHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="10" selection-start="459" selection-end="459" vertical-scroll-proportion="0.0" vertical-offset="183" max-vertical-offset="1656">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mlmodule/arffGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="181" selection-end="181" vertical-scroll-proportion="0.0" vertical-offset="63" max-vertical-offset="480">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DrinksInformation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="98" selection-start="474" selection-end="474" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="456">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothConst.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_training.xml">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="38" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="912">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1128">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/ArduinoBluetooth.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="11" selection-start="260" selection-end="260" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mlmodule/DataConst.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="45" selection-start="422" selection-end="422" vertical-scroll-proportion="0.53846157" vertical-offset="40" max-vertical-offset="456">
@@ -1212,28 +1051,202 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/WeekListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="22" selection-start="5654" selection-end="5654" vertical-scroll-proportion="0.0" vertical-offset="2416" max-vertical-offset="7440">
+        <state line="37" column="79" selection-start="1055" selection-end="1119" vertical-scroll-proportion="0.0" vertical-offset="429" max-vertical-offset="1344">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_bluetooth.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="145" selection-start="4632" selection-end="4632" vertical-scroll-proportion="0.0" vertical-offset="2326" max-vertical-offset="12120">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="747">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_week_list.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="37" selection-start="282" selection-end="282" vertical-scroll-proportion="0.4111349" vertical-offset="0" max-vertical-offset="480">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_day_drink.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="15" selection-start="393" selection-end="393" vertical-scroll-proportion="0.51391864" vertical-offset="0" max-vertical-offset="467">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/DrinkRecord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="486" selection-end="486" vertical-scroll-proportion="-0.09467456" vertical-offset="600" max-vertical-offset="1128">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#453#454#0" expanded="false" />
+            <element signature="e#483#484#0" expanded="false" />
+            <element signature="e#515#516#0" expanded="false" />
+            <element signature="e#544#545#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/DBHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="70" selection-start="1269" selection-end="1269" vertical-scroll-proportion="0.0" vertical-offset="1090" max-vertical-offset="1584">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DayDrinkFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="35" selection-start="2119" selection-end="2119" vertical-scroll-proportion="0.0" vertical-offset="1138" max-vertical-offset="1632">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_day_drink_row.xml">
+      <provider editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1488">
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mlmodule/ArffManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="21" selection-start="1098" selection-end="1098" vertical-scroll-proportion="0.0" vertical-offset="706" max-vertical-offset="1560">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mlmodule/KnnClassifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="40" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0" vertical-offset="2766" max-vertical-offset="5328">
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2107#2118#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/DrinksInformation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="60" selection-start="368" selection-end="368" vertical-scroll-proportion="0.48582995" vertical-offset="0" max-vertical-offset="648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="39" selection-start="4146" selection-end="4146" vertical-scroll-proportion="-4.3805666" vertical-offset="3844" max-vertical-offset="9648">
+          <folding>
+            <element signature="e#10345#10572#0" expanded="false" />
+            <element signature="e#10561#10562#0" expanded="false" />
+            <element signature="e#11235#11571#0" expanded="false" />
+            <element signature="e#11564#11565#0" expanded="false" />
+            <element signature="e#16256#16274#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mlmodule/IncrementalClassifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="41" selection-start="6364" selection-end="6364" vertical-scroll-proportion="0.5555556" vertical-offset="3222" max-vertical-offset="3960">
+        <state line="107" column="41" selection-start="4199" selection-end="4199" vertical-scroll-proportion="0.8623482" vertical-offset="2142" max-vertical-offset="5208">
           <folding>
-            <element signature="e#2118#2129#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mlmodule/My1NN.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="8" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0" vertical-offset="658" max-vertical-offset="1704">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/DrinkRecordDataSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="0" selection-start="3561" selection-end="3561" vertical-scroll-proportion="4.3636365" vertical-offset="0" max-vertical-offset="2712">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2615#2628#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="45" selection-start="1269" selection-end="1269" vertical-scroll-proportion="1.0434783" vertical-offset="240" max-vertical-offset="1152">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_training.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.10300429" vertical-offset="0" max-vertical-offset="2256">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/ArduinoBluetooth.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="6" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="552">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_current_drink.xml">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="288">
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="6" selection-start="1542" selection-end="1542" vertical-scroll-proportion="0.0" vertical-offset="395" max-vertical-offset="3000">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="4" selection-start="3972" selection-end="3972" vertical-scroll-proportion="-0.59314775" vertical-offset="1573" max-vertical-offset="12792">
+          <folding>
+            <element signature="e#16411#18883#0" expanded="true" />
+            <element signature="e#18876#18877#0" expanded="true" />
+            <element signature="e#18937#22636#0" expanded="true" />
+            <element signature="e#22629#22630#0" expanded="true" />
+            <element signature="e#23268#23339#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bluetoothmodule/BluetoothConst.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="41" selection-start="184" selection-end="198" vertical-scroll-proportion="0.46601942" vertical-offset="0" max-vertical-offset="412">
+          <folding />
         </state>
       </provider>
     </entry>

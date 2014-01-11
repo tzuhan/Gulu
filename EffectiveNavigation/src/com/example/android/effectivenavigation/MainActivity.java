@@ -26,6 +26,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,13 +49,15 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Random;
 import java.util.UUID;
 
 import bluetoothmodule.ArduinoBluetooth;
 import bluetoothmodule.BluetoothConst;
-import mlmodule.DataConst;
-import mlmodule.IncrementalClassifier;
+import database.DrinkRecordDataSource;
+import mlmodule.My1NN;
+
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private static BluetoothAdapter mBluetoothAdapter = null; // 用來搜尋、管理藍芽裝置
@@ -61,9 +65,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // 一定要是這組
     private BufferedReader mBufferedReader;
     private final String mBluetoothThreadName = "readBluetoothDataThread";
-    private HandlerThread mBluetoothThread;
-    private Handler mBluetoothHandler;
-    private IncrementalClassifier mClassifier;
+    private HandlerThread mIOThread;
+    public Handler mIOThreadHandler;
+    //private IncrementalClassifier mClassifier;
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
     private String bluetoothMessage = null;
@@ -73,35 +77,42 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private float totalDeltaWeight;
     private float previousWeight;
     private float currentWeight;
-    private boolean toVisualizeCurrentDrink;
+    private boolean changeCurrentFragment;
     private enum FragmentClass {
         DefaultFragment,
         CurrentDrink,
-        BTConfig,
-        DayDrink,
-        WeekList,
     }
     private FragmentClass fragmentClass;
     private IntentFilter EventHandle;
 
-    public static final String activityTag = "MainActivity";
+    private My1NN simpleClassifier;
 
+    private Random random;
+    private boolean isBluetoothEnabled;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * three primary sections of the app. We use a {@link android.support.v4.app.FragmentPagerAdapter}
      * derivative, which will keep every loaded fragment in memory. If this becomes too memory
      * intensive, it may be best to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    AppSectionsPagerAdapter mAppSectionsPagerAdapter;
+    private AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
      * time.
      */
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
 
+    private DrinkRecordDataSource mSource;
+
+    private Handler mUIhandler = null;
+
+    //private final int maxMemory = 1024;
+    //public LruCache<Integer, Bitmap> mImageCache;
+    public static final String activityTag = "MainActivity";
     public static final String startDiscoveringIntentFilterTag = MainActivity.class.getName() + ".startDiscovering";
     public static final String notifyAdapterIntentFilterTag = MainActivity.class.getName() + ".notifyAdapter";
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -112,11 +123,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         currentWeight = 0;
         previousWeight = 0;
         totalDeltaWeight = 0;
-        toVisualizeCurrentDrink = false;
+        changeCurrentFragment = false;
         fragmentClass = FragmentClass.DefaultFragment;
-        mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
-        mClassifier.loadModel();
-
+        //mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
+        //mClassifier.loadModel();
+        simpleClassifier = new My1NN();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             // 如果裝置不支援藍芽
@@ -124,12 +135,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return;
         }
 
+        if(mBluetoothAdapter.isEnabled()) {
+            isBluetoothEnabled = true;
+        }
+        else {
+            isBluetoothEnabled = false;
+        }
+        random = new Random();
+
         //initialize thread and start it
-        mBluetoothThread = new HandlerThread(mBluetoothThreadName);
-        mBluetoothThread.start();
+        mIOThread = new HandlerThread(mBluetoothThreadName);
+        mIOThread.start();
 
         //assign it to a handler
-        mBluetoothHandler = new Handler(mBluetoothThread.getLooper());
+        mIOThreadHandler = new Handler(mIOThread.getLooper());
 
         mArduinoBluetooth = new ArduinoBluetooth();
 
@@ -180,10 +199,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //EventHandle.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         //onResume will be run after on create so we register eventHandler there
 
-    }
+        //Database initialization
+        mSource = new DrinkRecordDataSource(this);
+        try {
+            mSource.open();
+        }
+        catch(Exception e) {
+            Log.d(activityTag,Log.getStackTraceString(e));
+        }
+        //mSource.doSomeInsertionTest();
 
-    private Handler getUIHandler() {
-        return new Handler();
+        /*
+        final int cacheSize = maxMemory/8;
+
+        mImageCache = new LruCache<Integer, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(Integer key, Bitmap value) {
+                return value.getByteCount()/1024;
+            }
+        };
+        */
     }
 
     @Override
@@ -204,6 +239,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
      */
+
+
+
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
         private MainActivity mainActivity;
@@ -213,9 +251,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             super(fm);
             mainActivity = pActivity;
             mFragmentManager = fm;
-
         }
 
+        //be called when current_position = this_position +- 1
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             Log.d(MainActivity.activityTag,"initial position:"+position);
@@ -226,12 +264,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return fragment;
         }
 
+
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             super.destroyItem(container, position, object);
             if(position == 0) {
-                if(mainActivity.toVisualizeCurrentDrink) {
-                    mainActivity.toVisualizeCurrentDrink = false;
+                if(mainActivity.changeCurrentFragment) {
+                    mainActivity.changeCurrentFragment = false;
                     removeFragment((Fragment) object);
                 }
             }
@@ -252,11 +291,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 0:
                     if(mainActivity.fragmentClass == FragmentClass.CurrentDrink) {
                         Log.d(MainActivity.activityTag,"CurrentDrink Fragment");
-                        return CurrentDrinkFragment.newInstance(mainActivity.predictedLabel,mainActivity.currentWeight,mainActivity.totalDeltaWeight);
+                        return CurrentDrinkFragment.newInstance(mainActivity,mainActivity.predictedLabel,mainActivity.currentWeight,mainActivity.totalDeltaWeight);
                     }
                     else {
                         if(mBluetoothAdapter != null) {
-                            if(mBluetoothAdapter.isEnabled()){
+                            if(mainActivity.isBluetoothEnabled){
                                 mainActivity.bluetoothMessage = BTConfigFragment.btWaitForConnect;
                                 Log.d(activityTag,"BT is enabled");
                             }
@@ -271,13 +310,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         return BTConfigFragment.newInstance(mainActivity.bluetoothMessage);
                     }
 
-                /*
+
                 case 1:
-                    //the drinking data today
-                    break;
-                */
+                    return DayDrinkFragment.newInstance(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+
                 case 2:
                     return new WeekListFragment();
+
                 default:
                     // The other sections of the app are dummy placeholders.
                     Fragment fragment = new DummySectionFragment();
@@ -289,14 +328,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
         }
 
+        //triggered by this.notifyDataSetChanged()
         @Override
         public int getItemPosition(Object object) {
-
             if(mainActivity.bluetoothStateChange && object instanceof BTConfigFragment) {
                 mainActivity.bluetoothStateChange = false;
                 return POSITION_NONE;
             }
-            else if(mainActivity.toVisualizeCurrentDrink && object instanceof BTConfigFragment){
+            else if(mainActivity.changeCurrentFragment && (object instanceof BTConfigFragment || object instanceof CurrentDrinkFragment)) {
                 return POSITION_NONE;
             }
 
@@ -323,13 +362,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    public Handler getUIHandler() {
+        if(mUIhandler == null) {
+            mUIhandler = new Handler();
+        }
+        return mUIhandler;
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
 
         unregisterReceiver(EventHandler);
-        if(mBluetoothHandler != null) {
-            mBluetoothHandler.removeCallbacks(connectWithBluetoothAndRead);
+        if(mIOThreadHandler != null) {
+            mIOThreadHandler.removeCallbacks(connectWithBluetoothAndRead);
         }
     }
 
@@ -343,8 +389,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mBluetoothThread != null) {
-            mBluetoothThread.quit();
+        if(mIOThread != null) {
+            mIOThread.quit();
         }
     }
 
@@ -365,8 +411,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if(id == R.id.open_bluetooth) {
             if (mBluetoothAdapter != null && !mBluetoothAdapter.isEnabled()) {
                 mBluetoothAdapter.enable();
-                bluetoothStateChange = true;
-                bluetoothMessage = BTConfigFragment.btWaitForConnect;
+                isBluetoothEnabled = true;
+                changeCurrentFragment = true;
+                fragmentClass = FragmentClass.DefaultFragment;
                 mAppSectionsPagerAdapter.notifyDataSetChanged();
             }
 
@@ -374,8 +421,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         else if(id == R.id.close_bluetooth) {
             if (mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()) {
                 mBluetoothAdapter.disable();
-                bluetoothStateChange = true;
-                bluetoothMessage = BTConfigFragment.btNotEnabled;
+                isBluetoothEnabled = false;
+                changeCurrentFragment = true;
+                fragmentClass = FragmentClass.DefaultFragment;
                 mAppSectionsPagerAdapter.notifyDataSetChanged();
             }
         }
@@ -399,19 +447,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 // 判斷那個裝置是不是你要連結的裝置，根據藍芽裝置address判斷
                 if (device.getAddress().equals(ArduinoBluetooth.address)){
                     Log.d(activityTag,"find wanted devices");
+                    //due to wanted device found
                     mBluetoothAdapter.cancelDiscovery();
                     mArduinoBluetooth.device = device;
                     //due to a IO operation, we need to do it asynchronously.That is,in another thread.
-                    mBluetoothHandler.post(connectWithBluetoothAndRead);
-
+                    mIOThreadHandler.post(connectWithBluetoothAndRead);
                 }
             }
             else if(actionStr.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                 Log.d(activityTag,"Disconnected with bluetooth device");
-                mBluetoothHandler.removeCallbacks(connectWithBluetoothAndRead);
-                bluetoothStateChange = true;
-                bluetoothMessage = BTConfigFragment.btWaitForConnect;
-                mAppSectionsPagerAdapter.notifyDataSetChanged();
+                /*
+                try{
+                    mIOThreadHandler.removeCallbacks(connectWithBluetoothAndRead);
+                    fragmentClass = FragmentClass.DefaultFragment;
+                    bluetoothStateChange = true;
+                    bluetoothMessage = BTConfigFragment.btWaitForConnect;
+                    changeCurrentFragment = true;
+                    mAppSectionsPagerAdapter.notifyDataSetChanged();
+                }
+                catch(Exception e) {
+                    Log.d(activityTag,Log.getStackTraceString(e));
+                }
+                */
             }
             else if(actionStr.equals(startDiscoveringIntentFilterTag)) {
                 bluetoothStateChange = true;
@@ -423,7 +480,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             else if(actionStr.equals(notifyAdapterIntentFilterTag)) {
                 mAppSectionsPagerAdapter.notifyDataSetChanged();
             }
-
+            else {
+                Log.d(activityTag,"unknown action in EventHandler");
+            }
         }
     };
 
@@ -431,9 +490,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public void run() {
             try {
-                //avoid when exception happen we can't re-connect
-                //bluetoothStateChange = true;
-                //bluetoothMessage = BTConfigFragment.btWaitForConnect;
 
                 // 連結到該裝置
                 mBluetoothSocket = mArduinoBluetooth.device.createRfcommSocketToServiceRecord(MY_UUID);
@@ -445,6 +501,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 mBufferedReader = new BufferedReader(new InputStreamReader(mBluetoothSocket.getInputStream()));
 
                 String lineBuffer = null;
+                String[] featureData = new String[DrinksInformation.NUM_FEATURE_VALUES];
 
                 while((lineBuffer = mBufferedReader.readLine())!=null) {
                     Log.d(MainActivity.activityTag,"data read:" + lineBuffer);
@@ -455,14 +512,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         //calculate the difference of weight
                         //retrieve from database
                         previousLabel = predictedLabel;
-                        predictedLabel = mClassifier.predictInstance(Arrays.copyOfRange(data,0,DrinksInformation.NUM_FEATURE_VALUES));
+                        for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
+                            featureData[dim] = data[dim];
+                        }
+                        //predictedLabel = mClassifier.predictInstance(featureData);
+                        predictedLabel = simpleClassifier.getNearestNeighborIndex(featureData);
                         //predictedLabel = 0; //simulate the predicted result
-                        currentWeight = Float.valueOf(data[data.length - 1]);
+                        currentWeight = Float.valueOf(data[numDataValues - 1]);
                         if(previousLabel != predictedLabel) {
+                            if(previousLabel >= 0){
+                                mSource.createDrinkRecord(DrinksInformation.drinks_list[previousLabel], Calendar.getInstance(), totalDeltaWeight);
+                            }
                             totalDeltaWeight = 0;
                         }
                         else {
                             float deltaWeight = previousWeight - currentWeight;
+                            //float deltaWeight = random.nextInt(200) - 50;
                             if(deltaWeight >= 0) {
                                 totalDeltaWeight += deltaWeight;
                             }
@@ -471,16 +536,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             }
                         }
 
-                        toVisualizeCurrentDrink = true;
+                        changeCurrentFragment = true;
                         fragmentClass = FragmentClass.CurrentDrink;
                         Intent intent = new Intent(notifyAdapterIntentFilterTag);
                         getApplicationContext().sendBroadcast(intent);
-
-
-                    /*
-                    //Log.d(BluetoothConst.appTag,"device output:" + line);
-                    //Toast.makeText(BluetoothActivity.this,line,Toast.LENGTH_SHORT).show();
-                    */
+                        break;
                     }
                     else {
                         Log.d(activityTag,"data read failed");
@@ -490,6 +550,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             } catch (Exception e) {
                 //Toast.makeText(BluetoothActivity.this,e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+
                 try {
                     mBufferedReader.close();
                 }

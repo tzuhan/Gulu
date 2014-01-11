@@ -32,9 +32,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private final static String createTableSQL = "CREATE TABLE IF NOT EXISTS " + _TABLE_NAME +
                                               "(" +
                                               _Identifer + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                              _Drink + " INTEGER " +
-                                              _WeekDay + " INTEGER " +
-                                              _EndTime + " DATETIME NOT NULL " +
+                                              _Drink + " TEXT NOT NULL, " +
+                                              _WeekDay + " INTEGER, " +
+                                              _EndTime + " DATETIME NOT NULL, " +
                                               _Volume + " FLOAT " +
                                               ");";
 

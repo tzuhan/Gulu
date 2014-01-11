@@ -8,10 +8,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/drinks_spinner"
-        android:layout_above="@+id/send_training_data_button"
+        android:layout_below="@+id/InformationAboutDataText"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="80dp"
-        android:layout_centerInParent="true" />
+        android:layout_marginTop="48dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -19,7 +18,7 @@
         android:text="send features and label"
         android:id="@+id/send_training_data_button"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,17 +34,56 @@
         android:layout_height="wrap_content"
         android:text="save model"
         android:id="@+id/save_model_button"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/send_training_data_button"
-        android:layout_alignLeft="@+id/InformationAboutDataText" />
+        android:layout_alignTop="@+id/load_model_button"
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="load model"
         android:id="@+id/load_model_button"
-        android:layout_marginTop="46dp"
-        android:layout_below="@+id/save_model_button"
-        android:layout_alignRight="@+id/InformationAboutDataText" />
+        android:layout_marginTop="65dp"
+        android:layout_below="@+id/send_training_data_button"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="clear model"
+        android:id="@+id/clear_model_button"
+        android:layout_below="@+id/InformationAboutDataText"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="discard data"
+        android:id="@+id/discard_data_button"
+        android:layout_below="@+id/drinks_spinner"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="clear data"
+        android:id="@+id/clear_data_button"
+        android:layout_below="@+id/drinks_spinner"
+        android:layout_alignLeft="@+id/load_model_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="predict"
+        android:id="@+id/predict_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Data"
+        android:id="@+id/load_data_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/load_model_button" />
 
 </RelativeLayout>

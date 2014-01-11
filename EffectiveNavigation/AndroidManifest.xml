@@ -30,7 +30,7 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
 
-        <activity android:name="bluetoothmodule.BluetoothActivity" android:label="@string/app_name">
+        <activity android:name=".MainActivity" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,4 +38,5 @@
         </activity>
 
     </application>
+
 </manifest>

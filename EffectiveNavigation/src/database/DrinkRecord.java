@@ -8,7 +8,7 @@ import java.util.Date;
 public class DrinkRecord {
 
     private long mId;
-    private int mDrink; //the n-th kind of drink
+    private String mDrink;
     private int mWeekDay;
     private String mEndTime;
     private float mVolume;
@@ -22,11 +22,11 @@ public class DrinkRecord {
         return mId;
     }
 
-    public void setDrink(int drink) {
+    public void setDrink(String drink) {
         mDrink = drink;
     }
 
-    public int getDrink() {
+    public String getDrink() {
         return mDrink;
     }
 
