@@ -5,7 +5,7 @@
 #include "HX711.h"
 //#include "ColorPAL.h"
 
-const int bluetoothBaudRate = 57600;
+const long bluetoothBaudRate = 57600;
 
 const byte HX711_DT = A1;
 const byte HX711_SCK = A0;
@@ -30,8 +30,8 @@ SoftwareSerial serin(sio, unused);
 SoftwareSerial serout(unused, sio);
 
 void setup() {
-  Serial.begin(bluetoothBaudRate);
-  //Serial.begin(9600);
+  //Serial.begin(bluetoothBaudRate);
+  Serial.begin(9600);
   reset();				  // Send reset to ColorPal
   serout.begin(sioBaud);
   pinMode(sio, OUTPUT);
@@ -41,8 +41,8 @@ void setup() {
   serin.begin(sioBaud);	        // Set up serial port for receiving
   pinMode(sio, INPUT);
   
-  scale.set_scale(scale.get_units(10)/50);  // this value is obtained by calibrating the scale with known weights; see the README for details
-  scale.tare();
+  //scale.set_scale(scale.get_units(10)/50);  // this value is obtained by calibrating the scale with known weights; see the README for details
+  //scale.tare();
   
   //scale.set_scale(2280.f);                      // this value is obtained by calibrating the scale with known weights; see the README for details
   //scale.tare();	
@@ -57,13 +57,14 @@ void loop() {
   }
   sampleTurn = sampleNum;
   
+  /*
   Serial.print("avg_weight:");
   Serial.println(scale.get_units(10));
   Serial.println("");
   scale.power_down();			        // put the ADC in sleep mode
   delay(2000);
   scale.power_up();
-  
+  */
 }
 
 // Reset ColorPAL; see ColorPAL documentation for sequence
