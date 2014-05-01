@@ -29,27 +29,27 @@ public class My1NN {
 
     private int numOfDrinks = DrinksInformation.drinks_list.length;
 
-    public int getNearestNeighborIndex(String[] featureData) {
-        Map<Integer,Integer> indexDistanceMap = new HashMap<Integer,Integer>(numOfDrinks);
+    public int predictInstance(String[] featureData) {
+        Map<Integer,Float> indexDistanceMap = new HashMap<Integer,Float>(numOfDrinks);
         for(int index = 0;index < numOfDrinks;index++) {
-            int distance = 0;
+            float distance = 0;
             for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
-                int difference = Integer.valueOf(featureData[dim]) - dataMatrix[index][dim];
+                float difference = Float.valueOf(featureData[dim]) - dataMatrix[index][dim];
                 distance += difference*difference;
             }
             indexDistanceMap.put(index,distance);
         }
 
         ValueComparator bvc = new ValueComparator(indexDistanceMap);
-        TreeMap<Integer,Integer> sorted_map = new TreeMap<Integer, Integer>(bvc);
+        TreeMap<Integer,Float> sorted_map = new TreeMap<Integer,Float>(bvc);
         sorted_map.putAll(indexDistanceMap);
         return sorted_map.firstKey();
     }
 
     private class ValueComparator implements Comparator<Integer> {
 
-        Map<Integer,Integer> base;
-        public ValueComparator(Map<Integer,Integer> base) {
+        Map<Integer,Float> base;
+        public ValueComparator(Map<Integer,Float> base) {
             this.base = base;
         }
 

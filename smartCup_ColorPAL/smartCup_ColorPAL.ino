@@ -1,31 +1,23 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 
-#include "HX711.h"
-
 const long bluetoothBaudRate = 57600;
-
-const byte HX711_DT = A1;
-const byte HX711_SCK = A0;
 
 const int triggerPin = 11;
 
 const int sio = 10;
-const int unused = 255; 		// Non-existant pin # for SoftwareSerial
+const int unused = 255; // Non-existant pin # for SoftwareSerial
 const int sioBaud = 4800;
 const int waitDelay = 100;
 const int colorSampleNum = 15;
-const int weightSampleNum = 30;
 int sampleTurn = colorSampleNum;
-
-HX711 scale(HX711_DT,HX711_SCK);
 
 SoftwareSerial serin(sio, unused);
 SoftwareSerial serout(unused, sio);
 
 void setup() {
-  //Serial.begin(bluetoothBaudRate);
-  Serial.begin(9600);
+  Serial.begin(bluetoothBaudRate);
+  //Serial.begin(9600);
   
   // open reading == HIGH
   // closed reading == LOW
@@ -39,13 +31,6 @@ void setup() {
 
   serin.begin(sioBaud);	        // Set up serial port for receiving
   pinMode(sio, INPUT); 
-    
-  //scale.set_scale(scale.get_units(10)/50);  // this value is obtained by calibrating the scale with known weights; see the README for details
-  //scale.tare();
-  
-  scale.set_scale(2280.f);                      // this value is obtained by calibrating the scale with known weights; see the README for details
-  scale.tare();	
-  //scale.set_scale(scale.get_units(10)/0.05);
   
 }
 
@@ -55,34 +40,9 @@ const int WeightNoise = 5;
 
 void loop() {
   if(digitalRead(triggerPin) == LOW) { //closed circuit
-  
-    scale.power_up();
     
-    currentWeight = scale.get_units(weightSampleNum);
-    if(previousWeight == 0) {
-      //ColorData
-      readDataAndSample();
-    }
-    else {
-      while(  abs(previousWeight - currentWeight) < WeightNoise //not noise
-              || previousWeight < currentWeight 
-              || (abs(currentWeight) > WeightNoise && currentWeight < 0) ) {      
-           currentWeight = scale.get_units(weightSampleNum); //resample
-      }
-    }
+    readDataAndSample();
     
-    if(abs(currentWeight) < WeightNoise) { //empty
-      previousWeight = 0; //initialize
-      Serial.println("empty");
-    }
-    else {
-      previousWeight = currentWeight;
-      Serial.print("weight:");
-      Serial.println(currentWeight);
-    }
-    
-    scale.power_down();// put the ADC in sleep mode
-  
   }
 }
 
@@ -96,12 +56,13 @@ void readDataAndSample() {
     readData();
   }
   
-  Serial.print("RGB:");
   Serial.print(getAverage(red));
   Serial.print(" ");
   Serial.print(getAverage(green));
   Serial.print(" ");
-  Serial.println(getAverage(blue));
+  Serial.print(getAverage(blue));
+  Serial.print(" ");
+  Serial.println("0");
   
 }
 
