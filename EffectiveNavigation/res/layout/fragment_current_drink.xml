@@ -9,11 +9,12 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/drinkImageView" />
+        android:id="@+id/drinkImageView"
+        android:src="@drawable/d7" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="@android:color/darker_gray"
         android:alpha="0.5"
         android:layout_alignParentTop="true"
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Cola\nWeight:"
+            android:text="Cola"
             android:id="@+id/drinkTextView"
             android:layout_gravity="center" />
     </FrameLayout>

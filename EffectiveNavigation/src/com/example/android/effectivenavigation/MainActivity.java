@@ -46,16 +46,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.UUID;
 
 import bluetoothmodule.ArduinoBluetooth;
 import bluetoothmodule.BluetoothConst;
+import database.DBHelper;
+import database.DrinkRecord;
 import database.DrinkRecordDataSource;
+import database.ParseDatabase;
 import mlmodule.My1NN;
 
 
@@ -208,6 +215,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Log.d(activityTag,Log.getStackTraceString(e));
         }
         //mSource.doSomeInsertionTest();
+
+        //Parse.initialize(this, ParseDatabase.applicationId, ParseDatabase.clientKey);
 
         /*
         final int cacheSize = maxMemory/8;
@@ -415,8 +424,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 changeCurrentFragment = true;
                 fragmentClass = FragmentClass.DefaultFragment;
                 mAppSectionsPagerAdapter.notifyDataSetChanged();
+                /*
+                SimpleDateFormat dateFormatter = new SimpleDateFormat(DrinkRecord.timeFormat);
+                ParseObject dataObject = new ParseObject("DrinkObject");
+                dataObject.put(DBHelper._Drink,DrinksInformation.drinks_list[random.nextInt(8)]);
+                dataObject.put(DBHelper._WeekDay,Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+                dataObject.put(DBHelper._EndTime,dateFormatter.format(Calendar.getInstance().getTime()));
+                dataObject.put(DBHelper._Volume,random.nextInt(200)+1);
+                dataObject.saveInBackground();
+                */
             }
-
         }
         else if(id == R.id.close_bluetooth) {
             if (mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()) {
@@ -527,7 +544,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         }
                         else {
                             float deltaWeight = previousWeight - currentWeight;
-                            //float deltaWeight = random.nextInt(200) - 50;
+                            //float deltaWeight = random.nextInt(200) + 1;
                             if(deltaWeight >= 0) {
                                 totalDeltaWeight += deltaWeight;
                             }
