@@ -1,0 +1,1 @@
+for f in 1_*.png; do  name="$(echo "$f" | cut -c3-)"; mv "$f" "$name"; done
