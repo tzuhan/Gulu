@@ -12,19 +12,18 @@ import java.util.TreeMap;
  */
 public class My1NN {
 
-    private static final int[][] dataMatrix = {
-        {27,161,18,87,19,125}, //Black Tea
-        {32,178,35,158,32,176}, //Green Tea
-        {2,26,0,4,0,12}, //Milk Tea
-        {11,78,2,14,6,56}, //Orange Juice
+    private static final float[][] dataMatrix = {
+        //{27,161,18,87,19,125}, //Black Tea
+        //{32,178,35,158,32,176}, //Green Tea
+        //{2,26,0,4,0,12}, //Milk Tea
+        //{11,78,2,14,6,56}, //Orange Juice
         //{25,150,17,85,19,123}, //Orange Juice
-        {23,144,15,77,14,103}, //Vegetable juice
+        //{23,144,15,77,14,103}, //Vegetable juice
+        //{30,173,18,90,21,131}, //Orange Soda
 
-        {30,173,18,90,21,131}, //Orange Soda
-        {20,134,4,14,8,65}, //Coffee
+        {40f,26f,57f}, //Coffee
+        {31f,19f,41f}, //Cola
 
-        {17,115,7,39,9,75}, //Cola
-        {4,54,1,6,0,0} //Grape Juice
     };
 
     private int numOfDrinks = DrinksInformation.drinks_list.length;

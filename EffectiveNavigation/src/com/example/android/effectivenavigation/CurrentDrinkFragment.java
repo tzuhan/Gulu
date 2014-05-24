@@ -22,15 +22,15 @@ public class CurrentDrinkFragment extends Fragment {
 
     private static final String fragmentTag = CurrentDrinkFragment.class.getName();
     //private static final float emptyBottleThreshold = 10;
-    private static final int[] ImagesId = { R.drawable.d0,
-                                            R.drawable.d1,
-                                            R.drawable.d2,
-                                            R.drawable.d3,
-                                            R.drawable.d4,
-                                            R.drawable.d5,
+    private static final int[] ImagesId = { //R.drawable.d0,
+                                            //R.drawable.d1,
+                                            //R.drawable.d2,
+                                            //R.drawable.d3,
+                                            //R.drawable.d4,
+                                            //R.drawable.d5,
                                             R.drawable.d6,
-                                            R.drawable.d7,
-                                            R.drawable.d8};
+                                            R.drawable.d7};
+                                            //R.drawable.d8};
     private static final int numOfImages = ImagesId.length;
     private int mPredictedLabel;
     /*

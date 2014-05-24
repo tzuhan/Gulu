@@ -5,15 +5,15 @@ package com.example.android.effectivenavigation;
  */
 public class DrinksInformation {
 
-    public static final String[] drinks_list = {"Black-Tea",
-                                                "Green-Tea",
-                                                "Milk-Tea",
-                                                "Orange-Juice",
-                                                "Vegetable-Juice",
-                                                "Orange-Soda",
+    public static final String[] drinks_list = {//"Black-Tea",
+                                                //"Green-Tea",
+                                                //"Milk-Tea",
+                                                //"Orange-Juice",
+                                                //"Vegetable-Juice",
+                                                //"Orange-Soda",
                                                 "Coffee",
-                                                "Cola",
-                                                "Grape-Juice"};
+                                                "Cola"};
+                                                //"Grape-Juice"};
     public static final int numOfDrinks = drinks_list.length;
     public static final int NUM_DATA_VALUES = 4;
     public static final int NUM_FEATURE_VALUES = NUM_DATA_VALUES - 1; //exclude force sensor value

@@ -5,6 +5,7 @@ const long bluetoothBaudRate = 57600;
 
 const int triggerPin = 11;
 
+//color sensor related
 const int sio = 10;
 const int unused = 255; // Non-existant pin # for SoftwareSerial
 const int sioBaud = 4800;
@@ -15,6 +16,12 @@ int sampleTurn = colorSampleNum;
 SoftwareSerial serin(sio, unused);
 SoftwareSerial serout(unused, sio);
 
+//ultrasonic sensor related
+const int us_trigPin = 9;
+const int us_echoPin = 8;
+unsigned long Time_Echo_us = 0;
+unsigned long Len_mm  = 0;
+
 void setup() {
   Serial.begin(bluetoothBaudRate);
   //Serial.begin(9600);
@@ -23,6 +30,7 @@ void setup() {
   // closed reading == LOW
   pinMode(triggerPin, INPUT_PULLUP);
   
+  //color sensor related settings
   reset();				  // Send reset to ColorPal
   serout.begin(sioBaud);
   pinMode(sio, OUTPUT);
@@ -32,17 +40,14 @@ void setup() {
   serin.begin(sioBaud);	        // Set up serial port for receiving
   pinMode(sio, INPUT); 
   
+  //ultrasonic PWM mode
+  pinMode(us_echoPin, INPUT);                    //Set EchoPin as input, to receive measure result from US-100
+  pinMode(us_trigPin, OUTPUT);                   //Set TrigPin as output, used to send high pusle to trig measurement (>10us)
 }
-
-int previousWeight = 0;
-int currentWeight = 0;
-const int WeightNoise = 5;
 
 void loop() {
   if(digitalRead(triggerPin) == LOW) { //closed circuit
-    
-    readDataAndSample();
-    
+    readColorDataAndSample();
   }
 }
 
@@ -50,10 +55,25 @@ int red[colorSampleNum] = {0};
 int green[colorSampleNum] = {0};
 int blue[colorSampleNum] = {0};
 
-void readDataAndSample() {
+void readColorDataAndSample() {
+  //color data
   sampleTurn = colorSampleNum;
   while(sampleTurn){
     readData();
+  }
+  
+  //ultrasonic data
+  while(true) {  
+    digitalWrite(us_trigPin, HIGH);              //begin to send a high pulse, then US-100 begin to measure the distance
+    delayMicroseconds(50);                    //set this high pulse width as 50us (>10us)
+    digitalWrite(us_trigPin, LOW);               //end this high pulse
+    Time_Echo_us = pulseIn(us_echoPin, HIGH);               //calculate the pulse width at EchoPin, 
+    if((Time_Echo_us < 60000) && (Time_Echo_us > 1))     //a valid pulse width should be between (1, 60000).
+    {
+      //distance units: mm
+      Len_mm = (Time_Echo_us*34/100)/2;      //calculate the distance by pulse width, Len_mm = (Time_Echo_us * 0.34mm/us) / 2 (mm)  
+      break;
+    }
   }
   
   Serial.print(getAverage(red));
@@ -62,7 +82,7 @@ void readDataAndSample() {
   Serial.print(" ");
   Serial.print(getAverage(blue));
   Serial.print(" ");
-  Serial.println("0");
+  Serial.println(Len_mm);
   
 }
 

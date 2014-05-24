@@ -64,23 +64,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private final String mBluetoothThreadName = "readBluetoothDataThread";
     private HandlerThread mIOThread;
     public Handler mIOThreadHandler;
-    //private IncrementalClassifier mClassifier;
+
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
     private String bluetoothMessage = null;
     private boolean changeBTMessage;
+
+    //private IncrementalClassifier mClassifier;
     private int predictedLabel;
     private int previousLabel;
-    private float totalDeltaWeight;
-    private float previousWeight;
-    private float currentWeight;
+
+    private float totalDeltaV;
+    private float previousV;
+    private float currentV;
+
     private boolean changeCurrentFragment;
     private enum FragmentClass {
         DefaultFragment,
         CurrentDrink,
     }
     private FragmentClass fragmentClass;
-    private IntentFilter EventHandle;
+    private IntentFilter EventFilter;
 
     private My1NN simpleClassifier;
 
@@ -118,9 +122,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         predictedLabel = -1;
         previousLabel = -1;
 
-        currentWeight = 0;
-        previousWeight = 0;
-        totalDeltaWeight = 0;
+        currentV = 0;
+        previousV = 0;
+        totalDeltaV = 0;
 
         changeCurrentFragment = false;
         fragmentClass = FragmentClass.DefaultFragment;
@@ -147,10 +151,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         mArduinoBluetooth = new ArduinoBluetooth();
 
-        // Create the adapter that will return a fragment for each of the three primary sections
-        // of the app.
-        mFragmentManager = getSupportFragmentManager();
-        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(mFragmentManager,this);
+        /*
+        *
+        * tab bar
+        * responsible for managing the tabs
+        * tab clicked events ...
+        *
+        */
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -161,6 +168,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         // Specify that we will be displaying tabs in the action bar.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        /*
+        * ViewPager
+        * responsible for making fragments swipable and sync the position of fragment with tabs' positions
+        *
+        * */
+
+        // Create the adapter that will return a fragment for each of the three primary sections
+        // of the app.
+        mFragmentManager = getSupportFragmentManager();
+        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(mFragmentManager,this);
 
         // Set up the ViewPager, attaching the adapter and setting up a listener for when the
         // user swipes between sections.
@@ -187,18 +205,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
 
-        EventHandle = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        EventHandle.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        EventHandle.addAction(startDiscoveringIntentFilterTag);
-        EventHandle.addAction(notifyAdapterIntentFilterTag);
+        //Select which event to listen in this Activity
 
-        //EventHandle.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        EventFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        EventFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        EventFilter.addAction(startDiscoveringIntentFilterTag);
+        EventFilter.addAction(notifyAdapterIntentFilterTag);
+
+        //EventFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
         //onResume will be run after on create so we register eventHandler there
 
         //Database initialization
         mSource = new DrinkRecordDataSource(this);
         try {
-            mSource.open();
+            mSource.openDB();
         }
         catch(Exception e) {
             Log.d(activityTag,Log.getStackTraceString(e));
@@ -368,7 +388,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(EventHandler,EventHandle);
+        registerReceiver(EventHandler, EventFilter);
     }
 
     @Override
@@ -441,19 +461,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
             else if(actionStr.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                 Log.d(activityTag,"Disconnected with bluetooth device");
-                /*
-                try{
-                    mIOThreadHandler.removeCallbacks(connectWithBluetoothAndRead);
-                    fragmentClass = FragmentClass.DefaultFragment;
-                    changeCurrentFragment = true;
-                    bluetoothMessage = BTConfigFragment.btWaitForConnect;
-                    mAppSectionsPagerAdapter.notifyDataSetChanged();
-                }
-                catch(Exception e) {
-                    Log.d(activityTag,Log.getStackTraceString(e));
-                }
-                */
-
             }
             else if(actionStr.equals(startDiscoveringIntentFilterTag)) {
                 changeBTMessage = true;
@@ -471,6 +478,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     };
 
+    //
     private Runnable connectWithBluetoothAndRead = new Runnable() {
         @Override
         public void run() {
@@ -502,27 +510,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         //predictedLabel = mClassifier.predictInstance(featureData);
                         predictedLabel = simpleClassifier.predictInstance(featureData);
 
-                        currentWeight = Float.valueOf(data[numDataValues - 1]);
+                        currentV = Float.valueOf(data[numDataValues - 1]);
                         if(previousLabel != predictedLabel) {
-                            if(previousLabel >= 0 && totalDeltaWeight > 0){
-                                mSource.createDrinkRecord(DrinksInformation.drinks_list[previousLabel], Calendar.getInstance(), totalDeltaWeight);
-                                totalDeltaWeight = 0;
+                            if(previousLabel >= 0 && totalDeltaV > 0){
+                                mSource.createDrinkRecordAndReturn(DrinksInformation.drinks_list[previousLabel], Calendar.getInstance(), totalDeltaV);
+                                totalDeltaV = 0;
                             }
                         }
                         else {
-                            float deltaWeight = previousWeight - currentWeight;
-                            if(deltaWeight >= 0) {
-                                totalDeltaWeight += deltaWeight;
+                            float deltaV = previousV - currentV;
+                            if(deltaV >= 0) {
+                                totalDeltaV += deltaV;
                             }
                             else {
                                 Log.d(activityTag,"warning:previous weight < current weight");
                             }
                         }
 
+                        //notify controller to switch to result fragment
                         changeCurrentFragment = true;
                         fragmentClass = FragmentClass.CurrentDrink;
                         Intent intent = new Intent(notifyAdapterIntentFilterTag);
                         sendBroadcast(intent);
+
                         break;
                     }
                     else {
@@ -533,14 +543,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             } catch (Exception e) {
                 //Toast.makeText(BluetoothActivity.this,e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
-
+                Log.d(MainActivity.activityTag,e.getLocalizedMessage());
                 try {
                     mBufferedReader.close();
                 }
                 catch(IOException e2) {
 
                 }
-                Log.d(MainActivity.activityTag,e.getLocalizedMessage());
+
 
             }
         }
