@@ -5,17 +5,16 @@ package com.example.android.effectivenavigation;
  */
 public class DrinksInformation {
 
-    public static final int[] ImagesId = {R.drawable.cola};
-    public static final int numOfImages = ImagesId.length;
-    public static final String[] drinks_list = {"Black-Tea",
-                                                "Green-Tea",
-                                                "Milk-Tea",
-                                                "Orange-Juice",
-                                                "Vegetable-Juice",
-                                                "Orange-Soda",
+    public static final String[] drinks_list = {//"Black-Tea",
+                                                //"Green-Tea",
+                                                //"Milk-Tea",
+                                                //"Orange-Juice",
+                                                //"Vegetable-Juice",
+                                                //"Orange-Soda",
                                                 "Coffee",
-                                                "Cola",
-                                                "Grape-Juice"};
-    public static final int NUM_DATA_VALUES = 7;
+                                                "Cola"};
+                                                //"Grape-Juice"};
+    public static final int numOfDrinks = drinks_list.length;
+    public static final int NUM_DATA_VALUES = 4;
     public static final int NUM_FEATURE_VALUES = NUM_DATA_VALUES - 1; //exclude force sensor value
 }

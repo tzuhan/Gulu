@@ -10,9 +10,12 @@ public class DrinkRecord {
     private long mId;
     private String mDrink;
     private int mWeekDay;
-    private String mEndTime;
+    private String mEndTime; //like 13:15:20 is 1PM 15:20
     private float mVolume;
+    private String mDate; // like 4/21
+
     public final static String timeFormat = "HH:mm:ss";
+    public final static String DateFormat = "yyyy/MM/dd";
 
     public void setId(long id) {
         mId = id;
@@ -53,5 +56,9 @@ public class DrinkRecord {
     public float getVolume() {
         return mVolume;
     }
+
+    public void setDate(String dateStr) { mDate = dateStr; }
+
+    public String getDate() { return mDate; }
 
 }

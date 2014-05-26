@@ -2,14 +2,9 @@ package com.example.android.effectivenavigation;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import java.util.List;
@@ -51,7 +46,7 @@ public class DayDrinkFragment extends ListFragment {
         mContext = getActivity().getApplicationContext();
         mSource = new DrinkRecordDataSource(mContext);
         try{
-            mSource.open();
+            mSource.openDB();
         }
         catch (Exception e) {
             Log.d(fragmentTag,Log.getStackTraceString(e));
