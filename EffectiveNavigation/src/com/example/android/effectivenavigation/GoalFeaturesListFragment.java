@@ -22,6 +22,11 @@ public class GoalFeaturesListFragment extends ListFragment {
             "Hypertension",
     };
 
+    public static GoalFeaturesListFragment newInstance() {
+        GoalFeaturesListFragment fragment = new GoalFeaturesListFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

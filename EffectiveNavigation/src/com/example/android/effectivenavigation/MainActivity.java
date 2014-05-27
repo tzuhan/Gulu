@@ -71,7 +71,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
     private String bluetoothMessage = null;
-    private boolean changeBTMessage;
 
     //private IncrementalClassifier mClassifier;
     private int predictedLabel;
@@ -81,12 +80,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private float previousHeight;
     private float currentHeight;
 
-    private enum FragmentClass {
-        DefaultFragment,
-        CurrentDrink,
-    }
-
-    private FragmentClass fragmentClass;
     private IntentFilter EventFilter;
 
     private My1NN mClassifier;
@@ -119,12 +112,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public final int numOfTabs = 3;
     public Fragment[] tabFragments = new Fragment[numOfTabs];
     public boolean[] changeCurrentFragmentFlag = new boolean[numOfTabs];
+    public final int firstTabIndex = 0;
+    public final int secondTabIndex = 1;
+    public final int thirdTabIndex = 2;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bluetoothMessage = null;
-        changeBTMessage = false;
 
         predictedLabel = -1;
         previousLabel = -1;
@@ -133,10 +128,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         previousHeight = 0;
         totalDeltaHeight = 0;
 
-        for(int i=0;i<numOfTabs;i++) {
-            changeCurrentFragmentFlag[i] = false;
-        }
-        fragmentClass = FragmentClass.DefaultFragment;
 
         //mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
         //mClassifier.loadModel();
@@ -146,9 +137,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             // 如果裝置不支援藍芽
-            Toast.makeText(this, "Device doesn't support bluetooth", Toast.LENGTH_SHORT).show();
+            Log.d(MainActivity.activityTag,"Device doesn't support bluetooth");
+            finish();
             return;
         }
+
+        //initialize default fragment
+
+        if(mBluetoothAdapter.isEnabled()) {
+            tabFragments[firstTabIndex] = BTConfigFragment.newInstance(BTConfigFragment.btWaitForConnect);
+        }
+        else {
+            tabFragments[firstTabIndex] = BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled);
+        }
+        tabFragments[secondTabIndex] = DayDrinkFragment.newInstance();
+        tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance();
+
 
         //initialize thread and start it
         //this thread responsible for IO event with bluetooth
@@ -286,8 +290,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void destroyItem(ViewGroup container, int position, Object object) {
             super.destroyItem(container, position, object);
             if(position == 0) {
-                if(mainActivity.changeCurrentFragmentFlag) {
-                    mainActivity.changeCurrentFragmentFlag = false;
+                if(mainActivity.changeCurrentFragmentFlag[position]) {
+                    mainActivity.changeCurrentFragmentFlag[position] = false;
                     removeFragment((Fragment) object);
                 }
             }
@@ -306,30 +310,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Log.d(MainActivity.activityTag,"getItem for position:" + i);
             switch (i) {
                 case 0:
-                    if(mainActivity.fragmentClass == FragmentClass.CurrentDrink) {
-                        Log.d(MainActivity.activityTag,"CurrentDrink Fragment");
-                        return CurrentDrinkFragment.newInstance(mainActivity,mainActivity.predictedLabel);
-                    }
-                    else {
-                        if(mBluetoothAdapter != null) {
-                            if(mBluetoothAdapter.isEnabled()){
-                                mainActivity.bluetoothMessage = BTConfigFragment.btWaitForConnect;
-                            }
-                            else {
-                                mainActivity.bluetoothMessage = BTConfigFragment.btNotEnabled;
-                            }
-                        }
-                        else {
-                            mainActivity.bluetoothMessage = BTConfigFragment.btNotAvailable;
-                        }
-                        //Log.d(activityTag,mainActivity.bluetoothMessage);
-                        return BTConfigFragment.newInstance(mainActivity.bluetoothMessage);
-                    }
                 case 1:
-                    return DayDrinkFragment.newInstance(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-
                 case 2:
-                    return new GoalFeaturesListFragment();
+                    return mainActivity.tabFragments[i];
 
                 default:
                     // The other sections of the app are dummy placeholders.
@@ -346,20 +329,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //if return POSITION_NONE then destroyItem would be called
         @Override
         public int getItemPosition(Object object) {
+
             Log.d(MainActivity.activityTag,"getItemPosition called");
-            if(mainActivity.changeBTMessage && object instanceof BTConfigFragment) {
-                mainActivity.changeBTMessage = false;
-                return POSITION_NONE;
-            }
-            else if(mainActivity.changeCurrentFragmentFlag) {
-                return POSITION_NONE;
+            for(int i=0;i<mainActivity.numOfTabs;i++){
+                if(mainActivity.changeCurrentFragmentFlag[i]) {
+                    return POSITION_NONE;
+                }
             }
             return POSITION_UNCHANGED;
         }
 
         @Override
         public int getCount() {
-            return 3; //currently 3 tabs
+            return mainActivity.numOfTabs; //currently 3 tabs
         }
 
         @Override
@@ -407,8 +389,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     public void changeCurrentFragment(int tabIndex, Fragment intendedFragment) {
-
-
+        changeCurrentFragmentFlag[tabIndex] = true;
+        tabFragments[tabIndex] = intendedFragment;
+        Intent intent = new Intent(notifyAdapterIntentFilterTag);
+        sendBroadcast(intent);
+        return;
     }
 
     @Override
@@ -429,18 +414,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if (mBluetoothAdapter != null) {
                 mBluetoothAdapter.enable();
                 while(!mBluetoothAdapter.isEnabled());
-                changeCurrentFragmentFlag = true;
-                fragmentClass = FragmentClass.DefaultFragment;
-                mAppSectionsPagerAdapter.notifyDataSetChanged();
+                changeCurrentFragment(firstTabIndex,BTConfigFragment.newInstance(BTConfigFragment.btWaitForConnect));
             }
         }
         else if(id == R.id.close_bluetooth) {
             if (mBluetoothAdapter != null) {
                 mBluetoothAdapter.disable();
                 while(mBluetoothAdapter.isEnabled());
-                changeCurrentFragmentFlag = true;
-                fragmentClass = FragmentClass.DefaultFragment;
-                mAppSectionsPagerAdapter.notifyDataSetChanged();
+                changeCurrentFragment(firstTabIndex,BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled));
             }
         }
         else {
@@ -456,7 +437,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public void onReceive(Context context, Intent intent) {
             // 當收尋到裝置時
             String actionStr = intent.getAction();
-            if (actionStr.equals(BluetoothDevice.ACTION_FOUND)) {
+            if(actionStr.equals(notifyAdapterIntentFilterTag)) {
+                mAppSectionsPagerAdapter.notifyDataSetChanged();
+            }
+            else if (actionStr.equals(BluetoothDevice.ACTION_FOUND)) {
                 // 取得藍芽裝置這個物件
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.d(activityTag, "find device:" + device.getAddress() + ",name:" + device.getName());
@@ -470,19 +454,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     mIOThreadHandler.post(connectWithBluetoothAndRead);
                 }
             }
+           /*
             else if(actionStr.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                 Log.d(activityTag,"Disconnected with bluetooth device");
             }
+           */
             else if(actionStr.equals(startDiscoveringIntentFilterTag)) {
                 //to show start discovery fragment
-                changeBTMessage = true;
-                bluetoothMessage = BTConfigFragment.btDataLoading;
-                mAppSectionsPagerAdapter.notifyDataSetChanged();
+                changeCurrentFragment(firstTabIndex,BTConfigFragment.newInstance(BTConfigFragment.btDataLoading));
                 mBluetoothAdapter.startDiscovery();
                 Log.d(BluetoothConst.appTag, "start discovering");
-            }
-            else if(actionStr.equals(notifyAdapterIntentFilterTag)) {
-                mAppSectionsPagerAdapter.notifyDataSetChanged();
             }
             else {
                 Log.d(activityTag,"unknown action in EventHandler");
@@ -541,11 +522,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         }
 */
                         //notify controller to switch to result fragment
-                        changeCurrentFragmentFlag = true;
-                        fragmentClass = FragmentClass.CurrentDrink;
-                        Intent intent = new Intent(notifyAdapterIntentFilterTag);
-                        sendBroadcast(intent);
-
+                        changeCurrentFragment(firstTabIndex,CurrentDrinkFragment.newInstance(MainActivity.this,predictedLabel));
                         break;
                     }
                     else {

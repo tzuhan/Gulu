@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
 import java.util.List;
 
 import database.DBHelper;
@@ -36,32 +37,23 @@ import database.DrinkRecordDataSource;
 public class DayDrinkFragment extends Fragment {
 
     private static final String fragmentTag = DayDrinkFragment.class.getName();
-    private int mWeekDay = -1;
     private List<DrinkRecord> records = null;
     private DrinkRecordDataSource mSource = null;
     private DrinkRecordAdapter mAdapter;
-    private static final String weekArgKey = "weekDay";
+    private int currentWeekDay = -1;
+    private int previousWeekDay = -1;
 
     private Context mContext;
-    public static DayDrinkFragment newInstance(int weekDay) {
+    public static DayDrinkFragment newInstance() {
         DayDrinkFragment fragment = new DayDrinkFragment();
-        Bundle args = new Bundle();
-        args.putInt(weekArgKey,weekDay);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mWeekDay = getArguments().getInt(weekArgKey);
-        try {
-            records = mSource.getWeekDayRecords(mWeekDay);
-        }
-        catch(Exception e) {
-            records = null;
-            Log.d(fragmentTag,Log.getStackTraceString(e));
-        }
+        currentWeekDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+
         mContext = getActivity().getApplicationContext();
         mSource = new DrinkRecordDataSource(mContext);
         try{
@@ -71,6 +63,14 @@ public class DayDrinkFragment extends Fragment {
             Log.d(fragmentTag,Log.getStackTraceString(e));
         }
 
+        try {
+            records = mSource.getWeekDayRecords(currentWeekDay);
+        }
+        catch(Exception e) {
+            records = null;
+            Log.d(fragmentTag,Log.getStackTraceString(e));
+        }
+        previousWeekDay = currentWeekDay;
     }
 
     private class DrinkRecordAdapter extends ArrayAdapter<DrinkRecord>{
@@ -107,7 +107,19 @@ public class DayDrinkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_day_drink, container, false);
         if(records != null) {
+            currentWeekDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+            if(previousWeekDay != currentWeekDay) {
+                try {
+                    records = mSource.getWeekDayRecords(currentWeekDay);
+                }
+                catch(Exception e) {
+                    records = null;
+                    Log.d(fragmentTag,Log.getStackTraceString(e));
+                }
+                previousWeekDay = currentWeekDay;
+            }
             ((ListView) rootView.findViewById(R.id.day_drink_listView)).setAdapter(new DrinkRecordAdapter(this.getActivity(), (DrinkRecord[]) records.toArray()));
+
         }
         return rootView;
     }
