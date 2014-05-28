@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Ingredient"
+        android:id="@+id/hc_ingredient_name"
+        android:paddingTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:typeface="sans"
+        android:paddingBottom="15dp" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hc_goal_bar"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:progress="50" />
+</LinearLayout>
