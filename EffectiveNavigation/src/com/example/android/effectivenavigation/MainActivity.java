@@ -43,7 +43,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,9 +55,6 @@ import bluetoothmodule.BluetoothConst;
 import database.DrinkRecordDataSource;
 import mlmodule.My1NN;
 
-import static java.lang.Math.abs;
-
-
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private static BluetoothAdapter mBluetoothAdapter = null; // 用來搜尋、管理藍芽裝置
     private static BluetoothSocket mBluetoothSocket = null; // 用來連結藍芽裝置、以及傳送指令
@@ -70,7 +66,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
-    private String bluetoothMessage = null;
 
     //private IncrementalClassifier mClassifier;
     private int predictedLabel;
@@ -98,9 +93,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     private ViewPager mViewPager;
 
+    //DB
     private DrinkRecordDataSource mSource;
-
-    private Handler mUIhandler = null;
 
     //debugging tag
     public static final String activityTag = "MainActivity";
@@ -109,17 +103,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public static final String startDiscoveringIntentFilterTag = MainActivity.class.getName() + ".startDiscovering";
     public static final String notifyAdapterIntentFilterTag = MainActivity.class.getName() + ".notifyAdapter";
 
-    public final int numOfTabs = 3;
+    public final int numOfTabs = 4;
     public Fragment[] tabFragments = new Fragment[numOfTabs];
     public boolean[] changeCurrentFragmentFlag = new boolean[numOfTabs];
     public final int firstTabIndex = 0;
     public final int secondTabIndex = 1;
     public final int thirdTabIndex = 2;
+    public final int forthTabIndex = 3;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bluetoothMessage = null;
 
         predictedLabel = -1;
         previousLabel = -1;
@@ -360,34 +354,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
-    public Handler getUIHandler() {
-        if(mUIhandler == null) {
-            mUIhandler = new Handler();
-        }
-        return mUIhandler;
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        unregisterReceiver(EventHandler);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(EventHandler, EventFilter);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if(mIOThread != null) {
-            mIOThread.quit();
-        }
-    }
 
     public void changeCurrentFragment(int tabIndex, Fragment intendedFragment) {
         changeCurrentFragmentFlag[tabIndex] = true;
@@ -552,7 +519,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                 }
 
-
             }
         }
     };
@@ -574,4 +540,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return rootView;
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        unregisterReceiver(EventHandler);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(EventHandler, EventFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(mIOThread != null) {
+            mIOThread.quit();
+        }
+    }
+
 }
