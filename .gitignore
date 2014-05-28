@@ -1,3 +1,4 @@
 EffectiveNavigation/gen/*
 EffectiveNavigation/out/*
-**/.idea/**
+EffectiveNavigation/.idea/workspace.xml
+EffectiveNavigation/.idea/*

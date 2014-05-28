@@ -26,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.effectivenavigation.DrinksInformation;
-import com.example.android.effectivenavigation.MainActivity;
 import com.example.android.effectivenavigation.R;
 
 import java.io.BufferedReader;
@@ -41,10 +40,8 @@ import java.util.UUID;
 
 import mlmodule.ArffManager;
 import mlmodule.DataConst;
-import mlmodule.IncrementalClassifier;
 import mlmodule.KnnClassifier;
 import mlmodule.My1NN;
-import weka.core.converters.ArffLoader;
 
 public class BluetoothActivity extends Activity {
 
@@ -229,7 +226,7 @@ public class BluetoothActivity extends Activity {
                 for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
                     featureData[dim] = currentData[dim];
                 }
-                int indexValue = simpleClassifier.getNearestNeighborIndex(featureData);
+                int indexValue = simpleClassifier.predictInstance(featureData);
                 Log.d(BluetoothConst.appTag,"" + indexValue);
                 String predictedName = DrinksInformation.drinks_list[indexValue];
                 //String predictedName = DrinksInformation.drinks_list[mClassifier.predictInstance(featureData)];

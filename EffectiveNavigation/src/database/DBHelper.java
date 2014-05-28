@@ -21,20 +21,24 @@ public class DBHelper extends SQLiteOpenHelper {
     public final static String _WeekDay = "weekDay";
     public final static String _EndTime = "endTime";
     public final static String _Volume = "volume";
+    public final static String _Date = "date";
+
     public final static String[] allColumns = {
             _Identifer,
-            _Drink,
+            _Date,
             _WeekDay,
             _EndTime,
+            _Drink,
             _Volume
     };
 
     private final static String createTableSQL = "CREATE TABLE IF NOT EXISTS " + _TABLE_NAME +
                                               "(" +
                                               _Identifer + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                              _Drink + " TEXT NOT NULL, " +
+                                              _Date + " TEXT NOT NULL, " +
                                               _WeekDay + " INTEGER, " +
                                               _EndTime + " DATETIME NOT NULL, " +
+                                              _Drink + " TEXT NOT NULL, " +
                                               _Volume + " FLOAT " +
                                               ");";
 
