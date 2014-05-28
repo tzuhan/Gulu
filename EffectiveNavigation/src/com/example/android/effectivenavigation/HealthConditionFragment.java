@@ -48,9 +48,14 @@ public class HealthConditionFragment extends Fragment{
         int numValues = values.length;
         int []turnIntoValues = new int[numValues];
         for(int i=0;i<numValues;i++) {
-            turnIntoValues[i] = (int)(values[i].floatValue()/base);
+            turnIntoValues[i] = (int)(values[i].floatValue()/base*100);
         }
         return turnIntoValues;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override

@@ -124,10 +124,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         predictedLabel = -1;
         previousLabel = -1;
 
-        currentHeight = 0;
-        previousHeight = 0;
-        totalDeltaHeight = 0;
-
+        currentHeight = -1;
+        previousHeight = -1;
+        totalDeltaHeight = -1;
 
         //mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
         //mClassifier.loadModel();
@@ -280,21 +279,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public Object instantiateItem(ViewGroup container, int position) {
             Log.d(MainActivity.activityTag,"initial position:"+position);
             Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            /*
             if(fragment instanceof BTConfigFragment) {
                 ((BTConfigFragment)fragment).setMessageToShow(mainActivity.bluetoothMessage);
             }
+            */
             return fragment;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             super.destroyItem(container, position, object);
-            if(position == 0) {
-                if(mainActivity.changeCurrentFragmentFlag[position]) {
-                    mainActivity.changeCurrentFragmentFlag[position] = false;
-                    removeFragment((Fragment) object);
-                }
+
+            if(mainActivity.changeCurrentFragmentFlag[position]) {
+                mainActivity.changeCurrentFragmentFlag[position] = false;
+                removeFragment((Fragment) object);
             }
+
             Log.d(MainActivity.activityTag, "destroy position:" + position);
         }
 
@@ -496,34 +497,43 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         //put into predictor and get the result
                         //calculate the difference of weight
                         //retrieve from database
-                        previousLabel = predictedLabel;
+
                         for(int dim = 0;dim < DrinksInformation.NUM_FEATURE_VALUES;dim++) {
                             featureData[dim] = data[dim];
                         }
                         predictedLabel = mClassifier.predictInstance(featureData);
-/*                        currentHeight = Float.valueOf(data[numDataValues - 1]);
-                        if(previousLabel != predictedLabel || abs(currentHeight - UltrasonicInfo.emptyHeight) < 1.5f) {
-                            if(previousLabel >= 0){
+                        currentHeight = Float.valueOf(data[numDataValues - 1]);
+
+                        if(((int)currentHeight) == -1) { //empty
+                            if(previousHeight > 0 && previousLabel >= 0){
+                                totalDeltaHeight += (UltrasonicInfo.emptyHeight - previousHeight);
                                 mSource.insertNewDrinkRecord(DrinksInformation.drinks_list[previousLabel],
                                         Calendar.getInstance(),
                                         totalDeltaHeight * UltrasonicInfo.bottomArea);
-                                totalDeltaHeight = 0;
                             }
+                            totalDeltaHeight = 0;
+                            previousHeight = -1;
                         }
                         else {
-                            float deltaHeight = currentHeight - previousHeight;
-                            if(deltaHeight >= 0) {
-                                totalDeltaHeight += deltaHeight;
+                            if(((int)previousHeight) == -1) {
                                 previousHeight = currentHeight;
                             }
                             else {
-                                Log.d(activityTag,"noise:previous weight < current weight");
+                                float deltaHeight = currentHeight - previousHeight;
+                                if (deltaHeight >= 0) {
+                                    totalDeltaHeight += deltaHeight;
+                                    previousHeight = currentHeight;
+                                } else {
+                                    Log.d(activityTag, "noise:previous weight < current weight");
+                                }
                             }
                         }
-*/
+
+                        previousLabel = predictedLabel;
+
                         //notify controller to switch to result fragment
                         changeCurrentFragment(firstTabIndex,CurrentDrinkFragment.newInstance(MainActivity.this,predictedLabel));
-                        break;
+                        //break; comment this line to continuously update current drink's volume and class
                     }
                     else {
                         continue;
