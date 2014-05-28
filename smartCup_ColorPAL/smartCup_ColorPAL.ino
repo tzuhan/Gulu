@@ -1,36 +1,36 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 
-#include "HX711.h"
-
 const long bluetoothBaudRate = 57600;
-
-const byte HX711_DT = A1;
-const byte HX711_SCK = A0;
 
 const int triggerPin = 11;
 
+//color sensor related
 const int sio = 10;
-const int unused = 255; 		// Non-existant pin # for SoftwareSerial
+const int unused = 255; // Non-existant pin # for SoftwareSerial
 const int sioBaud = 4800;
 const int waitDelay = 100;
 const int colorSampleNum = 15;
-const int weightSampleNum = 30;
 int sampleTurn = colorSampleNum;
-
-HX711 scale(HX711_DT,HX711_SCK);
 
 SoftwareSerial serin(sio, unused);
 SoftwareSerial serout(unused, sio);
 
+//ultrasonic sensor related
+const int us_trigPin = 9;
+const int us_echoPin = 8;
+unsigned long Time_Echo_us = 0;
+unsigned long Len_mm  = 0;
+
 void setup() {
-  //Serial.begin(bluetoothBaudRate);
-  Serial.begin(9600);
+  Serial.begin(bluetoothBaudRate);
+  //Serial.begin(9600);
   
   // open reading == HIGH
   // closed reading == LOW
   pinMode(triggerPin, INPUT_PULLUP);
   
+  //color sensor related settings
   reset();				  // Send reset to ColorPal
   serout.begin(sioBaud);
   pinMode(sio, OUTPUT);
@@ -39,50 +39,15 @@ void setup() {
 
   serin.begin(sioBaud);	        // Set up serial port for receiving
   pinMode(sio, INPUT); 
-    
-  //scale.set_scale(scale.get_units(10)/50);  // this value is obtained by calibrating the scale with known weights; see the README for details
-  //scale.tare();
   
-  scale.set_scale(2280.f);                      // this value is obtained by calibrating the scale with known weights; see the README for details
-  scale.tare();	
-  //scale.set_scale(scale.get_units(10)/0.05);
-  
+  //ultrasonic PWM mode
+  pinMode(us_echoPin, INPUT);                    //Set EchoPin as input, to receive measure result from US-100
+  pinMode(us_trigPin, OUTPUT);                   //Set TrigPin as output, used to send high pusle to trig measurement (>10us)
 }
-
-int previousWeight = 0;
-int currentWeight = 0;
-const int WeightNoise = 5;
 
 void loop() {
   if(digitalRead(triggerPin) == LOW) { //closed circuit
-  
-    scale.power_up();
-    
-    currentWeight = scale.get_units(weightSampleNum);
-    if(previousWeight == 0) {
-      //ColorData
-      readDataAndSample();
-    }
-    else {
-      while(  abs(previousWeight - currentWeight) < WeightNoise //not noise
-              || previousWeight < currentWeight 
-              || (abs(currentWeight) > WeightNoise && currentWeight < 0) ) {      
-           currentWeight = scale.get_units(weightSampleNum); //resample
-      }
-    }
-    
-    if(abs(currentWeight) < WeightNoise) { //empty
-      previousWeight = 0; //initialize
-      Serial.println("empty");
-    }
-    else {
-      previousWeight = currentWeight;
-      Serial.print("weight:");
-      Serial.println(currentWeight);
-    }
-    
-    scale.power_down();// put the ADC in sleep mode
-  
+    readColorDataAndSample();
   }
 }
 
@@ -90,18 +55,34 @@ int red[colorSampleNum] = {0};
 int green[colorSampleNum] = {0};
 int blue[colorSampleNum] = {0};
 
-void readDataAndSample() {
+void readColorDataAndSample() {
+  //color data
   sampleTurn = colorSampleNum;
   while(sampleTurn){
     readData();
   }
   
-  Serial.print("RGB:");
+  //ultrasonic data
+  while(true) {  
+    digitalWrite(us_trigPin, HIGH);              //begin to send a high pulse, then US-100 begin to measure the distance
+    delayMicroseconds(50);                    //set this high pulse width as 50us (>10us)
+    digitalWrite(us_trigPin, LOW);               //end this high pulse
+    Time_Echo_us = pulseIn(us_echoPin, HIGH);               //calculate the pulse width at EchoPin, 
+    if((Time_Echo_us < 60000) && (Time_Echo_us > 1))     //a valid pulse width should be between (1, 60000).
+    {
+      //distance units: mm
+      Len_mm = (Time_Echo_us*34/100)/2;      //calculate the distance by pulse width, Len_mm = (Time_Echo_us * 0.34mm/us) / 2 (mm)  
+      break;
+    }
+  }
+  
   Serial.print(getAverage(red));
   Serial.print(" ");
   Serial.print(getAverage(green));
   Serial.print(" ");
-  Serial.println(getAverage(blue));
+  Serial.print(getAverage(blue));
+  Serial.print(" ");
+  Serial.println(Len_mm);
   
 }
 
