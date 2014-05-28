@@ -19,11 +19,14 @@ public class GoalFeaturesListFragment extends ListFragment {
             "Pregnancy",
             "Diabetes",
             "Chronic and disease",
-            "Hypertension",
+            "Hypertension"
     };
 
-    public static GoalFeaturesListFragment newInstance() {
+    private MainActivity mainActivity;
+
+    public static GoalFeaturesListFragment newInstance(MainActivity mainActivity) {
         GoalFeaturesListFragment fragment = new GoalFeaturesListFragment();
+        fragment.mainActivity = mainActivity;
         return fragment;
     }
 
@@ -47,8 +50,10 @@ public class GoalFeaturesListFragment extends ListFragment {
         Toast.makeText(getActivity(),
                 "You have selected " + features[position],
                 Toast.LENGTH_SHORT).show();
-        */
 
+        */
+        HealthConditionInfo goal = new HealthConditionInfo(position, features[position]);
+        mainActivity.changeCurrentFragment(mainActivity.thirdTabIndex,HealthConditionFragment.newInstance(goal));
 
         //may be start an Activity to show
 

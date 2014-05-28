@@ -144,7 +144,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             tabFragments[firstTabIndex] = BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled);
         }
         tabFragments[secondTabIndex] = DayDrinkFragment.newInstance();
-        tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance();
+        tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance(this);
 
 
         //initialize thread and start it
