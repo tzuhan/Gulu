@@ -25,7 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:text="5/30"
-            android:textSize="20dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
 
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"
-            android:layout_marginBottom="65dp"
+            android:layout_marginBottom="40dp"
             android:paddingLeft="5dp">
 
             <FrameLayout
@@ -144,14 +144,14 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="0dp"
             android:layout_alignBottom="@+id/imageView" />
 
         <LinearLayout
             android:id="@+id/summary"
             android:layout_below="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:orientation="horizontal">
