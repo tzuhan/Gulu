@@ -1,4 +1,7 @@
 EffectiveNavigation/gen/*
 EffectiveNavigation/out/*
 EffectiveNavigation/.idea/workspace.xml
-EffectiveNavigation/.idea/*
+EffectiveNavigation/.idea/**
+.DS_Store
+**/.idea/workspace.xml
+**/.idea/tasks.xml
