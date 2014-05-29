@@ -1,6 +1,7 @@
 package com.example.android.effectivenavigation;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import com.example.android.effectivenavigation.HealthConditionInfo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * Created by kantei on 2014/05/25.
@@ -60,8 +64,23 @@ public class HealthConditionFragment extends Fragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        defaultValue = savedState.getFloatArray("ingredientsValue");
-        toShow = savedState.getBooleanArray("ingredientsToShow");
+
+        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        JSONArray toShowArray = new JSONArray();
+        for (boolean show : toShow) {
+            toShowArray.put(show);
+        }
+
+        JSONArray defaultValueArray = new JSONArray();
+        for (float value : defaultValue) {
+            defaultValueArray.put(Float.valueOf(value));
+        }
+
+        editor.putString("toShow", toShowArray.toString());
+        editor.putString("defaultValue", defaultValueArray.toString());
+        editor.commit();
     }
 
     @Override
@@ -76,22 +95,22 @@ public class HealthConditionFragment extends Fragment{
         int numIngredients = HealthConditionInfo.ingredients.length;
 
         //restore saved Intent
-        if(savedState == null){
-            //get defaultValue first
-            defaultValue = getArguments().getFloatArray(intakesGoalKey);
-            toShow = getArguments().getBooleanArray(toShowKey);
+        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        try {
+            JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[]"));
+            JSONArray defaultValueArray = new JSONArray(sp.getString("defaultValue", "[]"));
 
-            //save default value into bundle
-            savedState = new Bundle();
-            savedState.putBooleanArray("ingredientsToShow", toShow);
-            savedState.putFloatArray("ingredientsValue", defaultValue);
-        }
-        else if(savedState != null){
-            //restore pre-stored bundle back
-            defaultValue = savedState.getFloatArray("ingredientsValue");
-            toShow = savedState.getBooleanArray("ingredientsToShow");
+            for(int i = 0 ;i < toShowArray.length(); i++) {
+                toShow[i] = toShowArray.getBoolean(i);
+            }
+            for(int i = 0 ;i < defaultValueArray.length(); i++) {
+                defaultValue[i] = (float) defaultValueArray.getDouble(i);
+            }
 
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
 
 
 
