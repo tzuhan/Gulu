@@ -1,19 +1,13 @@
 package com.example.android.effectivenavigation;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by kantei on 2014/01/01.
@@ -32,20 +26,18 @@ public class CurrentDrinkFragment extends Fragment {
                                             R.drawable.d7};
                                             //R.drawable.d8};
     private static final int numOfImages = ImagesId.length;
-    private int mPredictedLabel;
+    private int mToShowLabel;
     /*
-    private float mCurrentWeight;
-    private float mTotalDeltaWeight;
+    private float mTotalDeltaV;
     */
     private ImageView drinkImageView;
     private MainActivity mMainActivity;
 
-    public static CurrentDrinkFragment newInstance(MainActivity mainActivity,int predictedLabel) {
+    public static CurrentDrinkFragment newInstance(MainActivity mainActivity,int toShowLabel) {
         CurrentDrinkFragment fragment = new CurrentDrinkFragment();
-        fragment.mPredictedLabel = predictedLabel;
+        fragment.mToShowLabel = toShowLabel;
         /*
-        fragment.mCurrentWeight = currentWeight;
-        fragment.mTotalDeltaWeight = totalDeltaWeight;
+        fragment.mTotalDeltaV = totalDeltaV;
         */
         fragment.mMainActivity = mainActivity;
         return fragment;
@@ -59,16 +51,16 @@ public class CurrentDrinkFragment extends Fragment {
         drinkImageView = (ImageView)rootView.findViewById(R.id.drinkImageView);
         TextView drinkTextView = (TextView)rootView.findViewById(R.id.drinkTextView);
 
-        if(mPredictedLabel < numOfImages) {
-            drinkImageView.setImageResource(ImagesId[mPredictedLabel]);
+        if(mToShowLabel < numOfImages) {
+            drinkImageView.setImageResource(ImagesId[mToShowLabel]);
             drinkImageView.setDrawingCacheEnabled(true);
         }
         else {
             Log.d(fragmentTag,"set Image out of bound");
         }
 
-        if(mPredictedLabel < DrinksInformation.drinks_list.length) {
-            drinkTextView.setText(DrinksInformation.drinks_list[mPredictedLabel]);
+        if(mToShowLabel < DrinksInformation.drinks_list.length) {
+            drinkTextView.setText(DrinksInformation.drinks_list[mToShowLabel]);
         }
         else {
             drinkTextView.setText("unrecognized drink");

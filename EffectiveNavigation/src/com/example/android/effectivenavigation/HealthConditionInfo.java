@@ -1,0 +1,100 @@
+package com.example.android.effectivenavigation;
+
+/**
+ * Created by kantei on 2014/05/25.
+ */
+public class HealthConditionInfo {
+    public final static String[] ingredients = {
+        "Water",
+        "Calories",
+        "Sugar",
+        "Caffeine",
+        "Sodium",
+    };
+    public final static float increasePercentage = 0.1f;
+    public final static float[] suggestionValues = {
+        3274f,
+        2800f,
+        150f,
+        400f,
+        4.3f
+    };
+    public final static float[] maxLimits = {
+        (suggestionValues[0]*(1+increasePercentage)),
+        (suggestionValues[1]*(1+increasePercentage)),
+        (suggestionValues[2]*(1+increasePercentage)),
+        (suggestionValues[3]*(1+increasePercentage)),
+        (suggestionValues[4]*(1+increasePercentage))
+    };
+
+    public final static float data [][]  = {
+        {
+            //regular mode
+            2000f,
+            2500f,
+            90f,
+            350f,
+            3.2f
+        },
+        {
+            //athlete mode, one hour workout
+            3274f,
+            2800f,
+            150f,
+            400f,
+            3.7f
+        },
+        {
+            //pregnancy
+            2500f,
+            2200f,
+            60f,
+            200f,
+            2.3f
+        },
+        {
+            //diabetes
+            2000f,
+            2500f,
+            60f,
+            350f,
+            2.3f
+        },
+        {
+            //renal
+            2000f,
+            2500f,
+            90f,
+            350f,
+            1.5f
+        },
+        {
+            //hypertension
+            2000f,
+            2500f,
+            90f,
+            350f,
+            1.5f
+        }
+    };
+
+    public String conditionName;
+    public float[] intakesGoal = new float[ingredients.length];
+    public boolean[] toShow = new boolean[ingredients.length];
+
+    public HealthConditionInfo(){
+        //send back regular mode
+        //do nothing
+
+    }
+
+    public HealthConditionInfo(int position, String name){
+        //reset suggestionValues
+        for(int i = 0; i< 5; i++) {
+            intakesGoal[i] = data[position][i];
+            toShow[i] = true;
+        }
+        conditionName = name;
+    }
+
+}

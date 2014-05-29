@@ -21,8 +21,8 @@ public class My1NN {
         //{23,144,15,77,14,103}, //Vegetable juice
         //{30,173,18,90,21,131}, //Orange Soda
 
-        {40f,26f,57f}, //Coffee
-        {31f,19f,41f}, //Cola
+        {37f,24f,43f}, //Coffee
+        {34f,20f,36f}, //Cola
 
     };
 

@@ -1,26 +1,32 @@
+#include <Ultrasonic.h>
+
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 
 const long bluetoothBaudRate = 57600;
 
-const int triggerPin = 11;
+const int triggerPin = 7; //digital
 
 //color sensor related
-const int sio = 10;
+const int sio = 10; //digital
 const int unused = 255; // Non-existant pin # for SoftwareSerial
 const int sioBaud = 4800;
 const int waitDelay = 100;
-const int colorSampleNum = 15;
+
+const int colorSampleNum = 30;
 int sampleTurn = colorSampleNum;
 
 SoftwareSerial serin(sio, unused);
 SoftwareSerial serout(unused, sio);
 
 //ultrasonic sensor related
-const int us_trigPin = 9;
-const int us_echoPin = 8;
-unsigned long Time_Echo_us = 0;
-unsigned long Len_mm  = 0;
+const int us_trigPin = 9; //digital
+const int us_echoPin = 8; //digital
+const float emptyDistance = 12.60; //units:cm
+const float noise = 1; //units:cm
+
+//HC-SR04
+Ultrasonic ultrasonic(us_trigPin, us_echoPin);
 
 void setup() {
   Serial.begin(bluetoothBaudRate);
@@ -36,18 +42,14 @@ void setup() {
   pinMode(sio, OUTPUT);
   serout.print("= (00 $ m) !"); // Loop print values, see ColorPAL documentation
   serout.end();			  // Discontinue serial port for transmitting
-
   serin.begin(sioBaud);	        // Set up serial port for receiving
   pinMode(sio, INPUT); 
   
-  //ultrasonic PWM mode
-  pinMode(us_echoPin, INPUT);                    //Set EchoPin as input, to receive measure result from US-100
-  pinMode(us_trigPin, OUTPUT);                   //Set TrigPin as output, used to send high pusle to trig measurement (>10us)
 }
 
 void loop() {
   if(digitalRead(triggerPin) == LOW) { //closed circuit
-    readColorDataAndSample();
+    readDataAndSample();
   }
 }
 
@@ -55,39 +57,61 @@ int red[colorSampleNum] = {0};
 int green[colorSampleNum] = {0};
 int blue[colorSampleNum] = {0};
 
-void readColorDataAndSample() {
+float pre_len_cm = -1;
+
+void readDataAndSample() {
   //color data
   sampleTurn = colorSampleNum;
   while(sampleTurn){
     readData();
   }
   
-  //ultrasonic data
-  while(true) {  
-    digitalWrite(us_trigPin, HIGH);              //begin to send a high pulse, then US-100 begin to measure the distance
-    delayMicroseconds(50);                    //set this high pulse width as 50us (>10us)
-    digitalWrite(us_trigPin, LOW);               //end this high pulse
-    Time_Echo_us = pulseIn(us_echoPin, HIGH);               //calculate the pulse width at EchoPin, 
-    if((Time_Echo_us < 60000) && (Time_Echo_us > 1))     //a valid pulse width should be between (1, 60000).
-    {
-      //distance units: mm
-      Len_mm = (Time_Echo_us*34/100)/2;      //calculate the distance by pulse width, Len_mm = (Time_Echo_us * 0.34mm/us) / 2 (mm)  
-      break;
+  unsigned long microsec = ultrasonic.timing();
+  float cmMsec = ultrasonic.convert(microsec, Ultrasonic::CM);
+  
+  //Serial.println(cmMsec);
+  if(cmMsec > 0 && cmMsec < 13){ //make sure distance has been measured
+    //Serial.print(getAverage(red));
+    Serial.print(getMiddleValue(red,colorSampleNum));
+    Serial.print(" ");
+    Serial.print(getMiddleValue(green,colorSampleNum));
+    Serial.print(" ");
+    Serial.print(getMiddleValue(blue,colorSampleNum));
+    Serial.print(" ");
+    
+    if(fabs(cmMsec - emptyDistance) < 0.6) { //empty
+      Serial.println(-1); // -1 means empty
+      pre_len_cm = -1; //reset
+    }
+    else if(pre_len_cm < 0 || pre_len_cm < cmMsec) {
+      Serial.println(cmMsec);
+      pre_len_cm = cmMsec;
+    }
+    else { //pre_len_cm >= cmMsec, treat it as noise and print the same number
+      Serial.println(pre_len_cm);//
     }
   }
   
-  Serial.print(getAverage(red));
-  Serial.print(" ");
-  Serial.print(getAverage(green));
-  Serial.print(" ");
-  Serial.print(getAverage(blue));
-  Serial.print(" ");
-  Serial.println(Len_mm);
-  
+}
+
+int getMiddleValue(int a[],int aSize) {
+    //insertion sort
+    for(int i = 1;i < aSize; i++) {
+      int comparedOne = a[i];
+      int j;
+      for(j = i-1;j >= 0 && a[j] > comparedOne;j--) {
+        a[j+1] = a[j];
+      }
+      a[j+1] = comparedOne;
+    }
+    if(aSize%2 == 0)
+      return ( a[aSize/2] + a[aSize/2-1] )/2;
+    else
+      return a[aSize/2];
 }
 
 float getAverage(int *values) {
-  long sum = 0;
+  unsigned long sum = 0;
   for(int i=0;i < colorSampleNum;i++) {
     sum+=values[i];
   }
@@ -108,6 +132,7 @@ void reset() {
   delay(waitDelay);
 }
 
+//read one sample
 void readData() {
   char buffer[32] = {0};
   
@@ -120,13 +145,13 @@ void readData() {
         if (buffer[i] == '$')               // Return early if $ character encountered
           return;
       }
-      parseAndCollectData(buffer);
-      delay(10);
+      parseData(buffer);
+      //delay(10);
     }
   }
 }
 
-void parseAndCollectData(char *data) {
+void parseData(char *data) {
   sampleTurn--;
   sscanf (data, "%3x%3x%3x"
   , red + sampleTurn
