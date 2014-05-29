@@ -88,9 +88,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41bf53b5-0604-491c-9286-ade6f044e9a7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/android/effectivenavigation/BTConfigFragment.java" afterPath="$PROJECT_DIR$/src/com/example/android/effectivenavigation/BTConfigFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fragment_current_drink2.xml" afterPath="$PROJECT_DIR$/res/layout/fragment_current_drink2.xml" />
     </list>
     <ignored path="EffectiveNavigation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -152,13 +150,13 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file leaf-file-name="fragment_current_drink2.xml" pinned="false" current="true" current-in-tab="true">
+            <file leaf-file-name="fragment_current_drink2.xml" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/res/layout/fragment_current_drink2.xml">
                 <provider selected="true" editor-type-id="android-designer">
                   <state />
                 </provider>
                 <provider editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
+                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1032">
                     <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                     <folding />
                   </state>
@@ -176,11 +174,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="13.863013" vertical-offset="0" max-vertical-offset="14088">
-              <caret line="307" column="17" selection-start-line="307" selection-start-column="17" selection-end-line="307" selection-end-column="17" />
+            <state vertical-scroll-proportion="-22.955055" vertical-offset="12882" max-vertical-offset="14088">
+              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
               <folding>
                 <element signature="e#15950#17875#0" expanded="true" />
                 <element signature="e#17868#17869#0" expanded="true" />
@@ -195,8 +193,8 @@
       <file leaf-file-name="CurrentDrinkFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="1728">
-              <caret line="49" column="90" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="90" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="24" max-vertical-offset="1728">
+              <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -338,13 +336,13 @@
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/WizardSocket.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/BTConfigFragment.java" />
         <option value="$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_current_drink2.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
-    <option name="width" value="1280" />
-    <option name="height" value="826" />
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -619,7 +617,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
-    <property name="FullScreen" value="false" />
+    <property name="FullScreen" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$/Documents/AndroidSampleCode/EffectiveNavigation" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -866,7 +864,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="826" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -875,7 +873,7 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32686085" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32816902" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3253521" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2866005" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39963832" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30985916" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -889,7 +887,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30371568" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26895565" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3197183" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1355,24 +1353,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="13.863013" vertical-offset="0" max-vertical-offset="14088">
-          <caret line="307" column="17" selection-start-line="307" selection-start-column="17" selection-end-line="307" selection-end-column="17" />
-          <folding>
-            <element signature="e#15950#17875#0" expanded="true" />
-            <element signature="e#17868#17869#0" expanded="true" />
-            <element signature="e#19278#23045#0" expanded="true" />
-            <element signature="e#23038#23039#0" expanded="true" />
-            <element signature="e#23677#23748#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/CurrentDrinkFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="1728">
-          <caret line="49" column="90" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="90" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="24" max-vertical-offset="1728">
+          <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -1385,6 +1369,20 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/example/android/effectivenavigation/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.955055" vertical-offset="12882" max-vertical-offset="14088">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding>
+            <element signature="e#15950#17875#0" expanded="true" />
+            <element signature="e#17868#17869#0" expanded="true" />
+            <element signature="e#19278#23045#0" expanded="true" />
+            <element signature="e#23038#23039#0" expanded="true" />
+            <element signature="e#23677#23748#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
