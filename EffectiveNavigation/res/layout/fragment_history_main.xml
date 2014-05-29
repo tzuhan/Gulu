@@ -24,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="New Text"
+            android:text="5/30"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -137,6 +137,86 @@
 
         </LinearLayout>
 
+        <TextView
+            android:text="5/30 Summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_alignBottom="@+id/imageView" />
+
+        <LinearLayout
+            android:id="@+id/summary"
+            android:layout_below="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="100dp"
+                android:background="@android:color/holo_blue_dark"></View>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/waterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water"
+            android:textSize="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/summary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/waterText">
+
+            <FrameLayout
+                android:id="@+id/liquid1"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#ffA14D">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/orange_juice" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/liquid2"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="#ff734D">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cola" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/liquid3"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="#63cccc">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/water0" />
+            </FrameLayout>
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 </LinearLayout>
