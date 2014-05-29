@@ -31,7 +31,7 @@ public class HealthConditionFragment extends Fragment{
     private final static String intakesGoalKey = "intakesGoal";
     private final static String toShowKey = "toShow";
     public float[] defaultValue = new float[HealthConditionInfo.ingredients.length];
-
+    public boolean[] toShow = new boolean[HealthConditionInfo.ingredients.length];
     public static HealthConditionFragment newInstance(HealthConditionInfo info) {
         HealthConditionFragment fragment = new HealthConditionFragment();
         Bundle args = new Bundle();
@@ -45,6 +45,8 @@ public class HealthConditionFragment extends Fragment{
 
         return fragment;
     }
+    private Bundle savedState = null;
+
 
     int[] toPercentage(Float[] values, float[] base) {
         int numValues = values.length;
@@ -58,27 +60,47 @@ public class HealthConditionFragment extends Fragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        defaultValue = savedState.getFloatArray("ingredientsValue");
+        toShow = savedState.getBooleanArray("ingredientsToShow");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
+
         View rootView = inflater.inflate(R.layout.fragment_health_condition,container,false);
         TextView conditionTitle = (TextView) rootView.findViewById(R.id.health_condition);
         ListView intakesList = (ListView) rootView.findViewById(R.id.intakesListView);
-
         conditionTitle.setText(getArguments().getString(conditionNameKey));
 
         int numIngredients = HealthConditionInfo.ingredients.length;
-        float[] defaultValues = getArguments().getFloatArray(intakesGoalKey);
-        boolean[] toShow = getArguments().getBooleanArray(toShowKey);
+
+        //restore saved Intent
+        if(savedState == null){
+            //get defaultValue first
+            defaultValue = getArguments().getFloatArray(intakesGoalKey);
+            toShow = getArguments().getBooleanArray(toShowKey);
+
+            //save default value into bundle
+            savedState = new Bundle();
+            savedState.putBooleanArray("ingredientsToShow", toShow);
+            savedState.putFloatArray("ingredientsValue", defaultValue);
+        }
+        else if(savedState != null){
+            //restore pre-stored bundle back
+            defaultValue = savedState.getFloatArray("ingredientsValue");
+            toShow = savedState.getBooleanArray("ingredientsToShow");
+
+        }
+
+
 
         ArrayList<Float> defaultValuesToShow = new ArrayList<Float>();
         ArrayList<String> ingredientsNameToShow = new ArrayList<String>();
 
         for(int i = 0;i < numIngredients;i++) {
             if(toShow[i] == true) {
-                defaultValuesToShow.add(defaultValues[i]);
+                defaultValuesToShow.add(defaultValue[i]);
                 ingredientsNameToShow.add(HealthConditionInfo.ingredients[i]);
             }
         }
@@ -147,6 +169,8 @@ public class HealthConditionFragment extends Fragment{
                 @Override
                 public void onProgressChanged(SeekBar goalBar, int progress, boolean fromUser){
                     seekBarValue.setText(String.valueOf(Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress)/100f));
+                    //save to defaultValue
+                    HealthConditionFragment.this.defaultValue[final_pos] = HealthConditionInfo.suggestionValues[final_pos] * progress/100f;
                 }
 
                 @Override
