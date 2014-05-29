@@ -148,7 +148,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             tabFragments[firstTabIndex] = BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled);
         }
         tabFragments[secondTabIndex] = DayDrinkFragment.newInstance();
-        tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance();
+        tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance(this);
         tabFragments[forthTabIndex] = TestWizardOfOz.newInstance("QwQ");
 
         //initialize thread and start it
@@ -160,10 +160,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mBTThreadHandler = new Handler(mBTThread.getLooper());
 
         mArduinoBluetooth = new ArduinoBluetooth();
-
         mWifiThread = new HandlerThread("Wizard");
         mWifiThread.start();
-
         mWifiThreadHandler = new Handler(mWifiThread.getLooper());
 
         /*
