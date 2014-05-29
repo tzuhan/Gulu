@@ -30,7 +30,7 @@ public class HealthConditionFragment extends Fragment{
     private final static String conditionNameKey = "conditionName";
     private final static String intakesGoalKey = "intakesGoal";
     private final static String toShowKey = "toShow";
-
+    public float[] defaultValue = new float[HealthConditionInfo.ingredients.length];
 
     public static HealthConditionFragment newInstance(HealthConditionInfo info) {
         HealthConditionFragment fragment = new HealthConditionFragment();
@@ -38,17 +38,19 @@ public class HealthConditionFragment extends Fragment{
         args.putString(conditionNameKey, info.conditionName);
         args.putFloatArray(intakesGoalKey, info.intakesGoal);
         args.putBooleanArray(toShowKey, info.toShow);
+        for(int i=0;i<HealthConditionInfo.ingredients.length;i++)
+            fragment.defaultValue[i] = info.intakesGoal[i];
 
         fragment.setArguments(args);
 
         return fragment;
     }
 
-    int[] toPercentage(Float[] values,float base) {
+    int[] toPercentage(Float[] values, float[] base) {
         int numValues = values.length;
         int []turnIntoValues = new int[numValues];
         for(int i=0;i<numValues;i++) {
-            turnIntoValues[i] = (int)(values[i].floatValue()/base*100);
+            turnIntoValues[i] = (int)(values[i].floatValue()/base[i]*100);
         }
         return turnIntoValues;
     }
@@ -80,11 +82,16 @@ public class HealthConditionFragment extends Fragment{
                 ingredientsNameToShow.add(HealthConditionInfo.ingredients[i]);
             }
         }
+        String[] ingredientsNameToShowStringArray = new String[ingredientsNameToShow.size()];
+        ingredientsNameToShowStringArray = ingredientsNameToShow.toArray(ingredientsNameToShowStringArray);
+
+        Float[] defaultValuesToShowFloatArray = new Float[defaultValuesToShow.size()];
+        defaultValuesToShowFloatArray = defaultValuesToShow.toArray(defaultValuesToShowFloatArray);
 
         final IntakesListArrayAdapter adapter = new IntakesListArrayAdapter(
                 this.getActivity(),
-                (String[])ingredientsNameToShow.toArray(),
-                toPercentage((Float[])defaultValuesToShow.toArray(),1000f)
+                ingredientsNameToShowStringArray,
+                toPercentage(defaultValuesToShowFloatArray,HealthConditionInfo.suggestionValues)
         );
 
         intakesList.setAdapter(adapter);
@@ -126,15 +133,31 @@ public class HealthConditionFragment extends Fragment{
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.fragment_health_condition_intakes_row, parent, false);
-
+            final int final_pos = position;
             TextView ingredientName = (TextView) rowView.findViewById(R.id.hc_ingredient_name);
+            final TextView seekBarValue = (TextView) rowView.findViewById(R.id.hc_seekBarValue);
             ingredientName.setText(ingredientNames[position]);
+            seekBarValue.setText(String.valueOf(HealthConditionFragment.this.defaultValue[position]));
 
             SeekBar goalBar = (SeekBar) rowView.findViewById(R.id.hc_goal_bar);
             goalBar.setProgress(defaultGoalPercentage[position]);
             //goalBar.setProgressDrawable();
             //goalBar.setThumb(writeOnDrawable(R.drawable.pin,"QQ"));
+            goalBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+                @Override
+                public void onProgressChanged(SeekBar goalBar, int progress, boolean fromUser){
+                    seekBarValue.setText(String.valueOf(Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress)/100f));
+                }
 
+                @Override
+                public void onStartTrackingTouch(SeekBar goalBar){
+                    //
+                }
+                public void onStopTrackingTouch(SeekBar goalBar){
+
+                }
+
+            });
             return rowView;
         }
 
