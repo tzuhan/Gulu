@@ -1,58 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/week_bar" />
 
         <TextView
+            android:id="@+id/weekTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/weekTitle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
+            android:text="New Text"
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="00"
-            android:id="@+id/button"
-            android:background="@drawable/day_circle_blue"
-            android:textSize="18dp"
-            android:layout_alignBottom="@+id/imageView"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="28dp"
-            android:layout_marginLeft="2dp" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="00"
-            android:id="@+id/button2"
-            android:clickable="true"
-            android:padding="0dp"
-            android:textSize="18dp"
-            android:background="@drawable/day_circle_blue"
-            android:layout_alignTop="@+id/button"
-            android:layout_toRightOf="@+id/button"
-            android:layout_marginLeft="11dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_marginBottom="65dp"
+            android:paddingLeft="5dp">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button0"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 </LinearLayout>
