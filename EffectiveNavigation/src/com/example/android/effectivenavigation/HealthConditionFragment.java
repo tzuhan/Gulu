@@ -1,6 +1,7 @@
 package com.example.android.effectivenavigation;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import com.example.android.effectivenavigation.HealthConditionInfo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 /**
  * Created by kantei on 2014/05/25.
  */
@@ -31,7 +35,7 @@ public class HealthConditionFragment extends Fragment{
     private final static String intakesGoalKey = "intakesGoal";
     private final static String toShowKey = "toShow";
     public float[] defaultValue = new float[HealthConditionInfo.ingredients.length];
-
+    public boolean[] toShow = new boolean[HealthConditionInfo.ingredients.length];
     public static HealthConditionFragment newInstance(HealthConditionInfo info) {
         HealthConditionFragment fragment = new HealthConditionFragment();
         Bundle args = new Bundle();
@@ -45,6 +49,8 @@ public class HealthConditionFragment extends Fragment{
 
         return fragment;
     }
+    private Bundle savedState = null;
+
 
     int[] toPercentage(Float[] values, float[] base) {
         int numValues = values.length;
@@ -58,27 +64,62 @@ public class HealthConditionFragment extends Fragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        JSONArray toShowArray = new JSONArray();
+        for (boolean show : toShow) {
+            toShowArray.put(show);
+        }
+
+        JSONArray defaultValueArray = new JSONArray();
+        for (float value : defaultValue) {
+            defaultValueArray.put(Float.valueOf(value));
+        }
+
+        editor.putString("toShow", toShowArray.toString());
+        editor.putString("defaultValue", defaultValueArray.toString());
+        editor.commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
+
         View rootView = inflater.inflate(R.layout.fragment_health_condition,container,false);
         TextView conditionTitle = (TextView) rootView.findViewById(R.id.health_condition);
         ListView intakesList = (ListView) rootView.findViewById(R.id.intakesListView);
-
         conditionTitle.setText(getArguments().getString(conditionNameKey));
 
         int numIngredients = HealthConditionInfo.ingredients.length;
-        float[] defaultValues = getArguments().getFloatArray(intakesGoalKey);
-        boolean[] toShow = getArguments().getBooleanArray(toShowKey);
+
+        //restore saved Intent
+        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        try {
+            JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[]"));
+            JSONArray defaultValueArray = new JSONArray(sp.getString("defaultValue", "[]"));
+
+            for(int i = 0 ;i < toShowArray.length(); i++) {
+                toShow[i] = toShowArray.getBoolean(i);
+            }
+            for(int i = 0 ;i < defaultValueArray.length(); i++) {
+                defaultValue[i] = (float) defaultValueArray.getDouble(i);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
 
         ArrayList<Float> defaultValuesToShow = new ArrayList<Float>();
         ArrayList<String> ingredientsNameToShow = new ArrayList<String>();
 
         for(int i = 0;i < numIngredients;i++) {
             if(toShow[i] == true) {
-                defaultValuesToShow.add(defaultValues[i]);
+                defaultValuesToShow.add(defaultValue[i]);
                 ingredientsNameToShow.add(HealthConditionInfo.ingredients[i]);
             }
         }
@@ -147,6 +188,8 @@ public class HealthConditionFragment extends Fragment{
                 @Override
                 public void onProgressChanged(SeekBar goalBar, int progress, boolean fromUser){
                     seekBarValue.setText(String.valueOf(Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress)/100f));
+                    //save to defaultValue
+                    HealthConditionFragment.this.defaultValue[final_pos] = HealthConditionInfo.suggestionValues[final_pos] * progress/100f;
                 }
 
                 @Override
