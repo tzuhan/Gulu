@@ -61,8 +61,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // 一定要是這組
     private BufferedReader mBufferedReader;
     private final String mBluetoothThreadName = "readBluetoothDataThread";
-    private HandlerThread mIOThread;
-    public Handler mIOThreadHandler;
+
+    private HandlerThread mBTThread;
+    private Handler mBTThreadHandler;
+
+    private HandlerThread mWifiThread;
+    private Handler mWifiThreadHandler;
 
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
@@ -145,17 +149,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
         tabFragments[secondTabIndex] = DayDrinkFragment.newInstance();
         tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance();
-
+        tabFragments[forthTabIndex] = TestWizardOfOz.newInstance("QwQ");
 
         //initialize thread and start it
         //this thread responsible for IO event with bluetooth
-        mIOThread = new HandlerThread(mBluetoothThreadName);
-        mIOThread.start();
+        mBTThread = new HandlerThread(mBluetoothThreadName);
+        mBTThread.start();
 
         //get its handler
-        mIOThreadHandler = new Handler(mIOThread.getLooper());
+        mBTThreadHandler = new Handler(mBTThread.getLooper());
 
         mArduinoBluetooth = new ArduinoBluetooth();
+
+        mWifiThread = new HandlerThread("Wizard");
+        mWifiThread.start();
+
+        mWifiThreadHandler = new Handler(mWifiThread.getLooper());
 
         /*
         *
@@ -307,6 +316,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 0:
                 case 1:
                 case 2:
+                case 3:
                     return mainActivity.tabFragments[i];
 
                 default:
@@ -348,6 +358,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return "History";
                 case 2:
                     return "Goal";
+                case 3:
+                    return "WizardTest";
                 default:
                     return "";
             }
@@ -392,6 +404,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 changeCurrentFragment(firstTabIndex,BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled));
             }
         }
+        else if(id == R.id.start_socket) {
+            mWifiThreadHandler.removeCallbacks(connectWithPhone);
+            mWifiThreadHandler.post(connectWithPhone);
+        }
         else {
             Log.d(BluetoothConst.appTag, "unknown menu items in BluetoothActivity");
         }
@@ -419,7 +435,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     mBluetoothAdapter.cancelDiscovery();
                     mArduinoBluetooth.device = device;
                     //due to a IO operation, we need to do it asynchronously.That is,in another thread.
-                    mIOThreadHandler.post(connectWithBluetoothAndRead);
+                    mBTThreadHandler.post(connectWithBluetoothAndRead);
                 }
             }
            /*
@@ -439,7 +455,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     };
 
-    //
+
+    private Runnable connectWithPhone = new Runnable() {
+        private WizardSocket wizardSocket = new WizardSocket();
+
+        @Override
+        public void run() {
+            while (true) {
+                Log.d(WizardSocket.debugTag,"call waitForConnect");
+                wizardSocket.waitForConnect();
+                while (true) {
+                    if(!wizardSocket.sendOtherMessage("OK")) {
+                        break;
+                    }
+                    else {
+                        Log.d(WizardSocket.debugTag,"send message succeed");
+                    }
+                    String message = wizardSocket.readData();
+                    if(message == null) {
+                        break;
+                    }
+                    else {
+                        Log.d(WizardSocket.debugTag,"get message");
+                    }
+                    Log.d(WizardSocket.debugTag, message);
+                    changeCurrentFragment(forthTabIndex, TestWizardOfOz.newInstance(message));
+                }
+            }
+        }
+    };
+
     private Runnable connectWithBluetoothAndRead = new Runnable() {
         @Override
         public void run() {
@@ -558,8 +603,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mIOThread != null) {
-            mIOThread.quit();
+        if(mBTThread != null) {
+            mBTThread.quit();
         }
     }
 

@@ -106,6 +106,7 @@ public class DayDrinkFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_day_drink, container, false);
+        /*
         if(records != null) {
             currentWeekDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
             if(previousWeekDay != currentWeekDay) {
@@ -121,6 +122,7 @@ public class DayDrinkFragment extends Fragment {
             ((ListView) rootView.findViewById(R.id.day_drink_listView)).setAdapter(new DrinkRecordAdapter(this.getActivity(), (DrinkRecord[]) records.toArray()));
 
         }
+        */
         return rootView;
     }
 
