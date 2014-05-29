@@ -151,7 +151,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         else {
             tabFragments[firstTabIndex] = BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled);
         }
-        tabFragments[secondTabIndex] = DayDrinkFragment.newInstance();
+        tabFragments[secondTabIndex] = HistoryFragment.newInstance();
         tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance(this);
         //tabFragments[forthTabIndex] = TestWizardOfOz.newInstance("QwQ");
 
