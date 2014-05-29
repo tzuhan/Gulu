@@ -99,7 +99,7 @@ public class BTConfigFragment extends Fragment {
             layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
             messageText.setLayoutParams(layoutParams);
         }
-        //Log.d(fragmentTag,"create view");
+        Log.d(fragmentTag,"create view");
         return rootView;
     }
 }
