@@ -80,12 +80,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private Handler mBTThreadHandler;
     private HandlerThread mWifiThread;
     private Handler mWifiThreadHandler;
+    private HandlerThread mTempThread;
+    private Handler mTempThreadHandler;
     private ArduinoBluetooth mArduinoBluetooth;
     private FragmentManager mFragmentManager;
     //private IncrementalClassifier mClassifier;
     private int predictedLabel;
     private int previousLabel;
-    public boolean automaticMode = true;
+    public boolean automaticMode = false;
     private Runnable communicateWithPhone = new Runnable() {
         private WizardSocket wizardSocket = new WizardSocket();
         private MainActivity mainActivity = MainActivity.this;
@@ -194,6 +196,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private float totalDeltaHeight;
     private float previousHeight;
     private float currentHeight;
+
+    public void callTempThreadForHelp(Runnable r) {
+        mTempThreadHandler.removeCallbacks(r);
+        mTempThreadHandler.post(r);
+    }
+
+    public Runnable toEnableBTAndStartToDiscover = new Runnable() {
+        @Override
+        public void run() {
+            MainActivity.this.enableBTandStartToDiscover();
+        }
+    };
+
     private Runnable communicateWithBluetooth = new Runnable() {
         @Override
         public void run() {
@@ -386,6 +401,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mWifiThread.start();
         mWifiThreadHandler = new Handler(mWifiThread.getLooper());
 
+        mTempThread = new HandlerThread("temp thread");
+        mTempThread.start();
+        mTempThreadHandler = new Handler(mTempThread.getLooper());
+
         /*
         *
         * tab bar
@@ -519,6 +538,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void disableBT() {
         if (mBluetoothAdapter != null) {
             mBluetoothAdapter.disable();
+            drinkFragment.mToShowLabel = -1;
+            refreshCurrentFragment(firstTabIndex);
             //changeCurrentFragment(firstTabIndex, BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled));
         }
     }

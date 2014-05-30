@@ -64,6 +64,10 @@ public class CurrentDrinkFragment extends Fragment {
             dataLoadingProgressBar.setVisibility(View.GONE);
         }
 
+        if (mTotalVolume == 0) {
+            mToShowLabel = -1;
+        }
+
         if (mToShowLabel == -1) { //no drink
             mDrinkImage.setImageResource(noDrinkId);
             mDrinkImage.setDrawingCacheEnabled(true);
@@ -81,7 +85,7 @@ public class CurrentDrinkFragment extends Fragment {
                     detectDrinkButton.setVisibility(View.GONE);
 
                     if(mMainActivity.automaticMode) {
-                        mMainActivity.enableBTandStartToDiscover();
+                        mMainActivity.callTempThreadForHelp(mMainActivity.toEnableBTAndStartToDiscover);
                     }
                 }
             });
