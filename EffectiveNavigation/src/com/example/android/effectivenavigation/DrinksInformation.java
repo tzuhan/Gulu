@@ -10,9 +10,10 @@ public class DrinksInformation {
                                                 //"Milk-Tea",
                                                 //"Orange-Juice",
                                                 //"Vegetable-Juice",
-                                                //"Orange-Soda",
+                                                //"Fanta",
                                                 "Coffee",
-                                                "Cola"};
+                                                "Cola"
+                                                };
                                                 //"Grape-Juice"};
     public static final int numOfDrinks = drinks_list.length;
     public static final int NUM_DATA_VALUES = 4;

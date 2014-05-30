@@ -1,58 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/week_bar" />
 
         <TextView
+            android:id="@+id/weekTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/weekTitle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:textSize="20dp"
+            android:text="5/30"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="00"
-            android:id="@+id/button"
-            android:background="@drawable/day_circle_blue"
-            android:textSize="18dp"
-            android:layout_alignBottom="@+id/imageView"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="28dp"
-            android:layout_marginLeft="2dp" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="00"
-            android:id="@+id/button2"
-            android:clickable="true"
-            android:padding="0dp"
-            android:textSize="18dp"
-            android:background="@drawable/day_circle_blue"
-            android:layout_alignTop="@+id/button"
-            android:layout_toRightOf="@+id/button"
-            android:layout_marginLeft="11dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_marginBottom="40dp"
+            android:paddingLeft="5dp">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button0"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/day_circle_grey"
+                    android:text="00"
+                    android:textSize="18dp" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:text="5/30 Summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="0dp"
+            android:layout_alignBottom="@+id/imageView" />
+
+        <LinearLayout
+            android:id="@+id/summary"
+            android:layout_below="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="100dp"
+                android:background="@android:color/holo_blue_dark"></View>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/waterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water"
+            android:textSize="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/summary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/waterText">
+
+            <FrameLayout
+                android:id="@+id/liquid1"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#ffA14D">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/orange_juice" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/liquid2"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="#ff734D">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cola" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/liquid3"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="#63cccc">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/water0" />
+            </FrameLayout>
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 </LinearLayout>

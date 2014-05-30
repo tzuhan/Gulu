@@ -1,5 +1,7 @@
 package com.example.android.effectivenavigation;
 
+import android.util.Log;
+
 /**
  * Created by kantei on 2014/05/25.
  */
@@ -82,19 +84,21 @@ public class HealthConditionInfo {
     public float[] intakesGoal = new float[ingredients.length];
     public boolean[] toShow = new boolean[ingredients.length];
 
+
     public HealthConditionInfo(){
         //send back regular mode
-        //do nothing
+        //set all ingredient visible
 
     }
 
     public HealthConditionInfo(int position, String name){
         //reset suggestionValues
-        for(int i = 0; i< 5; i++) {
+        for(int i = 0; i< ingredients.length; i++) {
             intakesGoal[i] = data[position][i];
             toShow[i] = true;
         }
         conditionName = name;
+
     }
 
 }

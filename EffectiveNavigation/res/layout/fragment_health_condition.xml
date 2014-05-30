@@ -23,4 +23,13 @@
         android:layout_below="@+id/health_condition"
         android:layout_alignParentLeft="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/back_to_goal_select"
+        android:src="@drawable/button_prev"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:clickable="true" />
+
 </RelativeLayout>
