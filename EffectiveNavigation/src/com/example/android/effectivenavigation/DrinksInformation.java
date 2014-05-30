@@ -9,6 +9,7 @@ public class DrinksInformation {
                                                 //"Green-Tea",
                                                 //"Milk-Tea",
                                                 //"Orange-Juice",
+                                                //"Grape-Juice",
                                                 //"Vegetable-Juice",
                                                 //"Fanta",
                                                 "Coffee",

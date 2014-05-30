@@ -107,8 +107,8 @@ public class HealthConditionFragment extends Fragment{
         SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         try {
-            //editor.clear();
-            //editor.commit();
+            editor.clear();
+            editor.commit();
             JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[\"true\", \"true\", \"true\". \"true\". \"true\"]"));
             JSONArray defaultValueArray = new JSONArray(sp.getString("defaultValue", "[]"));
 
@@ -182,6 +182,7 @@ public class HealthConditionFragment extends Fragment{
         private final Context context;
         private String[] ingredientNames;
         private int[] defaultGoalPercentage;
+        private String TAG = "test";
 
         public IntakesListArrayAdapter(Context context, String[] ingredientNames, int[] defaultGoalPercentage) {
             super(context, R.layout.fragment_health_condition_intakes_row, ingredientNames);
@@ -196,8 +197,13 @@ public class HealthConditionFragment extends Fragment{
             View rowView = inflater.inflate(R.layout.fragment_health_condition_intakes_row, parent, false);
             final int final_pos = position;
             TextView ingredientName = (TextView) rowView.findViewById(R.id.hc_ingredient_name);
+            TextView unitText = (TextView) rowView.findViewById(R.id.hc_unit_measurement);
+
+            Log.d(TAG, "unit: "+HealthConditionInfo.unit.get(ingredientNames[position]));
+
             final TextView seekBarValue = (TextView) rowView.findViewById(R.id.hc_seekBarValue);
             ingredientName.setText(ingredientNames[position]);
+            unitText.setText(HealthConditionInfo.unit.get(ingredientNames[position]));
             seekBarValue.setText(String.valueOf(HealthConditionFragment.this.defaultValue[position]));
 
             SeekBar goalBar = (SeekBar) rowView.findViewById(R.id.hc_goal_bar);
