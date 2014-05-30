@@ -53,4 +53,135 @@
         android:layout_below="@+id/drinkImageView"
         android:layout_centerHorizontal="true" />
 
+    <ImageView
+        android:layout_width="320px"
+        android:layout_height="wrap_content"
+        android:id="@+id/CaloriesImageView"
+        android:src="@drawable/calories0"
+        android:layout_below="@+id/drinkImageView"
+        android:layout_alignRight="@+id/SodiumImageView"
+        android:paddingRight="10px"
+        android:paddingLeft="10px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <ImageView
+        android:layout_width="320px"
+        android:layout_height="wrap_content"
+        android:id="@+id/SugarImageView"
+        android:src="@drawable/suger0"
+        android:layout_above="@+id/SodiumImageView"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <ImageView
+        android:layout_width="320px"
+        android:layout_height="wrap_content"
+        android:id="@+id/SodiumImageView"
+        android:src="@drawable/sodium0"
+        android:layout_below="@+id/CaloriesImageView"
+        android:layout_toLeftOf="@+id/WaterImageView"
+        android:paddingRight="10px"
+        android:paddingLeft="10px"
+        android:layout_marginTop="-100px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <ImageView
+        android:layout_width="320px"
+        android:layout_height="wrap_content"
+        android:id="@+id/WaterImageView"
+        android:src="@drawable/water0"
+        android:layout_below="@+id/SugarImageView"
+        android:layout_alignLeft="@+id/SugarImageView"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:layout_marginTop="-100px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <ImageView
+        android:layout_width="320px"
+        android:layout_height="wrap_content"
+        android:id="@+id/CaffImageView"
+        android:src="@drawable/caffeine0"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:layout_below="@+id/drinkImageView"
+        android:layout_toRightOf="@+id/SugarImageView"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/CaloriesTextView"
+        android:textSize="50px"
+        android:visibility="invisible"
+        android:longClickable="false"
+        android:layout_alignTop="@+id/SodiumImageView"
+        android:layout_marginTop="-40px"
+        android:layout_marginRight="147px"
+        android:layout_alignRight="@+id/CaloriesImageView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/SugarTextView"
+        android:textSize="50px"
+        android:layout_alignTop="@+id/CaloriesTextView"
+        android:layout_alignRight="@+id/SugarImageView"
+        android:layout_marginRight="70px"
+        android:layout_marginTop="-6px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/CaffTextView"
+        android:textSize="50px"
+        android:layout_alignTop="@+id/SugarTextView"
+        android:layout_alignRight="@+id/CaffImageView"
+        android:layout_marginRight="120px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/SodiumTextView"
+        android:textSize="50px"
+        android:layout_marginTop="152px"
+        android:layout_below="@+id/CaloriesImageView"
+        android:layout_alignRight="@+id/SodiumImageView"
+        android:layout_marginRight="120px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/WaterTextView"
+        android:textSize="50px"
+        android:layout_alignTop="@+id/SodiumTextView"
+        android:layout_toLeftOf="@+id/CaffImageView"
+        android:layout_marginRight="120px"
+        android:layout_marginTop="5px"
+        android:visibility="invisible"
+        android:longClickable="false" />
+
 </RelativeLayout>

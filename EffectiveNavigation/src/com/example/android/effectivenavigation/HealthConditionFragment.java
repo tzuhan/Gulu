@@ -105,7 +105,7 @@ public class HealthConditionFragment extends Fragment{
 
         //restore saved Intent
         SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+        //SharedPreferences.Editor editor = sp.edit();
         try {
             //editor.clear();
             //editor.commit();

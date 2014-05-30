@@ -29,7 +29,13 @@ def main():
 				print "connect success"
 				print clientSocket.recv(bufferSize)
 				while True:
-					clientSocket.sendall(raw_input("wait for input:")+'\n'); #it would return until it send all of data or error happen
+					user_input_str = raw_input("wait for input:")
+					if user_input_str.count(' ') > 0 or len(user_input_str) == 0:
+						continue
+					try:
+						clientSocket.sendall(user_input_str[0] + str(int(user_input_str[1:]) - 1) + '\n') #let index increase 1
+					except:
+						clientSocket.sendall(user_input_str+'\n') #it would return until it send all of data or error happen
 					recvStr = clientSocket.recv(bufferSize)
 					splitStrs = recvStr.split(':') 
 					if len(splitStrs) > 1: #Format: D:[drinkIndex],[volume]
