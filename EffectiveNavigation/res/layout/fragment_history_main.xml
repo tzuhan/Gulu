@@ -46,8 +46,9 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
-                    android:textSize="18dp" />
+                    android:text="25"
+                    android:textSize="18dp"
+                    android:layout_gravity="left" />
             </FrameLayout>
 
             <FrameLayout
@@ -60,7 +61,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
+                    android:text="26"
                     android:textSize="18dp" />
             </FrameLayout>
 
@@ -74,7 +75,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
+                    android:text="27"
                     android:textSize="18dp" />
             </FrameLayout>
 
@@ -88,7 +89,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
+                    android:text="28"
                     android:textSize="18dp" />
             </FrameLayout>
 
@@ -102,7 +103,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
+                    android:text="29"
                     android:textSize="18dp" />
             </FrameLayout>
 
@@ -116,7 +117,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
+                    android:text="30"
                     android:textSize="18dp" />
             </FrameLayout>
 
@@ -130,7 +131,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/day_circle_grey"
-                    android:text="00"
+                    android:text="31"
                     android:textSize="18dp" />
             </FrameLayout>
 
@@ -212,7 +213,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/water0" />
+                    android:src="@drawable/water" />
             </FrameLayout>
 
 

@@ -2,6 +2,11 @@ package com.example.android.effectivenavigation;
 
 import android.util.Log;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by kantei on 2014/05/25.
  */
@@ -12,6 +17,17 @@ public class HealthConditionInfo {
         "Sugar",
         "Caffeine",
         "Sodium",
+    };
+    public static final Map<String, String> unit;
+    static {
+        Map<String, String> tempMap = new HashMap<String, String>();
+        tempMap.put("Water", "ml");
+        tempMap.put("Calories", "Kcal");
+        tempMap.put("Sugar","g");
+        tempMap.put("Caffeine","mg");
+        tempMap.put("Sodium","g");
+        unit = Collections.unmodifiableMap(tempMap);
+
     };
     public final static float increasePercentage = 0.1f;
     public final static float[] suggestionValues = {
