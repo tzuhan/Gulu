@@ -383,7 +383,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 */
         drinkFragment = CurrentDrinkFragment.newInstance(this, -1, 0);
         tabFragments[firstTabIndex] = drinkFragment;
-        tabFragments[secondTabIndex] = DayDrinkFragment.newInstance();
+        tabFragments[secondTabIndex] = HistoryFragment.newInstance();
         tabFragments[thirdTabIndex] = GoalFeaturesListFragment.newInstance(this);
 
         for (int i = 0; i < numOfTabs; i++) {
