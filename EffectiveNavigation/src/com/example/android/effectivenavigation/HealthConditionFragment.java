@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.JsonToken;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +39,10 @@ public class HealthConditionFragment extends Fragment{
     private final static String toShowKey = "toShow";
     private float[] defaultValue = new float[HealthConditionInfo.ingredients.length];
     private boolean[] toShow = new boolean[HealthConditionInfo.ingredients.length];
-    private static final String TAG = "test";
-    private MainActivity mainActivity = HealthConditionFragment.this.;
 
-    public static HealthConditionFragment newInstance(HealthConditionInfo info) {
+    private MainActivity mainActivity;
+
+    public static HealthConditionFragment newInstance(MainActivity mainActivity,HealthConditionInfo info) {
         HealthConditionFragment fragment = new HealthConditionFragment();
         Bundle args = new Bundle();
         args.putString(conditionNameKey, info.conditionName);
@@ -52,7 +53,7 @@ public class HealthConditionFragment extends Fragment{
             fragment.defaultValue[i] = info.intakesGoal[i];
 
         }
-
+        fragment.mainActivity = mainActivity;
         fragment.setArguments(args);
 
         return fragment;
@@ -72,7 +73,7 @@ public class HealthConditionFragment extends Fragment{
     public void onDestroyView() {
         super.onDestroyView();
         //save setting to sharedPreference
-        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
         JSONArray toShowArray = new JSONArray();
@@ -84,7 +85,6 @@ public class HealthConditionFragment extends Fragment{
         for (float value : defaultValue) {
             defaultValueArray.put(Float.valueOf(value));
         }
-
         editor.putString("toShow", toShowArray.toString());
         editor.putString("defaultValue", defaultValueArray.toString());
         editor.commit();
@@ -102,22 +102,15 @@ public class HealthConditionFragment extends Fragment{
 
         int numIngredients = HealthConditionInfo.ingredients.length;
 
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mainActivity.changeCurrentFragment(mainActivity.thirdTabIndex,GoalFeaturesListFragment.newInstance(mainActivity));
-            }
-        });
 
         //restore saved Intent
-        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
-
+        SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
         try {
-
-
+            //editor.clear();
+            //editor.commit();
             JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[\"true\", \"true\", \"true\". \"true\". \"true\"]"));
             JSONArray defaultValueArray = new JSONArray(sp.getString("defaultValue", "[]"));
-            Log.d(TAG, sp.getString("toShow", "[\"true\", \"true\", \"true\". \"true\". \"true\"]"));
 
 
             if(toShowArray.length()!=0 || defaultValueArray.length()!=0) {
@@ -134,9 +127,12 @@ public class HealthConditionFragment extends Fragment{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.changeCurrentFragment(mainActivity.thirdTabIndex,GoalFeaturesListFragment.newInstance(mainActivity));
+            }
+        });
 
         ArrayList<Float> defaultValuesToShow = new ArrayList<Float>();
         ArrayList<String> ingredientsNameToShow = new ArrayList<String>();
@@ -213,7 +209,7 @@ public class HealthConditionFragment extends Fragment{
                 public void onProgressChanged(SeekBar goalBar, int progress, boolean fromUser){
                     seekBarValue.setText(String.valueOf(Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress)/100f));
                     //save to defaultValue
-                    HealthConditionFragment.this.defaultValue[final_pos] = HealthConditionInfo.suggestionValues[final_pos] * progress/100f;
+                    HealthConditionFragment.this.defaultValue[final_pos] = Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress/100f);
                     defaultGoalPercentage[final_pos] = progress;
                 }
 
