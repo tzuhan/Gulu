@@ -107,9 +107,9 @@ public class HealthConditionFragment extends Fragment{
         SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         try {
-            editor.clear();
-            editor.commit();
-            JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[\"true\", \"true\", \"true\". \"true\". \"true\"]"));
+            //editor.clear();
+            //editor.commit();
+            JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[]"));
             JSONArray defaultValueArray = new JSONArray(sp.getString("defaultValue", "[]"));
 
 
@@ -199,7 +199,7 @@ public class HealthConditionFragment extends Fragment{
             TextView ingredientName = (TextView) rowView.findViewById(R.id.hc_ingredient_name);
             TextView unitText = (TextView) rowView.findViewById(R.id.hc_unit_measurement);
 
-            Log.d(TAG, "unit: "+HealthConditionInfo.unit.get(ingredientNames[position]));
+            //Log.d(TAG, "unit: "+HealthConditionInfo.unit.get(ingredientNames[position]));
 
             final TextView seekBarValue = (TextView) rowView.findViewById(R.id.hc_seekBarValue);
             ingredientName.setText(ingredientNames[position]);
