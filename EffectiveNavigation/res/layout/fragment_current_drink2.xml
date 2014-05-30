@@ -4,26 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:layout_width="1083px"
+        android:layout_height="676px"
+        android:id="@+id/drinkImageView"
         android:src="@drawable/no_drink"
         android:padding="0dp"
-        android:layout_above="@+id/detectDrink"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="26dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detectDrink"
-        android:padding="0dp"
-        android:src="@drawable/button_detect_drink"
-        android:layout_marginBottom="167dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,9 +20,37 @@
         android:text="0 ml"
         android:id="@+id/drank_volume"
         android:layout_marginBottom="14dp"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignRight="@+id/imageView"
+        android:layout_alignBottom="@+id/drinkImageView"
+        android:layout_alignRight="@+id/drinkImageView"
         android:layout_marginRight="8dp"
         android:visibility="invisible" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detect Drink"
+        android:id="@+id/detectDrinkButton"
+        android:layout_marginTop="66dp"
+        android:background="#FF895F"
+        android:layout_below="@+id/drinkImageView"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:height="60dp"
+        android:width="250dp"
+        android:textSize="24dp"
+        android:textColor="#FFFFFF"
+        android:shadowColor="#4C5053" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dataLoadingProgressBar"
+        android:visibility="gone"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/drinkImageView"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
