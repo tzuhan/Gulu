@@ -3,221 +3,248 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_weight="1.55">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/week_bar" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingBottom="40dp">
 
-        <TextView
-            android:id="@+id/weekTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="5/30"
-            android:textSize="30dp"
-            android:textStyle="bold" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView"
-            android:layout_marginBottom="40dp"
-            android:paddingLeft="5dp">
-
-            <FrameLayout
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/week_bar" />
 
-                <Button
-                    android:id="@+id/button0"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="25"
-                    android:textSize="18dp"
-                    android:layout_gravity="left" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:id="@+id/imageView2"
+                android:src="@drawable/bar_chart_bg"
+                android:padding="0dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="80dp"
+                android:paddingLeft="0dp"
+                android:paddingTop="0dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_alignParentTop="true" />
 
-                <Button
-                    android:id="@+id/button1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="26"
-                    android:textSize="18dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/weekTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="5/30"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="27"
-                    android:textSize="18dp" />
-            </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_marginBottom="40dp"
+                android:paddingLeft="5dp"
+                android:id="@+id/linearLayout2">
 
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="28"
-                    android:textSize="18dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="29"
-                    android:textSize="18dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <Button
-                    android:id="@+id/button5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="30"
-                    android:textSize="18dp" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/day_circle_grey"
-                    android:text="31"
-                    android:textSize="18dp" />
-            </FrameLayout>
-
-
-        </LinearLayout>
-
-        <TextView
-            android:text="5/30 Summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="0dp"
-            android:layout_alignBottom="@+id/imageView" />
-
-        <LinearLayout
-            android:id="@+id/summary"
-            android:layout_below="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="110dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="100dp"
-                android:background="@android:color/holo_blue_dark"></View>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/waterText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Water"
-            android:textSize="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/summary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal"
-            android:layout_below="@+id/waterText">
-
-            <FrameLayout
-                android:id="@+id/liquid1"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="#ffA14D">
-
-                <ImageView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/orange_juice" />
-            </FrameLayout>
+                    android:layout_weight="1">
 
-            <FrameLayout
-                android:id="@+id/liquid2"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:background="#ff734D">
+                    <Button
+                        android:id="@+id/button0"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="25"
+                        android:textSize="18dp"
+                        android:layout_gravity="left" />
+                </FrameLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/cola" />
-            </FrameLayout>
+                    android:layout_weight="1">
 
-            <FrameLayout
-                android:id="@+id/liquid3"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="#63cccc">
+                    <Button
+                        android:id="@+id/button1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="26"
+                        android:textSize="18dp" />
+                </FrameLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/water" />
-            </FrameLayout>
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="27"
+                        android:textSize="18dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="28"
+                        android:textSize="18dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/button4"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="29"
+                        android:textSize="18dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/button5"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="30"
+                        android:textSize="18dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/button6"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/day_circle_grey"
+                        android:text="31"
+                        android:textSize="18dp" />
+                </FrameLayout>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </RelativeLayout>
+            <TextView
+                android:text="5/30 Summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:id="@+id/textView"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentEnd="false"
+                android:layout_marginBottom="-10dp" />
+
+            <LinearLayout
+                android:id="@+id/summary"
+                android:layout_width="wrap_content"
+                android:layout_height="110dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:layout_marginBottom="60dp"
+                android:layout_alignBottom="@+id/imageView2"
+                android:layout_alignParentLeft="true"
+                android:alpha="0.3"
+                android:layout_alignParentEnd="true">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="100dp"
+                    android:background="#00afaf"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_margin="0dp"></View>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/waterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Water"
+                android:textSize="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@+id/imageView2"
+                android:layout_marginTop="-40dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/waterText"
+                android:id="@+id/linearLayout"
+                android:layout_marginTop="5dp">
+
+                <FrameLayout
+                    android:id="@+id/liquid1"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="#ffA14D">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/orange_juice" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/liquid2"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="#ff734D">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/cola" />
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>
