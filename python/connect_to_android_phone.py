@@ -32,8 +32,13 @@ def main():
 					clientSocket.sendall(raw_input("wait for input:")+'\n'); #it would return until it send all of data or error happen
 					recvStr = clientSocket.recv(bufferSize)
 					splitStrs = recvStr.split(':') 
-					if len(splitStrs) > 1: #Format: Data:[drinkIndex]
-						print DrinkNames[int(splitStrs[1])]						
+					if len(splitStrs) > 1: #Format: D:[drinkIndex],[volume]
+						drinkInfo = splitStrs[1].split(',')
+						label = int(drinkInfo[0])
+						if label >= 0:
+							print DrinkNames[label] + ',' + int(drinkInfo[1])
+						else:
+							print 'No Drink'					
 					else: 
 						print recvStr
 			except:

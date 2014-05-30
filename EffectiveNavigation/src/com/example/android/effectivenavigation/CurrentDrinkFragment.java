@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -33,7 +34,10 @@ public class CurrentDrinkFragment extends Fragment {
     private static final int numOfImages = ImagesId.length;
     public int mToShowLabel;
     public float mTotalVolume;
-    private ImageView mDrinkImage;
+    public boolean mIsLoading = false;
+
+    //private ImageView mDrinkImage;
+
     private MainActivity mMainActivity;
 
     public static CurrentDrinkFragment newInstance(MainActivity mainActivity, int toShowLabel, float totalVolume) {
@@ -51,9 +55,14 @@ public class CurrentDrinkFragment extends Fragment {
         Log.d(fragmentTag, "onCreateView");
 
         View rootView = inflater.inflate(R.layout.fragment_current_drink2, container, false);
-        mDrinkImage = (ImageView) rootView.findViewById(R.id.drinkImageView);
+        ImageView mDrinkImage = (ImageView) rootView.findViewById(R.id.drinkImageView);
         TextView drankVolumeText = (TextView) rootView.findViewById(R.id.drank_volume);
-        Button detectDrinkButton = (Button) rootView.findViewById(R.id.detectDrinkButton);
+        final Button detectDrinkButton = (Button) rootView.findViewById(R.id.detectDrinkButton);
+        final ProgressBar dataLoadingProgressBar = (ProgressBar)rootView.findViewById(R.id.dataLoadingProgressBar);
+
+        if(!mIsLoading) {
+            dataLoadingProgressBar.setVisibility(View.GONE);
+        }
 
         if (mToShowLabel == -1) { //no drink
             mDrinkImage.setImageResource(noDrinkId);
@@ -67,6 +76,13 @@ public class CurrentDrinkFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     mMainActivity.timeToDetectDrink = true;
+                    dataLoadingProgressBar.setVisibility(View.VISIBLE);
+                    mIsLoading = true;
+                    detectDrinkButton.setVisibility(View.GONE);
+
+                    if(mMainActivity.automaticMode) {
+                        mMainActivity.enableBTandStartToDiscover();
+                    }
                 }
             });
         } else {
@@ -77,9 +93,10 @@ public class CurrentDrinkFragment extends Fragment {
                 Log.d(fragmentTag, "set Image out of bound");
             }
 
+            drankVolumeText.setVisibility(View.VISIBLE);
             drankVolumeText.setText(((int)mTotalVolume) + " ml");
 
-            detectDrinkButton.setVisibility(View.INVISIBLE);
+            detectDrinkButton.setVisibility(View.GONE);
 
         }
 

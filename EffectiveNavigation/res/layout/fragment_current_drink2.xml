@@ -41,4 +41,16 @@
         android:textColor="#FFFFFF"
         android:shadowColor="#4C5053" />
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dataLoadingProgressBar"
+        android:visibility="gone"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/drinkImageView"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

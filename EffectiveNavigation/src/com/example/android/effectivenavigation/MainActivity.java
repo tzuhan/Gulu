@@ -73,6 +73,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public final int secondTabIndex = 1;
     public final int thirdTabIndex = 2;
     private final String mBluetoothThreadName = "BluetoothThread";
+    private final String mSocketThreadName = "WizardServant";
     public boolean timeToDetectDrink = false;
     private BufferedReader mBufferedReader;
     private HandlerThread mBTThread;
@@ -84,7 +85,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     //private IncrementalClassifier mClassifier;
     private int predictedLabel;
     private int previousLabel;
-    private boolean automaticMode = false;
+    public boolean automaticMode = true;
     private Runnable communicateWithPhone = new Runnable() {
         private WizardSocket wizardSocket = new WizardSocket();
         private MainActivity mainActivity = MainActivity.this;
@@ -116,7 +117,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         char firstChar = message.charAt(0);
                         if (firstChar == 'd' || firstChar == 'v') { //try to send drink label
                             if (!mainActivity.timeToDetectDrink) {
-                                if (!sendMessage("press detect button")) {
+                                if (!sendMessage("not yet pressed button")) {
                                     break;
                                 }
                             }
@@ -127,6 +128,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                         int label = Integer.parseInt(numberPart);
                                         if (label >= 0 && label < numOfDrinks) {
                                             mainActivity.drinkFragment.mToShowLabel = label;
+                                            mainActivity.drinkFragment.mTotalVolume = 0;
+                                            mainActivity.drinkFragment.mIsLoading = false;
                                             refreshCurrentFragment(firstTabIndex);
                                             //maybe refresh here
                                             if (!sendMessage("OK,updated")) {
@@ -142,9 +145,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                                         int volume = Integer.parseInt(numberPart);
                                         if(volume > 0) {
                                             mainActivity.drinkFragment.mTotalVolume = volume;
+                                            mainActivity.drinkFragment.mIsLoading = false;
                                             refreshCurrentFragment(firstTabIndex);
                                             //maybe refresh here
                                             if (!sendMessage("OK,updated")) {
+                                                break;
+                                            }
+                                        } else {
+                                            if (!sendMessage("Not in range")) {
                                                 break;
                                             }
                                         }
@@ -158,7 +166,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                             }
                         } else if (message.compareTo("bt") == 0) { //get bt data from cup
-                            if (!sendMessage(String.valueOf(mainActivity.predictedLabel) + ',' + ((int) (mainActivity.totalDeltaHeight * UltrasonicInfo.bottomArea)))) {
+                            if (!sendMessage("D:" + String.valueOf(mainActivity.predictedLabel) + ',' + ((int) (mainActivity.totalDeltaHeight * UltrasonicInfo.bottomArea)))) {
                                 break;
                             }
                         } else if (message.compareTo("a") == 0) { //automatic
@@ -247,10 +255,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         if (automaticMode) {
                             drinkFragment.mTotalVolume = totalDeltaHeight * UltrasonicInfo.bottomArea;
                             drinkFragment.mToShowLabel = predictedLabel;
+                            drinkFragment.mIsLoading = false;
                             refreshCurrentFragment(firstTabIndex);
                             //changeCurrentFragment(firstTabIndex, CurrentDrinkFragment.newInstance(MainActivity.this, predictedLabel, totalDeltaHeight * UltrasonicInfo.bottomArea));
                         } else {
                             drinkFragment.mTotalVolume = totalDeltaHeight * UltrasonicInfo.bottomArea;
+                            drinkFragment.mIsLoading = false;
                             refreshCurrentFragment(firstTabIndex);
                         }
                     } else {
@@ -295,7 +305,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
             else if (actionStr.equals(startDiscoveringIntentFilterTag)) {
                 //to show start discovery fragment
-                changeCurrentFragment(firstTabIndex, BTConfigFragment.newInstance(BTConfigFragment.btDataLoading));
+                //changeCurrentFragment(firstTabIndex, BTConfigFragment.newInstance(BTConfigFragment.btDataLoading));
                 mBluetoothAdapter.startDiscovery();
                 Log.d(BluetoothConst.appTag, "bluetooth start discovering");
             } else {
@@ -331,7 +341,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         currentHeight = -1;
         previousHeight = -1;
-        totalDeltaHeight = -1;
+        totalDeltaHeight = 0;
 
         //mClassifier = IncrementalClassifier.getInstance(DrinksInformation.NUM_FEATURE_VALUES, DataConst.attNames, DrinksInformation.drinks_list);
         //mClassifier.loadModel();
@@ -372,7 +382,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mBTThread.start();
         mBTThreadHandler = new Handler(mBTThread.getLooper());
 
-        mWifiThread = new HandlerThread("Wizard");
+        mWifiThread = new HandlerThread(mSocketThreadName);
         mWifiThread.start();
         mWifiThreadHandler = new Handler(mWifiThread.getLooper());
 
@@ -490,6 +500,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return true;
     }
 
+    public void enableBTandStartToDiscover() {
+        if (mBluetoothAdapter != null) {
+            if(!mBluetoothAdapter.isEnabled()) {
+                mBluetoothAdapter.enable();
+            }
+            while (!mBluetoothAdapter.isEnabled());
+            Intent intent = new Intent(startDiscoveringIntentFilterTag);
+            sendBroadcast(intent);
+        }
+    }
+
+    public void startServerSocket() {
+        mWifiThreadHandler.removeCallbacks(communicateWithPhone);
+        mWifiThreadHandler.post(communicateWithPhone);
+    }
+
+    public void disableBT() {
+        if (mBluetoothAdapter != null) {
+            mBluetoothAdapter.disable();
+            //changeCurrentFragment(firstTabIndex, BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled));
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -497,21 +530,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.open_bluetooth) {
-            if (mBluetoothAdapter != null) {
-                mBluetoothAdapter.enable();
-                while (!mBluetoothAdapter.isEnabled()) ;
-                Intent intent = new Intent(startDiscoveringIntentFilterTag);
-                sendBroadcast(intent);
-            }
+            enableBTandStartToDiscover();
         } else if (id == R.id.close_bluetooth) {
-            if (mBluetoothAdapter != null) {
-                mBluetoothAdapter.disable();
-                while (mBluetoothAdapter.isEnabled()) ;
-                changeCurrentFragment(firstTabIndex, BTConfigFragment.newInstance(BTConfigFragment.btNotEnabled));
-            }
+            disableBT();
         } else if (id == R.id.start_socket) {
-            mWifiThreadHandler.removeCallbacks(communicateWithPhone);
-            mWifiThreadHandler.post(communicateWithPhone);
+            startServerSocket();
         } else {
             Log.d(BluetoothConst.appTag, "unknown menu items in BluetoothActivity");
         }
