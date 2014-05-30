@@ -11,11 +11,14 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.JsonToken;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -34,22 +37,27 @@ public class HealthConditionFragment extends Fragment{
     private final static String conditionNameKey = "conditionName";
     private final static String intakesGoalKey = "intakesGoal";
     private final static String toShowKey = "toShow";
-    public float[] defaultValue = new float[HealthConditionInfo.ingredients.length];
-    public boolean[] toShow = new boolean[HealthConditionInfo.ingredients.length];
-    public static HealthConditionFragment newInstance(HealthConditionInfo info) {
+    private float[] defaultValue = new float[HealthConditionInfo.ingredients.length];
+    private boolean[] toShow = new boolean[HealthConditionInfo.ingredients.length];
+
+    private MainActivity mainActivity;
+
+    public static HealthConditionFragment newInstance(MainActivity mainActivity,HealthConditionInfo info) {
         HealthConditionFragment fragment = new HealthConditionFragment();
         Bundle args = new Bundle();
         args.putString(conditionNameKey, info.conditionName);
         args.putFloatArray(intakesGoalKey, info.intakesGoal);
         args.putBooleanArray(toShowKey, info.toShow);
-        for(int i=0;i<HealthConditionInfo.ingredients.length;i++)
+        for(int i=0;i<HealthConditionInfo.ingredients.length;i++) {
+            fragment.toShow[i] = info.toShow[i];
             fragment.defaultValue[i] = info.intakesGoal[i];
 
+        }
+        fragment.mainActivity = mainActivity;
         fragment.setArguments(args);
 
         return fragment;
     }
-    private Bundle savedState = null;
 
 
     int[] toPercentage(Float[] values, float[] base) {
@@ -64,8 +72,8 @@ public class HealthConditionFragment extends Fragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        //save setting to sharedPreference
+        SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
         JSONArray toShowArray = new JSONArray();
@@ -77,7 +85,6 @@ public class HealthConditionFragment extends Fragment{
         for (float value : defaultValue) {
             defaultValueArray.put(Float.valueOf(value));
         }
-
         editor.putString("toShow", toShowArray.toString());
         editor.putString("defaultValue", defaultValueArray.toString());
         editor.commit();
@@ -88,31 +95,44 @@ public class HealthConditionFragment extends Fragment{
         //return super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_health_condition,container,false);
-        TextView conditionTitle = (TextView) rootView.findViewById(R.id.health_condition);
         ListView intakesList = (ListView) rootView.findViewById(R.id.intakesListView);
+        ImageView prev = (ImageView) rootView.findViewById(R.id.back_to_goal_select);
+        TextView conditionTitle = (TextView) rootView.findViewById(R.id.health_condition);
         conditionTitle.setText(getArguments().getString(conditionNameKey));
 
         int numIngredients = HealthConditionInfo.ingredients.length;
 
+
         //restore saved Intent
-        SharedPreferences sp = getActivity().getSharedPreferences("settings.txt", Context.MODE_PRIVATE);
+        SharedPreferences sp = getActivity().getSharedPreferences(getArguments().getString(conditionNameKey)+"settings.txt", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
         try {
-            JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[]"));
+            //editor.clear();
+            //editor.commit();
+            JSONArray toShowArray = new JSONArray(sp.getString("toShow", "[\"true\", \"true\", \"true\". \"true\". \"true\"]"));
             JSONArray defaultValueArray = new JSONArray(sp.getString("defaultValue", "[]"));
 
-            for(int i = 0 ;i < toShowArray.length(); i++) {
-                toShow[i] = toShowArray.getBoolean(i);
+
+            if(toShowArray.length()!=0 || defaultValueArray.length()!=0) {
+                for (int i = 0; i < toShowArray.length(); i++) {
+                    toShow[i] = toShowArray.getBoolean(i);
+                }
+
+                for (int i = 0; i < defaultValueArray.length(); i++) {
+                    defaultValue[i] = (float) defaultValueArray.getDouble(i);
+                }
             }
-            for(int i = 0 ;i < defaultValueArray.length(); i++) {
-                defaultValue[i] = (float) defaultValueArray.getDouble(i);
-            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.changeCurrentFragment(mainActivity.thirdTabIndex,GoalFeaturesListFragment.newInstance(mainActivity));
+            }
+        });
 
         ArrayList<Float> defaultValuesToShow = new ArrayList<Float>();
         ArrayList<String> ingredientsNameToShow = new ArrayList<String>();
@@ -189,7 +209,8 @@ public class HealthConditionFragment extends Fragment{
                 public void onProgressChanged(SeekBar goalBar, int progress, boolean fromUser){
                     seekBarValue.setText(String.valueOf(Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress)/100f));
                     //save to defaultValue
-                    HealthConditionFragment.this.defaultValue[final_pos] = HealthConditionInfo.suggestionValues[final_pos] * progress/100f;
+                    HealthConditionFragment.this.defaultValue[final_pos] = Math.round(HealthConditionInfo.suggestionValues[final_pos] * progress/100f);
+                    defaultGoalPercentage[final_pos] = progress;
                 }
 
                 @Override
@@ -201,6 +222,7 @@ public class HealthConditionFragment extends Fragment{
                 }
 
             });
+
             return rowView;
         }
 

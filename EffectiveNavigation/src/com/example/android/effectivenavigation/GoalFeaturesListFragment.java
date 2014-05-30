@@ -53,7 +53,7 @@ public class GoalFeaturesListFragment extends ListFragment {
 
         */
         HealthConditionInfo goal = new HealthConditionInfo(position, features[position]);
-        mainActivity.changeCurrentFragment(mainActivity.thirdTabIndex,HealthConditionFragment.newInstance(goal));
+        mainActivity.changeCurrentFragment(mainActivity.thirdTabIndex,HealthConditionFragment.newInstance(mainActivity,goal));
 
         //may be start an Activity to show
 
