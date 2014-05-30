@@ -25,7 +25,7 @@ public class HealthConditionInfo {
         tempMap.put("Calories", "Kcal");
         tempMap.put("Sugar","g");
         tempMap.put("Caffeine","mg");
-        tempMap.put("Sodium","g");
+        tempMap.put("Sodium","mg");
         unit = Collections.unmodifiableMap(tempMap);
 
     };
@@ -35,7 +35,7 @@ public class HealthConditionInfo {
         2800f,
         150f,
         400f,
-        4.3f
+        4300f
     };
     public final static float[] maxLimits = {
         (suggestionValues[0]*(1+increasePercentage)),
@@ -52,7 +52,7 @@ public class HealthConditionInfo {
             2500f,
             90f,
             350f,
-            3.2f
+            3200f
         },
         {
             //athlete mode, one hour workout
@@ -60,7 +60,7 @@ public class HealthConditionInfo {
             2800f,
             150f,
             400f,
-            3.7f
+            3700f
         },
         {
             //pregnancy
@@ -68,7 +68,7 @@ public class HealthConditionInfo {
             2200f,
             60f,
             200f,
-            2.3f
+            2300f
         },
         {
             //diabetes
@@ -76,7 +76,7 @@ public class HealthConditionInfo {
             2500f,
             60f,
             350f,
-            2.3f
+            2300f
         },
         {
             //renal
@@ -84,7 +84,7 @@ public class HealthConditionInfo {
             2500f,
             90f,
             350f,
-            1.5f
+            1500f
         },
         {
             //hypertension
@@ -92,7 +92,7 @@ public class HealthConditionInfo {
             2500f,
             90f,
             350f,
-            1.5f
+            1500f
         }
     };
 
