@@ -3,22 +3,26 @@ Gulu
 
 Smart Cup for detecting your drinks and monitoring your beverage intake 
 
-Implemented by: Lucien Lee     (https://github.com/LucienLee)
+Implemented by: 
 
-		    Physical Model design, arduino program design.
+	Lucien Lee     (https://github.com/LucienLee)
 
-
-		Kuan-Ting Chou (https://github.com/gary9716)
-
-		    Physical Model design, Arduino program design, Android app implementation.
+		Physical Model design, arduino program design.
 
 
-		Tzu-Han Hsu    (https://github.com/tzuhan)
+	Kuan-Ting Chou (https://github.com/gary9716)
 
-		    App UI design, Android app UI implementation.
+		Physical Model design, Arduino program design, Android app implementation.
+
+
+	Tzu-Han Hsu    (https://github.com/tzuhan)
+
+		App UI design, Android app UI implementation.
 
 
 Poster: https://drive.google.com/file/d/0B2qijcBx5F3ycDFlTGRZRDZZV0k/edit?usp=sharing
+
+
 
 
 
