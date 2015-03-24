@@ -3,7 +3,7 @@ Gulu
 
 ###Introduction:
 
-    Smart Cup for detecting your drinks and monitoring your beverage intake 
+    A smart cup which is capable of detecting the type of your drink and monitoring your daily/weekly beverage intake. 
 
 
 ###Implemented by: 
