@@ -1,6 +1,6 @@
 ##Gulu
 
-#Introduction:
+###Introduction:
 
     Smart Cup for detecting your drinks and monitoring your beverage intake 
 
