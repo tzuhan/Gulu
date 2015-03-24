@@ -5,7 +5,7 @@
     Smart Cup for detecting your drinks and monitoring your beverage intake 
 
 
-#Implemented by: 
+###Implemented by: 
 
 * Lucien Lee     (https://github.com/LucienLee)
 
@@ -22,7 +22,7 @@
     App UI design, Android app UI implementation.
 
 
-#Poster: 
+###Poster: 
 
 (https://drive.google.com/file/d/0B2qijcBx5F3ycDFlTGRZRDZZV0k/edit?usp=sharing)
 
